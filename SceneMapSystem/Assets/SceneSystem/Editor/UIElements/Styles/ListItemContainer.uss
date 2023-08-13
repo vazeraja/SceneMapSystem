@@ -1,0 +1,5 @@
+.list-item__container {
+    flex-direction: row;
+    border-bottom-color: #242424;
+    border-bottom-width: 1px;
+}

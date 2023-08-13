@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="ExtraSettingsTab" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+        <ui:Label tabindex="-1" text="Extra Settings" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+    </ui:VisualElement>
+</ui:UXML>

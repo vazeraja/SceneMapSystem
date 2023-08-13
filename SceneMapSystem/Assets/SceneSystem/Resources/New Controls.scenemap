@@ -1,0 +1,102 @@
+{
+    "_Name": "New Controls",
+    "_DefaultCollection": {
+        "name": "",
+        "id": "",
+        "defaultScene": {
+            "active": "True",
+            "name": "",
+            "id": "",
+            "path": "",
+            "sceneSettingsJson": {
+                "_Type": "Global",
+                "_Mode": "Single",
+                "_LoadingScenePath": "",
+                "_LoadingParameters": {
+                    "useLoadingScreen": "False",
+                    "threadPriority": "Low",
+                    "secureLoad": "False",
+                    "interpolate": "False",
+                    "interpolationSpeed": "0"
+                }
+            },
+            "nodePositionJson": {
+                "x": "0",
+                "y": "0",
+                "width": "0",
+                "height": "0"
+            }
+        },
+        "scenes": [],
+        "sceneTransitions": [],
+        "parameters": []
+    },
+    "_Collections": [
+        {
+            "name": "Level 1",
+            "id": "9f2d9072-d88d-486f-bb55-3c609615f270",
+            "defaultScene": {
+                "active": "True",
+                "name": "",
+                "id": "",
+                "path": "",
+                "sceneSettingsJson": {
+                    "_Type": "Global",
+                    "_Mode": "Single",
+                    "_LoadingScenePath": "",
+                    "_LoadingParameters": {
+                        "useLoadingScreen": "False",
+                        "threadPriority": "Low",
+                        "secureLoad": "False",
+                        "interpolate": "False",
+                        "interpolationSpeed": "0"
+                    }
+                },
+                "nodePositionJson": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "0",
+                    "height": "0"
+                }
+            },
+            "scenes": [
+                {
+                    "active": "True",
+                    "name": "New SceneReference 1",
+                    "id": "50fe2788-ca7e-4499-a55e-2d5aaf6bdc5f",
+                    "path": "",
+                    "sceneSettingsJson": {
+                        "_Type": "Global",
+                        "_Mode": "Single",
+                        "_LoadingScenePath": "",
+                        "_LoadingParameters": {
+                            "useLoadingScreen": "False",
+                            "threadPriority": "Low",
+                            "secureLoad": "False",
+                            "interpolate": "False",
+                            "interpolationSpeed": "0"
+                        }
+                    },
+                    "nodePositionJson": {
+                        "x": "0",
+                        "y": "0",
+                        "width": "0",
+                        "height": "0"
+                    }
+                }
+            ],
+            "sceneTransitions": [],
+            "parameters": [
+                {
+                    "id": "3a3c9120-3b2c-4da5-a478-19253a3b0731",
+                    "name": "Float",
+                    "type": "Float",
+                    "defaultFloat": "0",
+                    "defaultInt": "0",
+                    "defaultBool": "False",
+                    "defaultTrigger": "False"
+                }
+            ]
+        }
+    ]
+}

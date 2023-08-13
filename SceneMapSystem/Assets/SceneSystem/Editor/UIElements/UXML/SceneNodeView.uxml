@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/_TNS/SceneSystem/Editor/UIElements/Styles/SceneNodeViewStyle.uss?fileID=7433441132597879392&amp;guid=bef031f242bc91e468fee7bbfc1eb0f2&amp;type=3#SceneNodeViewStyle" />
+    <ui:VisualElement name="node-border" style="flex-grow: 1;">
+        <ui:VisualElement name="title">
+            <ui:Label name="title-label" text="RootDash" class="unity-text-element unity-label" />
+            <ui:VisualElement name="title-button-container">
+                <ui:VisualElement name="collapse-button">
+                    <ui:VisualElement name="icon" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="title-divider" class="horizontal" />
+        <ui:VisualElement name="contents" style="flex-grow: 1;">
+            <ui:VisualElement name="divider" class="horizontal" />
+            <ui:VisualElement name="top" style="flex-grow: 1; flex-direction: row;">
+                <ui:VisualElement name="input" style="flex-grow: 1; align-items: flex-end;" />
+                <ui:VisualElement name="divider" class="vertical" />
+                <ui:VisualElement name="output" style="flex-grow: 1; align-items: flex-start;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="collapsible-area">
+                <ui:VisualElement name="divider" class="horizontal" />
+                <ui:VisualElement name="extension" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="selection-border" picking-mode="Ignore" />
+</ui:UXML>

@@ -1,0 +1,19 @@
+.resetButton{
+    background-color: rgba(56, 56, 56, 0);
+    border-color: #383838;
+    border-width: 0px;
+    border-radius: 0px;
+    margin-bottom: 3px;
+    margin-left: -30px;
+    margin-right: 5px;
+    margin-top: 3px;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: #c4c4c4;
+    width: 25px;
+}
+.resetButton:hover{
+    border-color: #383838;
+}
+.resetButton:focus{
+    border-color: #383838;
+}

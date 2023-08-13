@@ -1,0 +1,95 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Template name="SettingsTab" src="project://database/Assets/_TNS/SceneSystem/Editor/UIElements/UXML/SettingsTab.uxml?fileID=9197481963319205126&amp;guid=c140eb113c4bef14d8f622922900c076&amp;type=3#SettingsTab" />
+    <ui:Template name="GraphTab" src="project://database/Assets/_TNS/SceneSystem/Editor/UIElements/UXML/GraphTab.uxml?fileID=9197481963319205126&amp;guid=b33b01b0cf923ad45b2100646262e94d&amp;type=3#GraphTab" />
+    <ui:Template name="ExtraSettingsTab" src="project://database/Assets/_TNS/SceneSystem/Editor/UIElements/UXML/ExtraSettingsTab.uxml?fileID=9197481963319205126&amp;guid=d963d4754a85cdd469b276b59f7cab3b&amp;type=3#ExtraSettingsTab" />
+    <Style src="project://database/Assets/_TNS/SceneSystem/Editor/UIElements/Styles/SceneMapEditorWindow.uss?fileID=7433441132597879392&amp;guid=ef59e59cd9b38bd4f8b5e0aa6280e5d3&amp;type=3#SceneMapEditorWindow" />
+    <uie:Toolbar style="background-color: rgb(56, 56, 56);">
+        <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="Active Map" />
+    </uie:Toolbar>
+    <ui:VisualElement name="content" style="flex-grow: 1;">
+        <TNS.SceneSystem.Editor.SplitView fixed-pane-initial-dimension="550" fixed-pane-index="1">
+            <ui:VisualElement name="LeftRight__Container" style="flex-grow: 1; flex-direction: column; width: 40%;">
+                <TNS.SceneSystem.Editor.SplitView orientation="Vertical" fixed-pane-initial-dimension="175" style="margin-right: 0;">
+                    <ui:VisualElement name="top" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
+                        <ui:VisualElement name="LeftPanel" class="panel" style="flex-grow: 1; width: 20%;">
+                            <ui:VisualElement name="LeftPanelHeader" class="panelHeader">
+                                <ui:Label tabindex="-1" text="Scene Collections" display-tooltip-when-elided="true" class="panelLabel" />
+                                <ui:Button text="+" display-tooltip-when-elided="true" name="add-collection" style="background-color: rgba(88, 88, 88, 0); -unity-font-style: bold; font-size: 20px; height: 18px; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; padding-bottom: 5px; padding-right: 2px; margin-left: -20px;" />
+                            </ui:VisualElement>
+                            <ui:ListView name="SceneCollectionsListView" style="flex-grow: 1;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="MiddlePanel" class="panel" style="flex-grow: 1; width: 20%; margin-right: 9px;">
+                            <ui:VisualElement name="MiddlePanelHeader" class="panelHeader">
+                                <ui:Label tabindex="-1" text="Scene References" display-tooltip-when-elided="true" class="panelLabel" />
+                                <ui:Button text="+" display-tooltip-when-elided="true" name="add-scene" style="background-color: rgba(88, 88, 88, 0); -unity-font-style: bold; font-size: 20px; height: 18px; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; padding-bottom: 5px; padding-right: 2px; margin-left: -20px;" />
+                            </ui:VisualElement>
+                            <ui:ListView focusable="true" name="SceneReferenceListView" style="flex-grow: 1;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="bottom" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                        <ui:VisualElement name="RibbonContainer" style="background-color: rgba(0, 0, 0, 0); flex-grow: 1; height: 80%;">
+                            <TNS.SceneSystem.Editor.Ribbon show-help-button="true" show-menu-button="true" alignment="FlexStart" name="RibbonTabs" initial-option="1">
+                                <TNS.SceneSystem.Editor.RibbonButton focusable="true" text="Map Settings" />
+                                <TNS.SceneSystem.Editor.RibbonButton focusable="true" text="Graph" />
+                                <TNS.SceneSystem.Editor.RibbonButton focusable="true" text="Extra" />
+                            </TNS.SceneSystem.Editor.Ribbon>
+                            <ui:Instance template="SettingsTab" name="SettingsTab" />
+                            <ui:Instance template="GraphTab" name="GraphTab" style="flex-grow: 1;" />
+                            <ui:Instance template="ExtraSettingsTab" name="ExtraSettingsTab" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </TNS.SceneSystem.Editor.SplitView>
+            </ui:VisualElement>
+            <ui:VisualElement name="RightPanel" class="panel" style="flex-grow: 1; width: 60%;">
+                <ui:VisualElement name="RightPanelHeader" class="panelHeader" style="border-bottom-width: 1px; border-left-color: rgb(36, 36, 36); border-right-color: rgb(36, 36, 36); border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36);">
+                    <TabbedView style="flex-direction: row;">
+                        <TabButton focusable="true" />
+                        <TabButton focusable="true" />
+                    </TabbedView>
+                    <TabbedView>
+                        <TabButton focusable="true" />
+                        <TabButton focusable="true" />
+                    </TabbedView>
+                    <ui:VisualElement style="background-color: rgba(0, 0, 0, 0); width: 50%;">
+                        <ui:Label tabindex="-1" text="Scene Controls" display-tooltip-when-elided="true" class="panelLabel" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SceneControlButtons" style="width: 50%; flex-direction: row-reverse;">
+                        <ui:Button text="Close" display-tooltip-when-elided="true" name="CloseSceneButton" class="panelButton" />
+                        <ui:Button display-tooltip-when-elided="true" name="OpenSceneButton" text="Open" class="panelButton" />
+                        <ui:Button text="Play" display-tooltip-when-elided="true" name="PlaySceneButton" class="panelButton" />
+                        <ui:Button text="Build Settings" display-tooltip-when-elided="true" name="BuildSettingsButton" class="panelButton" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <TNS.SceneSystem.Editor.SplitView orientation="Vertical">
+                    <ui:VisualElement name="foldout-container__content" style="height: 20%;">
+                        <ui:Foldout name="ScenePropertiesFoldout" style="background-color: rgb(41, 41, 41); margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                            <ui:ScrollView name="ScrollView" style="background-color: rgb(56, 56, 56); margin-left: -15px;">
+                                <ui:IMGUIContainer name="ScenePropertiesIMGUI" style="margin-left: 15px; margin-top: 5px;" />
+                            </ui:ScrollView>
+                        </ui:Foldout>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="InspectorContainer" style="flex-grow: 1;">
+                        <ui:VisualElement name="InspectorPanelHeader" class="panelHeader" style="border-bottom-width: 1px; border-left-color: rgb(36, 36, 36); border-right-color: rgb(36, 36, 36); border-top-color: rgb(36, 36, 36); border-bottom-color: rgb(36, 36, 36); border-top-width: 1px;">
+                            <TabbedView style="flex-direction: row;">
+                                <TabButton focusable="true" />
+                                <TabButton focusable="true" />
+                            </TabbedView>
+                            <ui:VisualElement name="LabelContainer" style="background-color: rgba(0, 0, 0, 0); width: 50%;">
+                                <ui:Label tabindex="-1" text="Inspector" display-tooltip-when-elided="true" name="InspectorLabel" class="panelLabel" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="options-and-info" class="ribbon__options-and-info">
+                                <ui:Button class="icon-button icon-button__help-icon" />
+                                <ui:Button class="icon-button icon-button__menu-icon" />
+                            </ui:VisualElement>
+                            <TabbedView>
+                                <TabButton focusable="true" />
+                                <TabButton focusable="true" />
+                            </TabbedView>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="inspector-content__content-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+                    </ui:VisualElement>
+                </TNS.SceneSystem.Editor.SplitView>
+            </ui:VisualElement>
+        </TNS.SceneSystem.Editor.SplitView>
+    </ui:VisualElement>
+</ui:UXML>
