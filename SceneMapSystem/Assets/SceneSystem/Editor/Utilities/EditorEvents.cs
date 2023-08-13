@@ -1,9 +1,5 @@
 using System;
-using Aarthificial.Typewriter;
-using Aarthificial.Typewriter.Editor;
-using Aarthificial.Typewriter.Entries;
 using UnityEditor;
-using UnityEngine.UIElements;
 
 namespace TNS.SceneSystem.Editor
 {

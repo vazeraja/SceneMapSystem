@@ -1,6 +1,3 @@
-using Aarthificial.Typewriter.Editor.Lists;
-using UnityEngine.UIElements;
-
 namespace TNS.SceneSystem
 {
     public struct SceneTransitionCondition
@@ -10,8 +7,6 @@ namespace TNS.SceneSystem
         private string m_ConditionEventID;
         private float m_EventThreshold;
 
-        private SimpleList simpleList;
-        
         /// <summary>
         ///   <para>The mode of the condition.</para>
         /// </summary>

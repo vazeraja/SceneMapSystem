@@ -1,8 +1,6 @@
 ﻿#if UNITY_EDITOR
 
 using System.Collections.Generic;
-using System.Linq;
-using Aarthificial.Typewriter.Editor.Lists;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
