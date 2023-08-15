@@ -102,11 +102,11 @@ namespace TNS.SceneSystem.Editor
         {
             foreach ( var sceneTransition in sceneCollection.sceneTransitions )
             {
-                var edge = CreateEdge( sceneTransition.OriginID, sceneTransition.TargetID );
+                var edge = CreateEdge( sceneTransition.m_OriginID, sceneTransition.m_TargetID );
                 AddElement( edge );
 
-                GetNodeByGuid( sceneTransition.OriginID ).OnSelected();
-                GetNodeByGuid( sceneTransition.TargetID ).OnSelected();
+                GetNodeByGuid( sceneTransition.m_OriginID ).OnSelected();
+                GetNodeByGuid( sceneTransition.m_TargetID ).OnSelected();
             }
 
             yield return null;

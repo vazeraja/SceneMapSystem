@@ -37,7 +37,7 @@ namespace TNS.SceneSystem
         /// <summary>
         ///   <para>The AnimatorParameter's threshold value for the condition to be true.</para>
         /// </summary>
-        public float threshold
+        public float Threshold
         {
             get => this.m_EventThreshold;
             set => this.m_EventThreshold = value;

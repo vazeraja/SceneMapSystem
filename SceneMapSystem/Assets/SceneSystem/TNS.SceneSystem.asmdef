@@ -2,11 +2,7 @@
     "name": "TNS.SceneSystem",
     "rootNamespace": "TNS.SceneSystem",
     "references": [
-        "GUID:9e24947de15b9834991c9d8411ea37cf",
-        "GUID:84651a3751eca9349aac36a66bba901b",
-        "GUID:478a2357cc57436488a56e564b08d223",
-        "GUID:d622ec2cb39fa3a4abf8e6a05089d72b",
-        "GUID:9df8abd7b4051994e8bc119ae975eac0"
+        "Unity.EditorCoroutines.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

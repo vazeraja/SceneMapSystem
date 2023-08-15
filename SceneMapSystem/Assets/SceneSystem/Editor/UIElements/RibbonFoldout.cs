@@ -10,10 +10,10 @@ namespace TNS.SceneSystem.Editor
     {
         public new class UxmlFactory : UxmlFactory<RibbonFoldout, UxmlTraits> { }
         
-        private readonly VisualElement m_FoldoutContainer;
-        private readonly Foldout m_Foldout;
+        public readonly VisualElement m_FoldoutContainer;
+        public readonly Foldout m_Foldout;
         public readonly ScrollView m_ScrollView;
-        private readonly IMGUIContainer m_IMGUIContainer;
+        public readonly IMGUIContainer m_IMGUIContainer;
 
         public void SetRibbonColor(Color color)
         {

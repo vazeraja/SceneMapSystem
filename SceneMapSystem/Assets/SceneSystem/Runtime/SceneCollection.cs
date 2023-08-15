@@ -73,7 +73,7 @@ namespace TNS.SceneSystem
                 return -1;
             var parametersLength = _SceneTransitions.Length;
             for ( var i = 0; i < parametersLength; ++i )
-                if ( _SceneTransitions[i].ID == id )
+                if ( _SceneTransitions[i].m_ID == id )
                     return i;
 
             return -1;

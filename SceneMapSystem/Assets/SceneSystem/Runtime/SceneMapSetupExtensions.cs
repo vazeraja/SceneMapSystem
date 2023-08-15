@@ -90,39 +90,53 @@ namespace TNS.SceneSystem
             scene._Collection = null;
         }
 
-        public static SceneTransition AddTransition( this SceneCollection collection, SceneReference origin, SceneReference target )
+        public static void AddTransition( this SceneCollection collection, SceneReference origin, SceneReference target, out SceneTransition transition )
         {
             //Cancel if any transition with the same origin and target already exist
-            if ( collection._SceneTransitions.Any( t => t.OriginID == origin.id && t.TargetID == target.id ) ) {
-                return null;
+            if ( collection == null )
+            {
+                transition = null;
+                Debug.Log( "collection null" );
+                return;
+            }
+            if ( origin == null || target == null)
+            {
+                transition = null;
+                Debug.Log( "scenes null" );
+                return;
+            }
+            
+            if ( collection.sceneTransitions.Any( t => t.m_OriginID == origin.id && t.m_TargetID == target.id ) )
+            {
+                transition = null;
+                return;
             }
 
-            var transition = new SceneTransition( origin, target );
+            transition = new SceneTransition( origin, target );
             ArrayHelpers.Append( ref collection._SceneTransitions, transition );
 
-            return null;
+            return;
         }
 
         public static bool RemoveTransition( this SceneCollection collection, SceneTransition transition )
         {
-            var t = collection.FindTransition( transition.ID );
-            
+            var t = collection.FindTransition( transition.m_ID );
+
             var index = collection.sceneTransitions.IndexOfReference( t );
             ArrayHelpers.EraseAt( ref collection._SceneTransitions, index );
 
             return true;
         }
 
-        public static void RenameParameter(this SceneCollection collection, string newName)
+        public static void RenameParameter( this SceneCollection collection, string newName )
         {
             // collection._Parameters.ToList().Find();
-            
         }
 
         public static bool AddParameter( this SceneCollection collection, SceneTransitionParameterType type, out SceneTransitionParameter parameter )
         {
             var param = new SceneTransitionParameter( type );
-            
+
             //TODO: Make sure parameter names are unique
 
             ArrayHelpers.Append( ref collection._Parameters, param );
@@ -134,14 +148,15 @@ namespace TNS.SceneSystem
         {
             var param = collection.FindParameter( parameterID );
 
-            if ( param == null ) {
-                Debug.LogError( $"Transition '{parameterID}' does not exist; nowhere to remove from");
+            if ( param == null )
+            {
+                Debug.LogError( $"Transition '{parameterID}' does not exist; nowhere to remove from" );
                 parameter = null;
                 return false;
             }
-            
+
             parameter = param;
-            
+
             var index = collection.parameters.IndexOfReference( param );
             ArrayHelpers.EraseAt( ref collection._Parameters, index );
 
@@ -155,12 +170,13 @@ namespace TNS.SceneSystem
 
         public static void Rebind( this SceneMapAsset asset )
         {
-            foreach ( var sceneReference in asset.SceneCollections.SelectMany( collection => collection.scenes ) ) {
+            foreach ( var sceneReference in asset.SceneCollections.SelectMany( collection => collection.scenes ) )
+            {
                 sceneReference.scene.Rebind();
             }
         }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
         internal static void SaveChangesToAsset( this SceneMapAsset asset )
         {
             // Update JSON.
@@ -169,13 +185,14 @@ namespace TNS.SceneSystem
             // Write out, if changed.
             var assetPath = AssetDatabase.GetAssetPath( asset );
             var existingJson = File.ReadAllText( assetPath );
-            if ( m_ImportedAssetJson != existingJson ) {
+            if ( m_ImportedAssetJson != existingJson )
+            {
                 CheckOut( assetPath );
                 File.WriteAllText( assetPath, m_ImportedAssetJson );
                 AssetDatabase.ImportAsset( assetPath );
             }
         }
-        
+
         public static void CheckOut( string path )
         {
             if ( string.IsNullOrEmpty( path ) )
@@ -189,6 +206,6 @@ namespace TNS.SceneSystem
 
             AssetDatabase.MakeEditable( path );
         }
-    #endif
+#endif
     }
 }

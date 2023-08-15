@@ -188,7 +188,6 @@ namespace TNS.SceneSystem.Editor
 
         public void SaveAndRebuild()
         {
-            Debug.Log( "SaveAndRebuild()" );
             SaveChangesToAsset();
             RebuildLists();
         }
@@ -200,6 +199,8 @@ namespace TNS.SceneSystem.Editor
 
             _AssetManager.SaveChangesToAsset();
             _AssetManager.ApplyChanges();
+
+            // Debug.Log( "SaveChangesToAsset" );
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

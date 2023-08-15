@@ -17,7 +17,7 @@ namespace TNS.SceneSystem.Editor
         public const string HelpIconButtonClass = "icon-button__help-icon";
         public const string MenuIconButtonClass = "icon-button__menu-icon";
         
-        private const string UIToolKitAssetsPath = "Assets/_TNS/SceneSystem/Editor/UIElements/";
+        private const string UIToolKitAssetsPath = "Assets/SceneSystem/Editor/UIElements/";
         private const string UxmlFilesPath = UIToolKitAssetsPath + "UXML/";
         private const string StyleSheetsPath = UIToolKitAssetsPath + "Styles/";
         private const string IconsPath = UIToolKitAssetsPath + "Icons/";

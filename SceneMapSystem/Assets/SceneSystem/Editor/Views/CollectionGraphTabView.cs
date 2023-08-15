@@ -99,7 +99,7 @@ namespace TNS.SceneSystem.Editor
 
         public void OnTransitionLeftClicked( SceneReference origin, SceneReference target )
         {
-            var transition = SelectedCollection.sceneTransitions.First( t => t.OriginID == origin.id && t.TargetID == target.id );
+            var transition = SelectedCollection.sceneTransitions.First( t => t.m_OriginID == origin.id && t.m_TargetID == target.id );
 
             GUIUtility.Events.TriggerTransitionSelected( transition );
         }
@@ -108,17 +108,18 @@ namespace TNS.SceneSystem.Editor
         {
             var menu = new GenericMenu();
 
-            var transition = SelectedCollection.sceneTransitions.First( t => t.OriginID == origin.id && t.TargetID == target.id );
+            var transition = SelectedCollection.sceneTransitions.First( t => t.m_OriginID == origin.id && t.m_TargetID == target.id );
 
             menu.AddItem( new GUIContent( "Remove" ), false, () => RemoveTransition( transition ) );
-            menu.ShowAsContext();
+            menu.ShowAsContext(); 
         }
 
         public void AddTransition( SceneReference startScene, SceneReference targetScene )
         {
-            var transition = SelectedCollection.AddTransition( startScene, targetScene );
+            SelectedCollection.AddTransition( startScene, targetScene, out var transition );
 
-            GUIUtility.Events.TriggerTransitionCreated( transition );
+            if ( transition != null )
+                GUIUtility.Events.TriggerTransitionCreated( transition );
 
             // Execution timing issue
             EditorApplication.delayCall += () => { LoadGraph( SelectedCollection ); };
