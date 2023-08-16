@@ -1,5 +1,8 @@
+using System;
+
 namespace TNS.SceneSystem
 {
+    [Serializable]
     public struct SceneTransitionCondition
     {
         private SceneTransitionConditionMode m_ConditionMode;

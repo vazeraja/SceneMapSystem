@@ -17,7 +17,7 @@ namespace TNS.SceneSystem.Editor
         public event Action<SceneCollection, SceneTransitionParameter> ParameterRemoved;
         public event Action<SceneCollection, SceneTransitionParameter> ParameterCreated;
 
-        public event Action<SceneTransition> TransitionSelected;
+        public event Action<int> TransitionSelected;
         public event Action<SceneTransition> TransitionRemoved;
         public event Action<SceneTransition> TransitionCreated;
 
@@ -105,9 +105,9 @@ namespace TNS.SceneSystem.Editor
             m_Window.SaveAndRebuild();
         }
 
-        public void TriggerTransitionSelected( SceneTransition transition )
+        public void TriggerTransitionSelected( int index )
         {
-            TransitionSelected?.Invoke( transition );
+            TransitionSelected?.Invoke( index );
         }
 
         public void TriggerTransitionRemoved( SceneTransition transition )

@@ -19,8 +19,16 @@ namespace TNS.SceneSystem
         [SerializeField] internal string m_OriginID = string.Empty;
         [SerializeField] internal string m_TargetID = string.Empty;
 
-        [SerializeField] internal bool m_HasExitTime;
-        [SerializeField] internal SceneTransitionSettings m_Settings;
+        [SerializeField, Tooltip( "The time in seconds before the transition is initiated" )]
+        internal bool m_HasExitTime;
+
+        [SerializeField, HideInInspector]
+        internal bool m_ShowSettings;
+
+        [SerializeField, Tooltip( "Settings which control how this transition will be processed" )]
+        internal SceneTransitionSettings m_Settings;
+
+        [SerializeField] internal SceneTransitionCondition m_Conditions;
         
         private event Action onEnterTransition;
         private event Action onExitTransition;

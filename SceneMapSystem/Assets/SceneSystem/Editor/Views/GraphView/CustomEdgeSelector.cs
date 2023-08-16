@@ -44,7 +44,7 @@ namespace TNS.SceneSystem.Editor
         
         public void UpdateClickPosition()
         {
-            m_TriElement?.SetPosition( new Rect( m_TriPosition - new Vector2( 10, 10 ), new Vector2( 0, 0 ) ) );
+            m_TriElement?.SetPosition( new Rect( m_TriPosition - new Vector2( 11, 11 ), new Vector2( 0, 0 ) ) );
             m_TriElement?.MarkDirtyRepaint();
         }
 

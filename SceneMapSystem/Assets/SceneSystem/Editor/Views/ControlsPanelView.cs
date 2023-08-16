@@ -160,8 +160,8 @@ namespace TNS.SceneSystem.Editor
             var displayedOptions = scenes.Select( p => p.name ).ToArray();
             var defaultSceneIndex = m_Window.SelectedCollection!.FindDefaultSceneIndex();
 
-            EditorGUILayout.PropertyField( serializedProperty.FindPropertyRelative( "_SceneTransitions" ) );
-            EditorGUILayout.PropertyField( serializedProperty.FindPropertyRelative( "_Parameters" ) );
+            // EditorGUILayout.PropertyField( serializedProperty.FindPropertyRelative( "_SceneTransitions" ) );
+            // EditorGUILayout.PropertyField( serializedProperty.FindPropertyRelative( "_Parameters" ) );
 
             using ( var scope = new EditorGUI.ChangeCheckScope() )
             {

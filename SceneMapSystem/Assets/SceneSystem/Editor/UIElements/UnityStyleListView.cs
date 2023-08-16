@@ -22,6 +22,14 @@ namespace TNS.SceneSystem.Editor
     public struct Margins
     {
         public float Left, Right, Bottom, Top;
+
+        public Margins( float left, float right, float bottom, float top )
+        {
+            Left = left;
+            Right = right;
+            Bottom = bottom;
+            Top = top;
+        }
     }
 
     public class UnityStyleListView<T>

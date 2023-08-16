@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,6 +16,46 @@ namespace TNS.SceneSystem.Editor
 
         private readonly RibbonFoldout m_SceneSettingsRibbonFoldout;
         private readonly RibbonFoldout m_LoadingSettingsRibbonFoldout;
+
+        private SerializedProperty m_SceneCollectionProp;
+        private SerializedProperty m_SceneReferencesProp;
+        private SerializedProperty m_SceneTransitionsProp;
+
+        private SerializedProperty SceneCollectionProp
+        {
+            get
+            {
+                if ( m_SceneCollectionProp != null )
+                    return m_SceneCollectionProp;
+
+                var prop = m_Window.SerializedSceneMap.FindProperty( nameof( SceneMapAsset._SceneCollections ) );
+                m_SceneCollectionProp = prop.GetArrayElementAtIndex( m_Window.SelectedCollectionIndex );
+
+                return m_SceneCollectionProp;
+            }
+        }
+
+        private SerializedProperty SceneReferencesProp
+        {
+            get
+            {
+                if ( m_SceneReferencesProp != null ) return m_SceneReferencesProp;
+
+                m_SceneReferencesProp = SceneCollectionProp.FindPropertyRelative( nameof( SceneCollection._Scenes ) );
+                return m_SceneReferencesProp;
+            }
+        }
+
+        private SerializedProperty SceneTransitionsProp
+        {
+            get
+            {
+                if ( m_SceneTransitionsProp != null ) return m_SceneTransitionsProp;
+
+                m_SceneTransitionsProp = SceneCollectionProp.FindPropertyRelative( nameof( SceneCollection._SceneTransitions ) );
+                return m_SceneTransitionsProp;
+            }
+        }
 
         public InspectorPanelView( SceneMapEditor window, VisualElement root )
         {
@@ -48,42 +89,65 @@ namespace TNS.SceneSystem.Editor
             return field;
         }
 
+        private ReorderableList conditionsList;
 
-        private void OnTransitionSelected( SceneTransition transition )
+        private void OnTransitionSelected( int index )
         {
             ClearContent();
 
-            var collectionsProp = m_Window.SerializedSceneMap.FindProperty( "_SceneCollections" );
-            var selectedCollectionProp = collectionsProp.GetArrayElementAtIndex( m_Window.SelectedCollectionIndex );
-            var transitionsProp = selectedCollectionProp.FindPropertyRelative( "_SceneTransitions" );
-            var transitionProp = transitionsProp.GetArrayElementAtIndex( m_Window.SelectedCollection.FindTransitionIndex( transition.m_ID ) );
+            var transitionProp = SceneTransitionsProp.GetArrayElementAtIndex( index );
 
-            var exitTimeProp = transitionProp.FindPropertyRelative( "m_HasExitTime" );
+            var hasExitTimeProp = transitionProp.FindPropertyRelative( nameof( SceneTransition.m_HasExitTime ) );
+            var showSettingsProp = transitionProp.FindPropertyRelative( nameof( SceneTransition.m_ShowSettings ) );
             var transitionSettingsProp = transitionProp.FindPropertyRelative( nameof( SceneTransition.m_Settings ) );
-            
-            var exitTimeField = CreatePropertyField( m_Window, exitTimeProp );
-            m_ContentContainer.Add( exitTimeField );
+            var transitionConditionsProp = transitionProp.FindPropertyRelative( nameof( SceneTransition.m_Conditions ) );
 
+            var exitTimeProp = transitionSettingsProp.FindPropertyRelative( nameof( SceneTransitionSettings.m_ExitTime ) );
+            var fixedDurationProp = transitionSettingsProp.FindPropertyRelative( nameof( SceneTransitionSettings.m_FixedDuration ) );
+            var transitionDurationProp = transitionSettingsProp.FindPropertyRelative( nameof( SceneTransitionSettings.m_TransitionDuration ) );
+            var transitionOffsetProp = transitionSettingsProp.FindPropertyRelative( nameof( SceneTransitionSettings.m_TransitionOffset ) );
 
-            var foldout = new Foldout();
-            foldout.text = "Settings";
-            foreach ( var prop in transitionSettingsProp.GetChildren() )
+            conditionsList = new ReorderableList( m_Window.SerializedSceneMap, transitionConditionsProp );
+
+            using var gui = new IMGUIContainer();
+            gui.SetMargins( new Margins( 5, 5, 2, 2 ) );
+            gui.onGUIHandler = () =>
             {
-                if ( prop.type == "bool" )
+                m_Window.SerializedSceneMap.Update();
+
+                EditorGUILayout.PropertyField( hasExitTimeProp );
+
+                showSettingsProp.boolValue = EditorGUILayout.Foldout
+                (
+                    showSettingsProp.boolValue,
+                    new GUIContent( "Settings", null, "Settings which control how this transition will be processed" )
+                );
+
+                if ( showSettingsProp.boolValue )
                 {
-                    var field = new Toggle( prop.displayName );
-                    field.bindingPath = prop.propertyPath;
-                    field.Bind( m_Window.SerializedSceneMap );
-                    field.RegisterValueChangedCallback( ( evt ) => { m_Window.SaveChangesToAsset(); } );
-                    foldout.Add( field );
-                    continue;
+                    using ( new EditorGUI.IndentLevelScope( 1 ) )
+                    {
+                        using ( new EditorGUI.DisabledScope( !hasExitTimeProp.boolValue ) )
+                        {
+                            EditorGUILayout.PropertyField( exitTimeProp );
+                        }
+
+                        EditorGUILayout.PropertyField( fixedDurationProp );
+                        EditorGUILayout.PropertyField( transitionDurationProp );
+                        EditorGUILayout.PropertyField( transitionOffsetProp );
+                    }
                 }
 
-                var settingsField = CreatePropertyField( m_Window, prop );
-                foldout.Add( settingsField );
-            }
+                EditorGUILayout.Separator();
+                conditionsList.DoLayoutList();
 
-            m_ContentContainer.Add( foldout );
+                if ( m_Window.SerializedSceneMap.ApplyModifiedProperties() )
+                {
+                    m_Window.SaveChangesToAsset();
+                }
+            };
+
+            m_ContentContainer.Add( gui );
         }
 
         private void OnSceneSelected( int index )
@@ -91,10 +155,7 @@ namespace TNS.SceneSystem.Editor
             ClearContent();
             AddFoldouts();
 
-            var collectionsProp = m_Window.SerializedSceneMap.FindProperty( "_SceneCollections" );
-            var selectedCollectionProp = collectionsProp.GetArrayElementAtIndex( m_Window.SelectedCollectionIndex );
-            var scenesProp = selectedCollectionProp.FindPropertyRelative( "_Scenes" );
-            var sceneProp = scenesProp.GetArrayElementAtIndex( index );
+            var sceneProp = SceneReferencesProp.GetArrayElementAtIndex( index );
             var sceneSettingsProp = sceneProp.FindPropertyRelative( "_SceneSettings" );
 
             var sceneSettingsChildrenProp = sceneSettingsProp.GetChildren();
@@ -135,75 +196,6 @@ namespace TNS.SceneSystem.Editor
         {
             m_SceneSettingsRibbonFoldout.CreateGUI( null );
             m_LoadingSettingsRibbonFoldout.CreateGUI( null );
-        }
-
-        private void DrawLoadingSettingsProperties( SerializedProperty serializedProperty )
-        {
-            // [Serializable]
-            // public struct LoadingParameters
-            // {
-            //     public bool _UseLoadingScreen;
-            //     public ThreadPriority _ThreadPriority;
-            //     public bool _SecureLoad;
-            //     public bool _Interpolate;
-            //     public float _InterpolationSpeed;
-            //
-            //     public LoadingParameters(LoadSceneMode mode)
-            //     {
-            //         _UseLoadingScreen = false;
-            //         _ThreadPriority = ThreadPriority.High;
-            //         _SecureLoad = true;
-            //         _Interpolate = false;
-            //         _InterpolationSpeed = 1f;
-            //     }
-            // }
-
-            m_Window.SerializedSceneMap.Update();
-
-            var loadingParametersProperty = serializedProperty.FindPropertyRelative( "_LoadingParameters" );
-            var useLoadingScreenProperty = loadingParametersProperty.FindPropertyRelative( "_UseLoadingScreen" );
-            var threadPriorityProperty = loadingParametersProperty.FindPropertyRelative( "_ThreadPriority" );
-            var secureLoadProperty = loadingParametersProperty.FindPropertyRelative( "_SecureLoad" );
-            var interpolateProperty = loadingParametersProperty.FindPropertyRelative( "_Interpolate" );
-            var interpolationSpeedProperty = loadingParametersProperty.FindPropertyRelative( "_InterpolationSpeed" );
-
-            EditorGUILayout.PropertyField( useLoadingScreenProperty );
-            EditorGUILayout.PropertyField( threadPriorityProperty );
-            EditorGUILayout.PropertyField( secureLoadProperty );
-            EditorGUILayout.PropertyField( interpolateProperty );
-            EditorGUILayout.PropertyField( interpolationSpeedProperty );
-
-            if ( m_Window.SerializedSceneMap.ApplyModifiedProperties() )
-            {
-                m_Window.SaveChangesToAsset();
-            }
-        }
-
-        private void DrawSceneSettingsProperties( SerializedProperty serializedProperty )
-        {
-            // [Serializable]
-            // public struct SceneSettings
-            // {
-            //     [SerializeField] internal SceneReferenceType _Type; // enum
-            //     [SerializeField] internal LoadSceneMode _Mode; // enum
-            //     [SerializeField] internal Scene _LoadingScene; // scene
-            //     [SerializeField] internal LoadingParameters _LoadingParameters; // struct
-            // }
-
-            m_Window.SerializedSceneMap.Update();
-
-            var typeProperty = serializedProperty.FindPropertyRelative( "_Type" );
-            var modeProperty = serializedProperty.FindPropertyRelative( "_Mode" );
-            var loadingSceneProperty = serializedProperty.FindPropertyRelative( "_LoadingScene" );
-
-            EditorGUILayout.PropertyField( typeProperty );
-            EditorGUILayout.PropertyField( modeProperty );
-            EditorGUILayout.PropertyField( loadingSceneProperty );
-
-            if ( m_Window.SerializedSceneMap.ApplyModifiedProperties() )
-            {
-                m_Window.SaveChangesToAsset();
-            }
         }
     }
 }

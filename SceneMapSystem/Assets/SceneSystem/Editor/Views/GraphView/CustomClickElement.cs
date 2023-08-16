@@ -17,8 +17,8 @@ namespace TNS.SceneSystem.Editor
         {
             AssetDatabase.LoadAssetAtPath<VisualTreeAsset>( GUIUtility.CircleTemplateUxmlPath ).CloneTree( this );
             name = "CustomClickElement";
-            style.minWidth = 21f;
-            style.minHeight = 21f;
+            style.minWidth = 23f;
+            style.minHeight = 23f;
             style.position = Position.Absolute;
 
             var cEvent = new Clickable( evt =>

@@ -100,8 +100,9 @@ namespace TNS.SceneSystem.Editor
         public void OnTransitionLeftClicked( SceneReference origin, SceneReference target )
         {
             var transition = SelectedCollection.sceneTransitions.First( t => t.m_OriginID == origin.id && t.m_TargetID == target.id );
+            var index = SelectedCollection.sceneTransitions.IndexOfReference( transition );
 
-            GUIUtility.Events.TriggerTransitionSelected( transition );
+            GUIUtility.Events.TriggerTransitionSelected( index );
         }
 
         public void OnTransitionRightClicked( SceneReference origin, SceneReference target )
