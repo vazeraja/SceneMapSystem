@@ -2,12 +2,29 @@
 
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace TNS.SceneSystem.Editor
 {
     public static class SerializedPropertyHelpers
     {
+        public static PropertyField CreatePropertyField( SceneMapEditor editor, SerializedProperty property )
+        {
+            var field = new PropertyField( property );
+            field.bindingPath = property.propertyPath;
+            field.Bind( editor.SerializedSceneMap );
+            field.RegisterValueChangeCallback( ( evt ) => { editor.SaveChangesToAsset(); } );
+            return field;
+        }
+        
+        public static PropertyField CreatePropertyField(SerializedProperty property )
+        {
+            var field = new PropertyField( property );
+            field.BindProperty( property );
+            return field;
+        }
+        
         public static IEnumerable<SerializedProperty> GetChildren(this SerializedProperty serializedProperty)
         {
             SerializedProperty currentProperty = serializedProperty.Copy();

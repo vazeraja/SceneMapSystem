@@ -80,15 +80,6 @@ namespace TNS.SceneSystem.Editor
             GUIUtility.Events.TransitionSelected += OnTransitionSelected;
         }
 
-        private static PropertyField CreatePropertyField( SceneMapEditor editor, SerializedProperty property )
-        {
-            var field = new PropertyField( property );
-            field.bindingPath = property.propertyPath;
-            field.Bind( editor.SerializedSceneMap );
-            field.RegisterValueChangeCallback( ( evt ) => { editor.SaveChangesToAsset(); } );
-            return field;
-        }
-
         private ReorderableList conditionsList;
 
         private void OnTransitionSelected( int index )
@@ -109,6 +100,11 @@ namespace TNS.SceneSystem.Editor
 
             conditionsList = new ReorderableList( m_Window.SerializedSceneMap, transitionConditionsProp );
 
+            var transitionPropField = SerializedPropertyHelpers.CreatePropertyField( m_Window, transitionProp );
+            m_ContentContainer.Add(transitionPropField);
+
+            return;
+            
             using var gui = new IMGUIContainer();
             gui.SetMargins( new Margins( 5, 5, 2, 2 ) );
             gui.onGUIHandler = () =>
@@ -165,14 +161,14 @@ namespace TNS.SceneSystem.Editor
                 {
                     foreach ( var loadingParam in prop.GetChildren() )
                     {
-                        var loadingParamField = CreatePropertyField( m_Window, loadingParam );
+                        var loadingParamField = SerializedPropertyHelpers.CreatePropertyField( m_Window, loadingParam );
                         m_LoadingSettingsRibbonFoldout.m_IMGUIContainer.Add( loadingParamField );
                     }
 
                     continue;
                 }
 
-                var field = CreatePropertyField( m_Window, prop );
+                var field = SerializedPropertyHelpers.CreatePropertyField( m_Window, prop );
                 m_SceneSettingsRibbonFoldout.m_IMGUIContainer.Add( field );
             }
         }

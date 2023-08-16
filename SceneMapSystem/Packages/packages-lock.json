@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.aarthificial.typewriter": {
+      "version": "https://github.com/aarthificial-gamedev/typewriter.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "bb3c1dc4ef21b51a7699ea2c429f4948c350af9a"
+    },
     "com.unity.collab-proxy": {
       "version": "2.0.4",
       "depth": 0,

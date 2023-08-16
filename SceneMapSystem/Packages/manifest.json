@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.aarthificial.typewriter": "https://github.com/aarthificial-gamedev/typewriter.git",
     "com.unity.collab-proxy": "2.0.4",
     "com.unity.feature.development": "1.0.1",
     "com.unity.shadergraph": "14.0.8",

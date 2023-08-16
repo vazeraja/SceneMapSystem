@@ -28,10 +28,10 @@ namespace TNS.SceneSystem
         [SerializeField, Tooltip( "Settings which control how this transition will be processed" )]
         internal SceneTransitionSettings m_Settings;
 
-        [SerializeField] internal SceneTransitionCondition m_Conditions;
+        [SerializeField] internal SceneTransitionCondition[] m_Conditions;
         
         private event Action onEnterTransition;
-        private event Action onExitTransition;
+        private event Action onExitTransition; 
 
         public SceneTransition() { }
 
