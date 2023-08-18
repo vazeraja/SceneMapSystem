@@ -13,10 +13,10 @@ namespace TNS.SceneSystem.Editor
         }
 
         private static string s_DragDataType = "VisualElement";
-        private SceneMapEditor m_Window;
+        private SceneMapEditorWindow m_Window;
         private bool m_GotMouseDown;
 
-        public DragAndDrop( SceneMapEditor window )
+        public DragAndDrop( SceneMapEditorWindow window )
         {
             m_Window = window;
         }

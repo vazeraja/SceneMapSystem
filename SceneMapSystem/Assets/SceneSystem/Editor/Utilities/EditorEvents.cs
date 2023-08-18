@@ -5,7 +5,7 @@ namespace TNS.SceneSystem.Editor
 {
     public class EditorEvents
     {
-        private static SceneMapEditor m_Window => EditorWindow.focusedWindow as SceneMapEditor;
+        private static SceneMapEditorWindow m_Window => EditorWindow.focusedWindow as SceneMapEditorWindow;
 
         public event Action<SceneMapAsset.DataType> ItemSelected;
         public event Action<int> CollectionSelected;

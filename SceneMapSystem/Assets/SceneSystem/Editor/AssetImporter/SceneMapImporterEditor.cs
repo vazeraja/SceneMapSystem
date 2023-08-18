@@ -23,7 +23,7 @@ namespace TNS.SceneSystem.Editor
             // Button to pop up window to edit the asset.
             using ( new EditorGUI.DisabledScope( inputActionAsset == null ) ) {
                 if ( GUILayout.Button( "Edit asset" ) )
-                    SceneMapEditor.OpenEditor( inputActionAsset );
+                    SceneMapEditorWindow.OpenEditor( inputActionAsset );
             }
             
             EditorGUILayout.Space();

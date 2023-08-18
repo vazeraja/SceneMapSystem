@@ -8,12 +8,12 @@ namespace TNS.SceneSystem.Editor
 {
     public class SceneCollectionParameterView : UnityStyleListView<SceneTransitionParameter>
     {
-        private readonly SceneMapEditor m_Window;
+        private readonly SceneMapEditorWindow m_Window;
         private readonly ToolbarMenu m_AddButton;
 
         private SceneCollection SelectedCollection => m_Window.SelectedCollection;
 
-        public SceneCollectionParameterView( SceneMapEditor window, ListView listView ) : base( window, listView )
+        public SceneCollectionParameterView( SceneMapEditorWindow window, ListView listView ) : base( window, listView )
         {
             m_Window = window;
             m_AddButton = window.rootVisualElement.Q<ToolbarMenu>( GUIUtility.AddParameterButton );

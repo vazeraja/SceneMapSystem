@@ -16,7 +16,7 @@ namespace TNS.SceneSystem.Editor
         public static readonly string OpenManualTooltip = L10n.Tr( "Open the relevant documentation entry." );
         public const string HelpIconButtonClass = "icon-button__help-icon";
         public const string MenuIconButtonClass = "icon-button__menu-icon";
-        
+
         private const string UIToolKitAssetsPath = "Assets/SceneSystem/Editor/UIElements/";
         private const string UxmlFilesPath = UIToolKitAssetsPath + "UXML/";
         private const string StyleSheetsPath = UIToolKitAssetsPath + "Styles/";
@@ -27,7 +27,7 @@ namespace TNS.SceneSystem.Editor
         public const string RibbonDarkUssPath = StyleSheetsPath + "Ribbon_dark.uss";
         public const string RibbonLightUssPath = StyleSheetsPath + "Ribbon_light.uss";
         public const string SplitViewUssPath = StyleSheetsPath + "SplitView.uss";
-        
+
         public const string SceneAssetIconPath = IconsPath + "SceneAssetIcon.png";
         public const string SceneTemplateIconPath = IconsPath + "SceneTemplateIcon.png";
         public const string StarIconPath = IconsPath + "star.png";
@@ -41,23 +41,25 @@ namespace TNS.SceneSystem.Editor
         public const string SceneMapEditorWindowUxmlPath = UxmlFilesPath + "SceneMapEditorWindow.uxml";
         public const string NodeViewUxmlPath = UxmlFilesPath + "SceneNodeView.uxml";
         public const string CircleTemplateUxmlPath = UxmlFilesPath + "CircleTemplate.uxml";
-        
+        public const string TransitionInspectorUxmlPath = UxmlFilesPath + "SceneTransitionInspectorView.uxml";
+        public const string SceneSettingsInspectorUxmlPath = UxmlFilesPath + "SceneSettingsInspectorView.uxml";
+
         // Scene Control View
         public const string RightPanel = nameof( RightPanel );
         public const string RightPanelHeader = nameof( RightPanelHeader );
-        
+
         public const string SceneControlButtons = nameof( SceneControlButtons );
         public const string OpenSceneButton = nameof( OpenSceneButton );
         public const string CloseSceneButton = nameof( CloseSceneButton );
         public const string PlaySceneButton = nameof( PlaySceneButton );
         public const string BuildSettingsButton = nameof( BuildSettingsButton );
-        
+
         public const string FoldoutContainer = "foldout-container__content";
         public const string ScenePropertiesFoldout = nameof( ScenePropertiesFoldout );
         public const string ScenePropertiesIMGUI = nameof( ScenePropertiesIMGUI );
-        
+
         public const string InspectorContainer = nameof( InspectorContainer );
-        
+
         // Ribbon Tabs View
         public const string RibbonContainer = nameof( RibbonContainer );
         public const string RibbonTabs = nameof( RibbonTabs );
@@ -76,7 +78,7 @@ namespace TNS.SceneSystem.Editor
         public const string ParametersListView = nameof( ParametersListView );
         public const string GraphDetailsTab = nameof( GraphDetailsTab );
         public const string ResetButtonStyleSheet = StyleSheetsPath + "ResetButton.uss";
-        
+
         // ListView
         public const string SceneCollectionsListView = nameof( SceneCollectionsListView );
         public const string SceneReferenceListView = nameof( SceneReferenceListView );
@@ -201,6 +203,14 @@ namespace TNS.SceneSystem.Editor
             line.style.height = new Length( 1f, LengthUnit.Pixel );
             line.style.backgroundColor = new StyleColor( new Color( 63f, 63f, 63f, 0.3f ) );
             return line;
+        }
+
+        internal static void AddRange( this VisualElement root, params VisualElement [] elements )
+        {
+            foreach ( var ele in elements )
+            {
+                root.Add( ele );
+            }
         }
     }
 }

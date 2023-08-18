@@ -9,10 +9,10 @@ namespace TNS.SceneSystem.Editor
 {
     public class SceneCollectionView : UnityStyleListView<SceneCollection>
     {
-        private readonly SceneMapEditor m_Window;
+        private readonly SceneMapEditorWindow m_Window;
         private readonly Button m_AddCollectionButton;
 
-        public SceneCollectionView( SceneMapEditor window, ListView view ) : base( window, view )
+        public SceneCollectionView( SceneMapEditorWindow window, ListView view ) : base( window, view )
         {
             m_Window = window;
             m_AddCollectionButton = window.rootVisualElement.Q<Button>( "add-collection" );

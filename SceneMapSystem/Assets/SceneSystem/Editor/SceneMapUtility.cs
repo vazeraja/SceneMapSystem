@@ -71,8 +71,8 @@ namespace TNS.SceneSystem.Editor
         
         public static void RebuildWindows()
         {
-            if ( !EditorWindow.HasOpenInstances<SceneMapEditor>() ) return;
-            var windows = Resources.FindObjectsOfTypeAll<SceneMapEditor>();
+            if ( !EditorWindow.HasOpenInstances<SceneMapEditorWindow>() ) return;
+            var windows = Resources.FindObjectsOfTypeAll<SceneMapEditorWindow>();
             foreach ( var window in windows ) {
                 window.RebuildLists();
             }

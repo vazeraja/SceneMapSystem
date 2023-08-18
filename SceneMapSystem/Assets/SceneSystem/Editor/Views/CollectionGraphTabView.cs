@@ -30,13 +30,13 @@ namespace TNS.SceneSystem.Editor
 
         internal SceneCollectionParameterView m_ParameterView { get; private set; }
 
-        public readonly SceneMapEditor m_Window;
+        public readonly SceneMapEditorWindow m_Window;
         public SceneCollection SelectedCollection => m_Window.SelectedCollection;
 
         public Rect ContentRect => m_Content.contentRect;
 
 
-        public CollectionGraphTabView( SceneMapEditor window, VisualElement root )
+        public CollectionGraphTabView( SceneMapEditorWindow window, VisualElement root )
         {
             m_Window = window;
             m_GraphView = root.Q<SceneCollectionGraphView>();

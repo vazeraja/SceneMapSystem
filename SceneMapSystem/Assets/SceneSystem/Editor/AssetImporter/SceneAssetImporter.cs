@@ -20,8 +20,8 @@ namespace TNS.SceneSystem.Editor
 
         private static void OnImported( string path )
         {
-            if ( EditorWindow.HasOpenInstances<SceneMapEditor>() ) {
-                var windows = Resources.FindObjectsOfTypeAll<SceneMapEditor>();
+            if ( EditorWindow.HasOpenInstances<SceneMapEditorWindow>() ) {
+                var windows = Resources.FindObjectsOfTypeAll<SceneMapEditorWindow>();
                 foreach ( var window in windows ) {
                     TryUpdateSceneAssetReference( window.SceneMap, path );
                     window.SaveChangesToAsset();

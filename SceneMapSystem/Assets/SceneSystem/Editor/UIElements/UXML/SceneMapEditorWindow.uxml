@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <ui:Template name="SettingsTab" src="project://database/Assets/_TNS/SceneSystem/Editor/UIElements/UXML/SettingsTab.uxml?fileID=9197481963319205126&amp;guid=c140eb113c4bef14d8f622922900c076&amp;type=3#SettingsTab" />
-    <ui:Template name="GraphTab" src="project://database/Assets/_TNS/SceneSystem/Editor/UIElements/UXML/GraphTab.uxml?fileID=9197481963319205126&amp;guid=b33b01b0cf923ad45b2100646262e94d&amp;type=3#GraphTab" />
-    <ui:Template name="ExtraSettingsTab" src="project://database/Assets/_TNS/SceneSystem/Editor/UIElements/UXML/ExtraSettingsTab.uxml?fileID=9197481963319205126&amp;guid=d963d4754a85cdd469b276b59f7cab3b&amp;type=3#ExtraSettingsTab" />
-    <Style src="project://database/Assets/_TNS/SceneSystem/Editor/UIElements/Styles/SceneMapEditorWindow.uss?fileID=7433441132597879392&amp;guid=ef59e59cd9b38bd4f8b5e0aa6280e5d3&amp;type=3#SceneMapEditorWindow" />
-    <uie:Toolbar style="background-color: rgb(56, 56, 56);">
+    <ui:Template name="SettingsTab" src="project://database/Assets/SceneSystem/Editor/UIElements/UXML/SettingsTab.uxml?fileID=9197481963319205126&amp;guid=c140eb113c4bef14d8f622922900c076&amp;type=3#SettingsTab" />
+    <ui:Template name="GraphTab" src="project://database/Assets/SceneSystem/Editor/UIElements/UXML/GraphTab.uxml?fileID=9197481963319205126&amp;guid=b33b01b0cf923ad45b2100646262e94d&amp;type=3#GraphTab" />
+    <ui:Template name="ExtraSettingsTab" src="project://database/Assets/SceneSystem/Editor/UIElements/UXML/ExtraSettingsTab.uxml?fileID=9197481963319205126&amp;guid=d963d4754a85cdd469b276b59f7cab3b&amp;type=3#ExtraSettingsTab" />
+    <Style src="project://database/Assets/SceneSystem/Editor/UIElements/Styles/SceneMapEditorWindow.uss?fileID=7433441132597879392&amp;guid=ef59e59cd9b38bd4f8b5e0aa6280e5d3&amp;type=3#SceneMapEditorWindow" />
+    <uie:Toolbar name="Toolbar" style="background-color: rgb(56, 56, 56);">
         <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="Active Map" />
     </uie:Toolbar>
     <ui:VisualElement name="content" style="flex-grow: 1;">
@@ -86,7 +86,10 @@
                                 <TabButton focusable="true" />
                             </TabbedView>
                         </ui:VisualElement>
-                        <ui:VisualElement name="inspector-content__content-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+                        <ui:VisualElement name="inspector-content__content-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+                            <TNS.SceneSystem.Editor.SceneTransitionInspectorView />
+                            <TNS.SceneSystem.Editor.SceneSettingsInspectorView />
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </TNS.SceneSystem.Editor.SplitView>
             </ui:VisualElement>

@@ -193,7 +193,7 @@ namespace TNS.SceneSystem.Editor
             var container = new VisualElement();
             container.AddToClassList( "list-item__container" );
             container.styleSheets.Add( AssetDatabase.LoadAssetAtPath<StyleSheet>( GUIUtility.ListItemUssPath ) );
-            container.AddManipulator( new DragAndDrop( (SceneMapEditor) m_Window ) );
+            container.AddManipulator( new DragAndDrop( (SceneMapEditorWindow) m_Window ) );
 
             var rightClickEvent = new Clickable( evt => itemRightClicked?.Invoke( (VisualElement) evt.currentTarget ) );
             rightClickEvent.activators.Clear();

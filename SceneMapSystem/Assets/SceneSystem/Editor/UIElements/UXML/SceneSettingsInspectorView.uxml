@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="content" style="flex-grow: 1; flex-direction: column;">
+        <TNS.SceneSystem.Editor.RibbonFoldout name="SceneSettings__Foldout" />
+        <TNS.SceneSystem.Editor.RibbonFoldout name="LoadingSettings__Foldout" style="margin-top: -5px;" />
+    </ui:VisualElement>
+</ui:UXML>

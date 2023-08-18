@@ -22,9 +22,6 @@ namespace TNS.SceneSystem
         [SerializeField, Tooltip( "The time in seconds before the transition is initiated" )]
         internal bool m_HasExitTime;
 
-        [SerializeField, HideInInspector]
-        internal bool m_ShowSettings;
-
         [SerializeField, Tooltip( "Settings which control how this transition will be processed" )]
         internal SceneTransitionSettings m_Settings;
 

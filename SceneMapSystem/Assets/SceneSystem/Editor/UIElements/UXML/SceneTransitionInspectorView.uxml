@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement name="content" style="flex-grow: 1; flex-direction: column;">
+        <uie:PropertyField name="has-exit-time__field" />
+        <ui:Foldout text="Foldout" name="settings__foldout">
+            <uie:PropertyField name="exit-time__field" />
+            <uie:PropertyField name="fixed-duration__field" />
+            <uie:PropertyField name="transition-duration__field" />
+            <uie:PropertyField name="transition-offset__field" />
+        </ui:Foldout>
+        <ui:IMGUIContainer name="reorderable-list__imgui-container" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

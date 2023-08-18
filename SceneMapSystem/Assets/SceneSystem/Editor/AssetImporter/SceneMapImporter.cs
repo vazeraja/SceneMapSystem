@@ -113,7 +113,7 @@ namespace TNS.SceneSystem.Editor
                 // Debug.Log( $"SceneMapImporter: {className}" );
             }
 
-            SceneMapEditor.RefreshAllOnAssetReimport();
+            SceneMapEditorWindow.RefreshAllOnAssetReimport();
             foreach ( var callback in s_OnImportCallbacks )
                 callback();
         }

@@ -11,7 +11,7 @@ namespace TNS.SceneSystem.Editor
 {
     public class ControlsPanelView
     {
-        private readonly SceneMapEditor m_Window;
+        private readonly SceneMapEditorWindow m_Window;
 
         private readonly VisualElement m_Root;
         private readonly VisualElement m_PanelHeader;
@@ -25,7 +25,7 @@ namespace TNS.SceneSystem.Editor
         private readonly Foldout m_Foldout;
         private readonly IMGUIContainer m_IMGUIContainer;
 
-        public ControlsPanelView( SceneMapEditor window, VisualElement root )
+        public ControlsPanelView( SceneMapEditorWindow window, VisualElement root )
         {
             m_Window = window;
 

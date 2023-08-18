@@ -7,7 +7,7 @@ namespace TNS.SceneSystem.Editor
     public class RibbonTabsView
     {
         private readonly VisualElement m_Root;
-        private readonly SceneMapEditor m_Window;
+        private readonly SceneMapEditorWindow m_Window;
         
         private readonly VisualElement m_RibbonContainer;
         private readonly Ribbon m_TabsRibbon;
@@ -23,7 +23,7 @@ namespace TNS.SceneSystem.Editor
         public MapSettingsTabView MapSettingsTab { get; private set; }
         public CollectionGraphTabView CollectionGraphTab { get; private set; }
         
-        public RibbonTabsView(SceneMapEditor window, VisualElement root )
+        public RibbonTabsView(SceneMapEditorWindow window, VisualElement root )
         {
             m_Root = root;
             m_Window = window;

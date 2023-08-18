@@ -11,10 +11,10 @@ namespace TNS.SceneSystem.Editor
 {
     public class SceneReferenceView : UnityStyleListView<SceneReference>
     {
-        private readonly SceneMapEditor m_Window;
+        private readonly SceneMapEditorWindow m_Window;
         private readonly Button m_AddButton;
 
-        public SceneReferenceView( SceneMapEditor window, ListView view ) : base( window, view )
+        public SceneReferenceView( SceneMapEditorWindow window, ListView view ) : base( window, view )
         {
             m_Window = window;
             m_AddButton = window.rootVisualElement.Q<Button>( "add-scene" );

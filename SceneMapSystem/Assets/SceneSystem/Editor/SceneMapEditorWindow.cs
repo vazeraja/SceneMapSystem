@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.ShortcutManagement;
@@ -11,7 +12,7 @@ using UnityEngine.UIElements;
 
 namespace TNS.SceneSystem.Editor
 {
-    public class SceneMapEditor : EditorWindow
+    public class SceneMapEditorWindow : EditorWindow
     {
         private const string kDefaultAssetLayout = "{}";
 
@@ -29,15 +30,15 @@ namespace TNS.SceneSystem.Editor
                 SceneMapUtility.DefaultLayout, AssetDatabase.LoadAssetAtPath<Texture2D>( GUIUtility.SceneTemplateIconPath ) );
         }
 
-        private static SceneMapEditor FindEditorForAsset( SceneMapAsset asset )
+        private static SceneMapEditorWindow FindEditorForAsset( SceneMapAsset asset )
         {
-            var windows = Resources.FindObjectsOfTypeAll<SceneMapEditor>();
+            var windows = Resources.FindObjectsOfTypeAll<SceneMapEditorWindow>();
             return windows.FirstOrDefault( w => w._AssetManager.ImportedAssetObjectEquals( asset ) );
         }
 
-        internal static SceneMapEditor FindEditorForAssetWithGUID( string guid )
+        internal static SceneMapEditorWindow FindEditorForAssetWithGUID( string guid )
         {
-            var windows = Resources.FindObjectsOfTypeAll<SceneMapEditor>();
+            var windows = Resources.FindObjectsOfTypeAll<SceneMapEditorWindow>();
             return windows.FirstOrDefault( w => w._AssetManager.Guid == guid );
         }
 
@@ -83,12 +84,12 @@ namespace TNS.SceneSystem.Editor
             return true;
         }
 
-        internal static SceneMapEditor OpenEditor( SceneMapAsset asset )
+        internal static SceneMapEditorWindow OpenEditor( SceneMapAsset asset )
         {
             var window = FindEditorForAsset( asset );
             if ( window == null )
             {
-                window = CreateInstance<SceneMapEditor>();
+                window = CreateInstance<SceneMapEditorWindow>();
 
                 window._AssetManager = new SceneMapAssetManager( asset );
                 window._AssetManager.Initialize();
@@ -186,11 +187,12 @@ namespace TNS.SceneSystem.Editor
             return true;
         }
 
-        public void SaveAndRebuild()
+        public void SaveAndRebuild([CallerMemberName] string caller = null)
         {
             SaveChangesToAsset();
             RebuildLists();
-        }
+            // Debug.Log( caller );
+        } 
 
         public void SaveChangesToAsset()
         {
@@ -236,10 +238,10 @@ namespace TNS.SceneSystem.Editor
             SaveAndRebuild();
         }
 
-        [Shortcut( "SceneMapEditor/Save", typeof( SceneMapEditor ), KeyCode.S, ShortcutModifiers.Control )]
+        [Shortcut( "SceneMapEditor/Save", typeof( SceneMapEditorWindow ), KeyCode.S, ShortcutModifiers.Control )]
         private static void SaveShortcut( ShortcutArguments arguments )
         {
-            var window = (SceneMapEditor) arguments.context;
+            var window = (SceneMapEditorWindow) arguments.context;
             window.SaveChangesToAsset();
         }
 
