@@ -1,0 +1,37 @@
+#help-box {
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-left-color: rgb(26, 26, 26);
+    border-right-color: rgb(26, 26, 26);
+    border-top-color: rgb(26, 26, 26);
+    border-bottom-color: rgb(26, 26, 26);
+    background-color: rgb(63, 63, 63);
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    max-height: 100px;
+    min-height: 40px;
+    flex-direction: row;
+}
+
+#text {
+    font-size: 11px;
+    -unity-text-align: middle-left;
+}
+
+#icon {
+    width: 32px;
+    margin-bottom: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-left: 2px;
+    -unity-background-scale-mode: scale-to-fit;
+    background-image: var(--unity-icons-console_entry_info);
+}

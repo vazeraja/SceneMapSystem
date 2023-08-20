@@ -184,8 +184,8 @@
             ],
             "sceneTransitions": [
                 {
-                    "id": "FlatKit - Wanderer Demo --> Azure Nature Demo",
-                    "label": "9f45c736-0556-44e9-8138-6bd8f871b262",
+                    "id": "9f45c736-0556-44e9-8138-6bd8f871b262",
+                    "label": "FlatKit - Wanderer Demo --> Azure Nature Demo",
                     "originID": "bfc51085-b439-4ec2-a535-5c5311d119c0",
                     "targetID": "72e6f12c-252f-48ac-962e-a073af82cf97",
                     "settings": {
@@ -198,8 +198,8 @@
                     "hasExitTime": "False"
                 },
                 {
-                    "id": "FlatKit - Wanderer Demo --> PolygonApocalypse Demo",
-                    "label": "05731737-1fdf-4121-9f73-ccd34c6a512f",
+                    "id": "05731737-1fdf-4121-9f73-ccd34c6a512f",
+                    "label": "FlatKit - Wanderer Demo --> PolygonApocalypse Demo",
                     "originID": "bfc51085-b439-4ec2-a535-5c5311d119c0",
                     "targetID": "c6cce8b8-9c40-4410-a6c2-fbae52602147",
                     "settings": {
@@ -209,7 +209,7 @@
                         "TransitionDuration": "0",
                         "TransitionOffset": "3.9"
                     },
-                    "hasExitTime": "False"
+                    "hasExitTime": "True"
                 }
             ],
             "parameters": [
