@@ -162,7 +162,7 @@ namespace TNS.SceneSystem.Editor
             var floatField = (FloatField) element.Q( "floatField" );
             var intField = (IntegerField) element.Q( "integerField" );
             var boolField = (Toggle) element.Q( "boolField" );
-            var triggerField = (RadioButton) element.Q( "triggerField" );
+            var triggerField = (Toggle) element.Q( "triggerField" );
 
             floatField.style.display = DisplayStyle.None;
             intField.style.display = DisplayStyle.None;
@@ -275,7 +275,7 @@ namespace TNS.SceneSystem.Editor
             var floatField = new FloatField();
             var integerField = new IntegerField();
             var boolField = new Toggle();
-            var triggerField = new RadioButton();
+            var triggerField = new Toggle();
             floatField.name = "floatField";
             integerField.name = "integerField";
             boolField.name = "boolField";

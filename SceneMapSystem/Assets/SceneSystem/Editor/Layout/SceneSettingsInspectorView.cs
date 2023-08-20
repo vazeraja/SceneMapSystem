@@ -14,6 +14,8 @@ namespace TNS.SceneSystem.Editor
 
         private VisualElement m_Root;
         private VisualElement m_Content;
+        private VisualElement m_HelpBox;
+        private Label m_HelpBoxText;
         private RibbonFoldout m_SceneSettingsFoldout;
         private RibbonFoldout m_LoadingSettingsFoldout;
 
@@ -44,9 +46,12 @@ namespace TNS.SceneSystem.Editor
             m_Root = inspectorTree.Clone();
 
             m_Content = m_Root.Q<VisualElement>( "content" );
+            m_HelpBox = m_Root.Q<VisualElement>( "help-box" );
+            m_HelpBoxText = m_Root.Q<Label>( "text" );
             m_SceneSettingsFoldout = m_Root.Q<RibbonFoldout>( "SceneSettings__Foldout" );
             m_LoadingSettingsFoldout = m_Root.Q<RibbonFoldout>( "LoadingSettings__Foldout" );
-
+            
+            SetHelpText( "Edit the settings displayed below to control how this scene should be processed" );
             m_SceneSettingsFoldout.SetLabel( "Scene Settings" );
             m_LoadingSettingsFoldout.SetLabel( "Loading Settings" );
 
@@ -114,6 +119,11 @@ namespace TNS.SceneSystem.Editor
             m_SecureLoadField.BindProperty( m_SecureLoadProp );
             m_InterpolateField.BindProperty( m_InterpolateProp );
             m_InterpolationSpeedField.BindProperty( m_InterpolationSpeedProp );
+        }
+        
+        public void SetHelpText( string text )
+        {
+            m_HelpBoxText.text = text;
         }
 
         private void Save()

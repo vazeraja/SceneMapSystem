@@ -45,15 +45,9 @@ namespace TNS.SceneSystem.Editor
             // CreateInspectors();
         }
 
-        public void HideInspectors()
-        {
-            HideSceneInspectors();
-            HideTransitionInspectors();
-        }
-
         private void OnSceneSelected( SceneReference scene )
         {
-            HideTransitionInspectors();
+            HideInspectors();
             DisplaySceneInspector( scene );
         }
 
@@ -129,32 +123,29 @@ namespace TNS.SceneSystem.Editor
 
         private void DisplaySceneInspector( SceneReference scene )
         {
-            HideSceneInspectors();
-
             var inspector = FindInspectorForScene( scene );
             if ( inspector == null )
             {
                 var cIndex = m_Window.SelectedCollectionIndex;
                 var sIndex = m_Window.SelectedSceneIndex;
                 CreateSceneInspector( scene, cIndex, sIndex );
+                return;
             }
-            
+
             GUIUtility.SetVisibility( inspector, true );
-        }
+        } 
 
         private void DisplayTransitionInspector( SceneTransition transition )
         {
-            HideSceneInspectors();
-            
-            if ( FindInspectorForTransition( transition ) == null )
+            var inspector = FindInspectorForTransition( transition );
+            if ( inspector == null )
             {
                 var cIndex = m_Window.SelectedCollectionIndex;
                 var tIndex = m_Window.SelectedCollection.sceneTransitions.IndexOfReference( transition );
-                
                 CreateTransitionInspector( transition, cIndex, tIndex );
+                return;
             }
 
-            var inspector = FindInspectorForTransition( transition );
             GUIUtility.SetVisibility( inspector, true );
         }
 
@@ -166,6 +157,12 @@ namespace TNS.SceneSystem.Editor
         private SceneTransitionInspectorView FindInspectorForTransition( SceneTransition transition )
         {
             return m_SceneTransitionInspectors.FirstOrDefault( inspector => inspector.m_SceneTransition.m_ID == transition.m_ID );
+        }
+
+        public void HideInspectors()
+        {
+            HideSceneInspectors();
+            HideTransitionInspectors();
         }
 
         private void HideSceneInspectors()

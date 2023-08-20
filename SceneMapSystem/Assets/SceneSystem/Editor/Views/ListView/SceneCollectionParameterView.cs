@@ -44,7 +44,7 @@ namespace TNS.SceneSystem.Editor
             var floatField = (FloatField) element.Q( "floatField" );
             var intField = (IntegerField) element.Q( "integerField" );
             var boolField = (Toggle) element.Q( "boolField" );
-            var triggerField = (RadioButton) element.Q( "triggerField" );
+            var triggerField = (Toggle) element.Q( "triggerField" );
 
             switch ( type )
             {
@@ -55,7 +55,10 @@ namespace TNS.SceneSystem.Editor
                     floatField.RegisterValueChangedCallback( evt =>
                     {
                         if ( Math.Abs( evt.newValue - evt.previousValue ) > 0.001f )
+                        {
                             parameter.defaultFloat = evt.newValue;
+                            m_Window.SaveChangesToAsset();
+                        }
                     } );
 
                     GUIUtility.HideElements( intField, boolField, triggerField );
@@ -67,7 +70,10 @@ namespace TNS.SceneSystem.Editor
                     intField.RegisterValueChangedCallback( evt =>
                     {
                         if ( evt.newValue != evt.previousValue )
+                        {
                             parameter.defaultInt = evt.newValue;
+                            m_Window.SaveChangesToAsset();
+                        }
                     } );
 
                     GUIUtility.HideElements( floatField, boolField, triggerField );
@@ -79,7 +85,10 @@ namespace TNS.SceneSystem.Editor
                     boolField.RegisterValueChangedCallback( evt =>
                     {
                         if ( evt.newValue != evt.previousValue )
+                        {
                             parameter.defaultBool = evt.newValue;
+                            m_Window.SaveChangesToAsset();
+                        }
                     } );
 
 
@@ -91,49 +100,13 @@ namespace TNS.SceneSystem.Editor
                     triggerField.value = parameter.DefaultTrigger;
                     triggerField.RegisterCallback<ChangeEvent<bool>>( OnTriggerChangeEvent );
 
-                    if ( triggerField.value )
-                    {
-                        indicatorContainer.Insert( 0, CreateResetButton() );
-                    }
-
-                    Button CreateResetButton()
-                    {
-                        var resetButton = new Button();
-                        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>( GUIUtility.ResetButtonStyleSheet );
-                        var backgroundImage = AssetDatabase.LoadAssetAtPath<Texture2D>( GUIUtility.RewindIconPath );
-                        resetButton.AddToClassList( "resetButton" );
-                        resetButton.styleSheets.Add( styleSheet );
-                        resetButton.style.backgroundImage = backgroundImage;
-                        resetButton.clickable.clicked += () =>
-                        {
-                            switch ( triggerField.value )
-                            {
-                                case true:
-                                    resetButton.RemoveFromHierarchy();
-                                    triggerField.value = false;
-                                    parameter.DefaultTrigger = false;
-                                    break;
-                            }
-
-                            m_Window.SaveChangesToAsset();
-                        };
-
-                        return resetButton;
-                    }
-
                     void OnTriggerChangeEvent( ChangeEvent<bool> evt )
                     {
-                        switch ( evt.newValue )
+                        if ( evt.newValue != evt.previousValue )
                         {
-                            case true:
-                                var target = ( (VisualElement) evt.target );
-                                var container = target.GetFirstAncestorWhere( x => x.ClassListContains( "list-item__indicator" ) );
-                                container.Insert( 0, CreateResetButton() );
-                                parameter.DefaultTrigger = true;
-                                break;
+                            parameter.DefaultTrigger = evt.newValue;
+                            m_Window.SaveChangesToAsset();
                         }
-
-                        m_Window.SaveChangesToAsset();
                     }
 
                     GUIUtility.HideElements( floatField, intField, boolField );
