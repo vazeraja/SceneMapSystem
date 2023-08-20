@@ -102,7 +102,7 @@ namespace TNS.SceneSystem.Editor
             var transition = SelectedCollection.sceneTransitions.First( t => t.m_OriginID == origin.id && t.m_TargetID == target.id );
             var index = SelectedCollection.sceneTransitions.IndexOfReference( transition );
 
-            GUIUtility.Events.TriggerTransitionSelected( index );
+            GUIUtility.Events.TriggerTransitionSelected( transition );
         }
 
         public void OnTransitionRightClicked( SceneReference origin, SceneReference target )

@@ -40,7 +40,7 @@ namespace TNS.SceneSystem.Editor
             var parameter = ( (ItemWrapper<SceneTransitionParameter>) element.userData ).Data;
             var type = parameter.m_Type;
 
-            var indicatorContainer = element.Q( "list-item__indicator" );
+            var indicatorContainer = element.Q( "", "list-item__indicator" );
             var floatField = (FloatField) element.Q( "floatField" );
             var intField = (IntegerField) element.Q( "integerField" );
             var boolField = (Toggle) element.Q( "boolField" );
@@ -114,6 +114,8 @@ namespace TNS.SceneSystem.Editor
                                     parameter.DefaultTrigger = false;
                                     break;
                             }
+
+                            m_Window.SaveChangesToAsset();
                         };
 
                         return resetButton;
@@ -124,10 +126,14 @@ namespace TNS.SceneSystem.Editor
                         switch ( evt.newValue )
                         {
                             case true:
-                                indicatorContainer.Insert( 0, CreateResetButton() );
+                                var target = ( (VisualElement) evt.target );
+                                var container = target.GetFirstAncestorWhere( x => x.ClassListContains( "list-item__indicator" ) );
+                                container.Insert( 0, CreateResetButton() );
                                 parameter.DefaultTrigger = true;
                                 break;
                         }
+
+                        m_Window.SaveChangesToAsset();
                     }
 
                     GUIUtility.HideElements( floatField, intField, boolField );
@@ -162,7 +168,7 @@ namespace TNS.SceneSystem.Editor
             var itemInfo = (ItemWrapper<SceneTransitionParameter>) element.userData;
             itemInfo.Data.m_Name = text;
 
-            GUIUtility.Events.TriggerLabelChanged(SceneMapAsset.DataType.Parameter, text);
+            GUIUtility.Events.TriggerLabelChanged( SceneMapAsset.DataType.Parameter, text );
         }
 
         public void AddParameter( DropdownMenuAction action )

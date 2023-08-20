@@ -176,8 +176,9 @@ namespace TNS.SceneSystem.Editor
         {
             if ( _AssetManager == null ) return false;
             if ( _AssetManager.Initialize() )
-            {
+            { 
                 RebuildLists();
+                GUIUtility.Events.TriggerAssetInitialized();
                 return false;
             }
 
@@ -191,7 +192,7 @@ namespace TNS.SceneSystem.Editor
         {
             SaveChangesToAsset();
             RebuildLists();
-            // Debug.Log( caller );
+            // Debug.Log( caller );  
         } 
 
         public void SaveChangesToAsset()

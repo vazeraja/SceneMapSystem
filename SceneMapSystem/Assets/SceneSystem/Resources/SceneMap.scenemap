@@ -121,9 +121,9 @@
                         "_LoadingParameters": {
                             "useLoadingScreen": "True",
                             "threadPriority": "Low",
-                            "secureLoad": "False",
-                            "interpolate": "False",
-                            "interpolationSpeed": "0"
+                            "secureLoad": "True",
+                            "interpolate": "True",
+                            "interpolationSpeed": "123"
                         }
                     },
                     "nodePositionJson": {
@@ -163,7 +163,7 @@
                     "id": "c6cce8b8-9c40-4410-a6c2-fbae52602147",
                     "path": "Assets/PolygonApocalypse/Scenes/Demo_City_Standard_RenderPipeline.unity",
                     "sceneSettingsJson": {
-                        "_Type": "Global",
+                        "_Type": "Default",
                         "_Mode": "Single",
                         "_LoadingScenePath": "Assets/SceneSystem/Scenes & Templates/LoadingScreen.unity",
                         "_LoadingParameters": {
@@ -184,8 +184,8 @@
             ],
             "sceneTransitions": [
                 {
-                    "id": "9f45c736-0556-44e9-8138-6bd8f871b262",
-                    "label": "FlatKit - Wanderer Demo --> Azure Nature Demo",
+                    "id": "FlatKit - Wanderer Demo --> Azure Nature Demo",
+                    "label": "9f45c736-0556-44e9-8138-6bd8f871b262",
                     "originID": "bfc51085-b439-4ec2-a535-5c5311d119c0",
                     "targetID": "72e6f12c-252f-48ac-962e-a073af82cf97",
                     "settings": {
@@ -198,18 +198,18 @@
                     "hasExitTime": "False"
                 },
                 {
-                    "id": "a5389995-bf37-4e17-97f6-b3cd4df01c8e",
-                    "label": "FlatKit - Wanderer Demo --> PolygonApocalypse Demo",
+                    "id": "FlatKit - Wanderer Demo --> PolygonApocalypse Demo",
+                    "label": "05731737-1fdf-4121-9f73-ccd34c6a512f",
                     "originID": "bfc51085-b439-4ec2-a535-5c5311d119c0",
                     "targetID": "c6cce8b8-9c40-4410-a6c2-fbae52602147",
                     "settings": {
                         "TimeMode": "",
-                        "ExitTime": "5",
-                        "FixedDuration": "True",
-                        "TransitionDuration": "1.17",
-                        "TransitionOffset": "31"
+                        "ExitTime": "0",
+                        "FixedDuration": "False",
+                        "TransitionDuration": "0",
+                        "TransitionOffset": "3.9"
                     },
-                    "hasExitTime": "True"
+                    "hasExitTime": "False"
                 }
             ],
             "parameters": [
@@ -251,32 +251,7 @@
                     "height": "0"
                 }
             },
-            "scenes": [
-                {
-                    "active": "True",
-                    "name": "Extra 1",
-                    "id": "c6b89a8e-f8ab-45e0-8e28-74a3b73a483e",
-                    "path": "Assets/AZURE Nature/Demo/AN_Demo.unity",
-                    "sceneSettingsJson": {
-                        "_Type": "Global",
-                        "_Mode": "Single",
-                        "_LoadingScenePath": "",
-                        "_LoadingParameters": {
-                            "useLoadingScreen": "False",
-                            "threadPriority": "Low",
-                            "secureLoad": "False",
-                            "interpolate": "False",
-                            "interpolationSpeed": "0"
-                        }
-                    },
-                    "nodePositionJson": {
-                        "x": "0",
-                        "y": "0",
-                        "width": "100",
-                        "height": "100"
-                    }
-                }
-            ],
+            "scenes": [],
             "sceneTransitions": [],
             "parameters": []
         }

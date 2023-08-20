@@ -100,6 +100,33 @@ namespace TNS.SceneSystem.Editor
         public static readonly Color InBuildDisabledColor = new Color32( 255, 193, 7, 255 );
         public static readonly Color NotInBuildColor = new Color32( 36, 36, 36, 255 );
 
+        public static VisualElement Clone( this VisualTreeAsset tree, VisualElement target = null,
+            string styleSheetPath = null, Dictionary<string, VisualElement> slots = null )
+        {
+            var ret = tree.CloneTree();
+            if ( !string.IsNullOrEmpty( styleSheetPath ) )
+                ret.styleSheets.Add( AssetDatabase.LoadAssetAtPath<StyleSheet>( styleSheetPath ) );
+            if ( target != null )
+                target.Add( ret );
+            ret.style.flexGrow = 1f;
+            return ret;
+        }
+
+        internal static void AddRange( this VisualElement root, params VisualElement [] elements )
+        {
+            foreach ( var ele in elements )
+            {
+                root.Add( ele );
+            }
+        }
+
+        public static void SetEnabled( bool value, params VisualElement [] elements )
+        {
+            foreach ( var element in elements )
+            {
+                element.SetEnabled( value );
+            }
+        }
 
         public static void HideElements( params VisualElement [] elements )
         {
@@ -114,6 +141,7 @@ namespace TNS.SceneSystem.Editor
             SetElementDisplay( element, visible );
         }
 
+
         private static void SetElementDisplay( VisualElement element, bool value )
         {
             if ( element == null )
@@ -126,18 +154,6 @@ namespace TNS.SceneSystem.Editor
         public static void SetValue( this ToolbarToggle tab, bool value )
         {
             tab.value = value;
-        }
-
-        public static VisualElement Clone( this VisualTreeAsset tree, VisualElement target = null,
-            string styleSheetPath = null, Dictionary<string, VisualElement> slots = null )
-        {
-            var ret = tree.CloneTree();
-            if ( !string.IsNullOrEmpty( styleSheetPath ) )
-                ret.styleSheets.Add( AssetDatabase.LoadAssetAtPath<StyleSheet>( styleSheetPath ) );
-            if ( target != null )
-                target.Add( ret );
-            ret.style.flexGrow = 1f;
-            return ret;
         }
 
         public static void SwitchClasses( this VisualElement element, string classToAdd, string classToRemove )
@@ -203,14 +219,6 @@ namespace TNS.SceneSystem.Editor
             line.style.height = new Length( 1f, LengthUnit.Pixel );
             line.style.backgroundColor = new StyleColor( new Color( 63f, 63f, 63f, 0.3f ) );
             return line;
-        }
-
-        internal static void AddRange( this VisualElement root, params VisualElement [] elements )
-        {
-            foreach ( var ele in elements )
-            {
-                root.Add( ele );
-            }
         }
     }
 }

@@ -91,7 +91,7 @@ namespace TNS.SceneSystem
             return null;
         } 
 
-        private int FindSceneIndex( string id )
+        public int FindSceneIndex( string id )
         {
             if ( _Scenes == null )
                 return -1;

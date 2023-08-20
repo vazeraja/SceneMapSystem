@@ -86,10 +86,7 @@
                                 <TabButton focusable="true" />
                             </TabbedView>
                         </ui:VisualElement>
-                        <ui:VisualElement name="inspector-content__content-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
-                            <TNS.SceneSystem.Editor.SceneTransitionInspectorView />
-                            <TNS.SceneSystem.Editor.SceneSettingsInspectorView />
-                        </ui:VisualElement>
+                        <ui:VisualElement name="inspector-content__content-container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
                     </ui:VisualElement>
                 </TNS.SceneSystem.Editor.SplitView>
             </ui:VisualElement>

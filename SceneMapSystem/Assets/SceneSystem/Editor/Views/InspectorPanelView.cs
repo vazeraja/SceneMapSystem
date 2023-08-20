@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -14,16 +15,9 @@ namespace TNS.SceneSystem.Editor
         private readonly VisualElement m_ContentContainer;
         private readonly SceneMapEditorWindow m_Window;
 
-        private SerializedProperty SceneCollectionListProp => m_Window.SerializedSceneMap.FindProperty( nameof( SceneMapAsset._SceneCollections ) );
-        private SerializedProperty SceneCollectionProp => SceneCollectionListProp.GetArrayElementAtIndex( m_Window.SelectedCollectionIndex );
-        private SerializedProperty SceneReferenceListProp => SceneCollectionProp.FindPropertyRelative( nameof( SceneCollection._Scenes ) );
-        private SerializedProperty SceneTransitionListProp => SceneCollectionProp.FindPropertyRelative( nameof( SceneCollection._SceneTransitions ) );
-
-        private readonly RibbonFoldout m_SceneSettingsRibbonFoldout;
-        private readonly RibbonFoldout m_LoadingSettingsRibbonFoldout;
-
-        private readonly SceneSettingsInspectorView m_SceneSettingsInspectorView;
-        private readonly SceneTransitionInspectorView m_SceneTransitionInspectorView;
+        private VisualElement m_SceneSettingsInspectorsContainer;
+        private readonly List<SceneSettingsInspectorView> m_SceneSettingsInspectors;
+        private readonly List<SceneTransitionInspectorView> m_SceneTransitionInspectors;
 
         public InspectorPanelView( SceneMapEditorWindow window, VisualElement root )
         {
@@ -31,41 +25,163 @@ namespace TNS.SceneSystem.Editor
             m_Window = window;
 
             m_ContentContainer = root.Q<VisualElement>( "inspector-content__content-container" );
-            m_SceneTransitionInspectorView = root.Q<SceneTransitionInspectorView>();
-            m_SceneSettingsInspectorView = root.Q<SceneSettingsInspectorView>();
+            m_SceneTransitionInspectors = new List<SceneTransitionInspectorView>();
+            m_SceneSettingsInspectors = new List<SceneSettingsInspectorView>();
 
-            m_SceneTransitionInspectorView.Initialize( window );
-            m_SceneSettingsInspectorView.Initialize( window );
+            GUIUtility.Events.AssetInitialized += OnAssetInitialized;
 
             GUIUtility.Events.SceneSelected += OnSceneSelected;
+            GUIUtility.Events.SceneReferenceRemoved += OnSceneRemoved;
+
             GUIUtility.Events.CollectionSelected += OnCollectionSelected;
+
             GUIUtility.Events.TransitionSelected += OnTransitionSelected;
+            GUIUtility.Events.TransitionRemoved += OnTransitionRemoved;
         }
 
-        private void OnTransitionSelected( int index )
+        private void OnAssetInitialized()
         {
-            m_SceneSettingsInspectorView.style.display = DisplayStyle.None;
-            m_SceneTransitionInspectorView.style.display = DisplayStyle.Flex;
-            m_SceneTransitionInspectorView.Display( SceneTransitionListProp.GetArrayElementAtIndex( index ) );
+            // Debug.Log( "OnAssetInitialized" );
+            // CreateInspectors();
         }
 
-        private void OnSceneSelected( int index )
+        public void HideInspectors()
         {
-            m_SceneTransitionInspectorView.style.display = DisplayStyle.None;
-            m_SceneSettingsInspectorView.style.display = DisplayStyle.Flex;
-            m_SceneSettingsInspectorView.Display( SceneReferenceListProp.GetArrayElementAtIndex( index )
-                .FindPropertyRelative( nameof( SceneReference._SceneSettings ) ) );
+            HideSceneInspectors();
+            HideTransitionInspectors();
+        }
+
+        private void OnSceneSelected( SceneReference scene )
+        {
+            HideTransitionInspectors();
+            DisplaySceneInspector( scene );
+        }
+
+        private void OnTransitionSelected( SceneTransition transition )
+        {
+            HideInspectors();
+            DisplayTransitionInspector( transition );
+        }
+
+        private void OnSceneRemoved( SceneReference scene )
+        {
+            var inspector = FindInspectorForScene( scene );
+            RemoveSceneInspector( inspector );
+        }
+
+
+        private void OnTransitionRemoved( SceneTransition transition )
+        {
+            var inspector = FindInspectorForTransition( transition );
+            RemoveTransitionInspector( inspector );
         }
 
         private void OnCollectionSelected( int index )
         {
-            ClearContent();
+            HideInspectors();
         }
 
-        public void ClearContent()
+        private void CreateSceneInspector( SceneReference scene, int cIndex, int sIndex )
         {
-            m_SceneTransitionInspectorView.style.display = DisplayStyle.None;
-            m_SceneSettingsInspectorView.style.display = DisplayStyle.None;
+            var inspector = new SceneSettingsInspectorView();
+            inspector.name = $"{scene.name}__inspector-view";
+            inspector.Initialize( m_Window, scene );
+
+            var sceneCollectionListProp = m_Window.SerializedSceneMap.FindProperty( nameof( SceneMapAsset._SceneCollections ) );
+            var sceneCollectionProp = sceneCollectionListProp.GetArrayElementAtIndex( cIndex );
+            var sceneReferenceListProp = sceneCollectionProp.FindPropertyRelative( nameof( SceneCollection._Scenes ) );
+            var sceneReferenceProp = sceneReferenceListProp.GetArrayElementAtIndex( sIndex );
+
+            inspector.Bind( sceneReferenceProp );
+
+            m_SceneSettingsInspectors.Add( inspector );
+            m_ContentContainer.Add( inspector );
+        }
+
+        private void CreateTransitionInspector( SceneTransition transition, int cIndex, int tIndex )
+        {
+            var inspector = new SceneTransitionInspectorView();
+            inspector.name = $"{transition.m_Label}__inspector-view";
+            inspector.Initialize( m_Window, transition );
+
+            var sceneCollectionListProp = m_Window.SerializedSceneMap.FindProperty( nameof( SceneMapAsset._SceneCollections ) );
+            var sceneCollectionProp = sceneCollectionListProp.GetArrayElementAtIndex( cIndex );
+            var sceneTransitionListProp = sceneCollectionProp.FindPropertyRelative( nameof( SceneCollection._SceneTransitions ) );
+            var sceneTransitionProp = sceneTransitionListProp.GetArrayElementAtIndex( tIndex );
+
+            inspector.Bind( sceneTransitionProp );
+
+            m_SceneTransitionInspectors.Add( inspector );
+            m_ContentContainer.Add( inspector );
+        }
+
+        private void RemoveSceneInspector( SceneSettingsInspectorView inspector )
+        {
+            m_SceneSettingsInspectors.Remove( inspector );
+            m_ContentContainer.Remove( inspector );
+        }
+
+        private void RemoveTransitionInspector( SceneTransitionInspectorView inspector )
+        {
+            m_SceneTransitionInspectors.Remove( inspector );
+            m_ContentContainer.Remove( inspector );
+        }
+
+        private void DisplaySceneInspector( SceneReference scene )
+        {
+            HideSceneInspectors();
+
+            var inspector = FindInspectorForScene( scene );
+            if ( inspector == null )
+            {
+                var cIndex = m_Window.SelectedCollectionIndex;
+                var sIndex = m_Window.SelectedSceneIndex;
+                CreateSceneInspector( scene, cIndex, sIndex );
+            }
+            
+            GUIUtility.SetVisibility( inspector, true );
+        }
+
+        private void DisplayTransitionInspector( SceneTransition transition )
+        {
+            HideSceneInspectors();
+            
+            if ( FindInspectorForTransition( transition ) == null )
+            {
+                var cIndex = m_Window.SelectedCollectionIndex;
+                var tIndex = m_Window.SelectedCollection.sceneTransitions.IndexOfReference( transition );
+                
+                CreateTransitionInspector( transition, cIndex, tIndex );
+            }
+
+            var inspector = FindInspectorForTransition( transition );
+            GUIUtility.SetVisibility( inspector, true );
+        }
+
+        private SceneSettingsInspectorView FindInspectorForScene( SceneReference scene )
+        {
+            return m_SceneSettingsInspectors.FirstOrDefault( inspector => inspector.m_SceneReference.id == scene.id );
+        }
+
+        private SceneTransitionInspectorView FindInspectorForTransition( SceneTransition transition )
+        {
+            return m_SceneTransitionInspectors.FirstOrDefault( inspector => inspector.m_SceneTransition.m_ID == transition.m_ID );
+        }
+
+        private void HideSceneInspectors()
+        {
+            foreach ( var sceneSettingsInspector in m_SceneSettingsInspectors )
+            {
+                GUIUtility.SetVisibility( sceneSettingsInspector, false );
+            }
+        }
+
+        private void HideTransitionInspectors()
+        {
+            foreach ( var transitionInspector in m_SceneTransitionInspectors )
+            {
+                GUIUtility.SetVisibility( transitionInspector, false );
+            }
         }
     }
 }

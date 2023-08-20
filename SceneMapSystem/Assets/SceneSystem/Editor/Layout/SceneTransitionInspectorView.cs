@@ -12,7 +12,8 @@ namespace TNS.SceneSystem.Editor
         public new class UxmlFactory : UxmlFactory<SceneTransitionInspectorView, UxmlTraits> { }
 
         private SceneMapEditorWindow m_Window;
-
+        public SceneTransition m_SceneTransition;
+        
         private VisualElement m_Root;
         private VisualElement m_Content;
 
@@ -40,6 +41,9 @@ namespace TNS.SceneSystem.Editor
             var inspectorTree = (VisualTreeAsset) AssetDatabase.LoadAssetAtPath( GUIUtility.TransitionInspectorUxmlPath, typeof( VisualTreeAsset ) );
             m_Root = inspectorTree.Clone();
 
+            var ribbonFoldout = new RibbonFoldout();
+            ribbonFoldout.SetLabel("Transition Settings");
+            
             m_Content = m_Root.Q<VisualElement>( "content" );
             m_HasExitTimeField = m_Root.Q<PropertyField>( "has-exit-time__field" );
             m_SettingsFoldout = m_Root.Q<Foldout>( "settings__foldout" );
@@ -69,17 +73,23 @@ namespace TNS.SceneSystem.Editor
                     conditionsList.DoLayoutList();
                     if ( scope.changed ) Save();
                 }
-            };
-
+            }; 
+            
+            m_Content.RemoveFromHierarchy();
+            
+            ribbonFoldout.m_IMGUIContainer.Add(m_Content);
+            m_Root.hierarchy.Add(ribbonFoldout);
+            
             hierarchy.Add( m_Root );
         }
 
-        public void Initialize( SceneMapEditorWindow window )
+        public void Initialize( SceneMapEditorWindow window, SceneTransition transition )
         {
             m_Window = window;
+            m_SceneTransition = transition; 
         }
 
-        public void Display( SerializedProperty property )
+        public void Bind( SerializedProperty property )
         {
             m_HasExitTimeProp = property.FindPropertyRelative( nameof( SceneTransition.m_HasExitTime ) );
             m_TransitionSettingsProp = property.FindPropertyRelative( nameof( SceneTransition.m_Settings ) );

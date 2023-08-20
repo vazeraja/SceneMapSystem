@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace TNS.SceneSystem.Editor
@@ -9,7 +10,7 @@ namespace TNS.SceneSystem.Editor
         public new class UxmlFactory : UxmlFactory<SceneSettingsInspectorView, UxmlTraits> { }
 
         private SceneMapEditorWindow m_Window;
-        private bool m_IsLoading;
+        public SceneReference m_SceneReference;
 
         private VisualElement m_Root;
         private VisualElement m_Content;
@@ -41,8 +42,6 @@ namespace TNS.SceneSystem.Editor
         {
             var inspectorTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>( GUIUtility.SceneSettingsInspectorUxmlPath );
             m_Root = inspectorTree.Clone();
-            
-            m_IsLoading = true;
 
             m_Content = m_Root.Q<VisualElement>( "content" );
             m_SceneSettingsFoldout = m_Root.Q<RibbonFoldout>( "SceneSettings__Foldout" );
@@ -50,7 +49,7 @@ namespace TNS.SceneSystem.Editor
 
             m_SceneSettingsFoldout.SetLabel( "Scene Settings" );
             m_LoadingSettingsFoldout.SetLabel( "Loading Settings" );
-            
+
             m_SceneSettingsFoldout.SetRibbonColor( GUIUtility.RibbonFoldoutColorOrange );
             m_LoadingSettingsFoldout.SetRibbonColor( GUIUtility.RibbonFoldoutColorBlue );
 
@@ -66,8 +65,16 @@ namespace TNS.SceneSystem.Editor
 
             m_TypePropField.RegisterValueChangeCallback( evt => Save() );
             m_ModePropField.RegisterValueChangeCallback( evt => Save() );
-            m_LoadingScenePropField.RegisterValueChangeCallback( evt => Save() );
-            
+            m_LoadingScenePropField.RegisterValueChangeCallback( evt =>
+            {
+                var scenePath = evt.changedProperty.FindPropertyRelative( nameof( Scene._Path ) ).stringValue;
+                GUIUtility.SetEnabled( !string.IsNullOrEmpty( scenePath ),
+                    m_UseLoadingScreenField, m_ThreadPriorityField, m_SecureLoadField,
+                    m_InterpolateField, m_InterpolationSpeedField );
+
+                Save();
+            } );
+
             m_UseLoadingScreenField.RegisterValueChangeCallback( evt => Save() );
             m_ThreadPriorityField.RegisterValueChangeCallback( evt => Save() );
             m_SecureLoadField.RegisterValueChangeCallback( evt => Save() );
@@ -77,13 +84,16 @@ namespace TNS.SceneSystem.Editor
             hierarchy.Add( m_Root );
         }
 
-        public void Initialize( SceneMapEditorWindow window )
+        public void Initialize( SceneMapEditorWindow window, SceneReference scene )
         {
             m_Window = window;
+            m_SceneReference = scene;
         }
 
-        public void Display( SerializedProperty property )
+        public void Bind( SerializedProperty prop )
         {
+            var property = prop.FindPropertyRelative( nameof( SceneReference._SceneSettings ) );
+
             m_TypeProp = property.FindPropertyRelative( nameof( SceneSettings._Type ) );
             m_ModeProp = property.FindPropertyRelative( nameof( SceneSettings._Mode ) );
             m_LoadingSceneProp = property.FindPropertyRelative( nameof( SceneSettings._LoadingScene ) );

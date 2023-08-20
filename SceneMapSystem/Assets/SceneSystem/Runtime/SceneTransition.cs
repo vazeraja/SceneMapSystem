@@ -5,12 +5,7 @@ using UnityEngine.Serialization;
 
 namespace TNS.SceneSystem
 {
-    public enum TimeMode
-    {
-        Scaled,
-        Unscaled
-    }
-
+   
     [Serializable]
     public class SceneTransition
     {

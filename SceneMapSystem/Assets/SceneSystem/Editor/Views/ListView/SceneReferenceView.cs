@@ -38,7 +38,7 @@ namespace TNS.SceneSystem.Editor
 
         private void OnSelectionChanged( IEnumerable<object> objs )
         {
-            GUIUtility.Events.TriggerSceneSelected(SelectedItemIndex);
+            GUIUtility.Events.TriggerSceneSelected(SelectedItem);
         }
         
         private void OnLeftClick( VisualElement element )
@@ -46,7 +46,7 @@ namespace TNS.SceneSystem.Editor
             var itemWrapper = (ItemWrapper<SceneReference>) element.userData;
             if ( ListView.selectedIndex == itemWrapper.Index )
             {
-                GUIUtility.Events.TriggerSceneSelected(SelectedItemIndex);
+                GUIUtility.Events.TriggerSceneSelected(SelectedItem);
             }
             else
             {

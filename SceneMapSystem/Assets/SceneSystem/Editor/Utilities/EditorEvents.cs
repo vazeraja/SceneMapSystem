@@ -7,17 +7,19 @@ namespace TNS.SceneSystem.Editor
     {
         private static SceneMapEditorWindow m_Window => EditorWindow.focusedWindow as SceneMapEditorWindow;
 
+        public event Action AssetInitialized;
+        
         public event Action<SceneMapAsset.DataType> ItemSelected;
         public event Action<int> CollectionSelected;
         public event Action<SceneCollection> CollectionRemoved;
         public event Action<SceneCollection> CollectionCreated;
-        public event Action<int> SceneSelected;
+        public event Action<SceneReference> SceneSelected;
         public event Action<SceneReference> SceneReferenceRemoved;
         public event Action<SceneReference> SceneReferenceCreated;
         public event Action<SceneCollection, SceneTransitionParameter> ParameterRemoved;
         public event Action<SceneCollection, SceneTransitionParameter> ParameterCreated;
 
-        public event Action<int> TransitionSelected;
+        public event Action<SceneTransition> TransitionSelected;
         public event Action<SceneTransition> TransitionRemoved;
         public event Action<SceneTransition> TransitionCreated;
 
@@ -45,6 +47,11 @@ namespace TNS.SceneSystem.Editor
             ItemLabelChanged = null;
         }
 
+        public void TriggerAssetInitialized()
+        {
+            AssetInitialized?.Invoke();
+        }
+
         public void TriggerItemSelected( SceneMapAsset.DataType type )
         {
             ItemSelected?.Invoke( type );
@@ -57,9 +64,9 @@ namespace TNS.SceneSystem.Editor
             SceneMapUtility.RebuildWindows();
         }
 
-        public void TriggerSceneSelected( int index )
+        public void TriggerSceneSelected( SceneReference scene )
         {
-            SceneSelected?.Invoke( index );
+            SceneSelected?.Invoke( scene );
             SceneMapUtility.RebuildWindows();
         }
 
@@ -105,9 +112,9 @@ namespace TNS.SceneSystem.Editor
             m_Window.SaveAndRebuild();
         }
 
-        public void TriggerTransitionSelected( int index )
+        public void TriggerTransitionSelected( SceneTransition transition )
         {
-            TransitionSelected?.Invoke( index );
+            TransitionSelected?.Invoke( transition );
         }
 
         public void TriggerTransitionRemoved( SceneTransition transition )

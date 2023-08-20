@@ -82,12 +82,13 @@ namespace TNS.SceneSystem.Editor
             UpdateFoldoutHeader( text );
         }
 
-        private void OnSceneSelected( int index )
+        private void OnSceneSelected( SceneReference scene )
         {
             var collectionsProp = m_Window.SerializedSceneMap.FindProperty( "_SceneCollections" );
             var selectedCollectionProp = collectionsProp.GetArrayElementAtIndex( m_Window.SelectedCollectionIndex );
             var scenesProp = selectedCollectionProp.FindPropertyRelative( "_Scenes" );
 
+            var index = m_Window.SelectedCollection.FindSceneIndex( scene.id );
             var sceneProp = scenesProp.GetArrayElementAtIndex( index );
             var sceneName = sceneProp.FindPropertyRelative( "_Name" ).stringValue;
 

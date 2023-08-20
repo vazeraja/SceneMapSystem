@@ -12,9 +12,9 @@ namespace TNS.SceneSystem
     [Serializable]
     public struct Scene : IDisposable, ICloneable
     {
-        [SerializeField] private string _Name;
-        [SerializeField] private string _Path;
-        [SerializeField] private int _BuildIndex;
+        [SerializeField] internal string _Name;
+        [SerializeField] internal string _Path;
+        [SerializeField] internal int _BuildIndex;
 
         public string Name => _Name;
         public string Path => _Path;
