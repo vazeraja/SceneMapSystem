@@ -19,6 +19,8 @@ namespace TNS.SceneSystem.Editor
         private readonly List<SceneSettingsInspectorView> m_SceneSettingsInspectors;
         private readonly List<SceneTransitionInspectorView> m_SceneTransitionInspectors;
 
+        private IMGUIContainer m_IMGUIContainer;
+
         public InspectorPanelView( SceneMapEditorWindow window, VisualElement root )
         {
             m_Root = root;
@@ -28,27 +30,63 @@ namespace TNS.SceneSystem.Editor
             m_SceneTransitionInspectors = new List<SceneTransitionInspectorView>();
             m_SceneSettingsInspectors = new List<SceneSettingsInspectorView>();
 
-            GUIUtility.Events.AssetInitialized += OnAssetInitialized;
+            m_IMGUIContainer = new IMGUIContainer();
 
+            GUIUtility.Events.AssetInitialized += OnAssetInitialized;
             GUIUtility.Events.SceneSelected += OnSceneSelected;
             GUIUtility.Events.SceneReferenceRemoved += OnSceneRemoved;
-
             GUIUtility.Events.CollectionSelected += OnCollectionSelected;
-
+            GUIUtility.Events.CollectionRemoved += OnCollectionRemoved;
             GUIUtility.Events.TransitionSelected += OnTransitionSelected;
             GUIUtility.Events.TransitionRemoved += OnTransitionRemoved;
         }
 
-        private void OnAssetInitialized()
-        {
-            // Debug.Log( "OnAssetInitialized" );
-            // CreateInspectors();
-        }
+        private void OnAssetInitialized() { }
 
         private void OnSceneSelected( SceneReference scene )
         {
             HideInspectors();
             DisplaySceneInspector( scene );
+        }
+
+        private void OnCollectionSelected( int index )
+        {
+            HideInspectors();
+
+            var sceneCollectionListProp = m_Window.SerializedSceneMap.FindProperty( nameof( SceneMapAsset._SceneCollections ) );
+            var sceneCollectionProp = sceneCollectionListProp.GetArrayElementAtIndex( m_Window.SelectedCollectionIndex );
+            var sceneReferenceListProp = sceneCollectionProp.FindPropertyRelative( nameof( SceneCollection._Scenes ) );
+            var loadOrder = sceneCollectionProp.FindPropertyRelative( nameof( SceneCollection.m_LoadOrder ) );
+
+            var loadOrderList = new ReorderableList( m_Window.SerializedSceneMap, loadOrder, true, true, false, false );
+            loadOrderList.drawElementCallback = DrawFunc;
+
+            void DrawFunc( Rect rect, int i, bool isActive, bool isFocused )
+            {
+                var sceneReferenceProp = sceneReferenceListProp.GetArrayElementAtIndex( i );
+                EditorGUI.DropdownButton( rect, new GUIContent( "yeehaw" ), FocusType.Passive );
+            }
+
+            // m_IMGUIContainer.onGUIHandler = () =>
+            // {
+            //     m_Window.SerializedSceneMap.Update();
+            //
+            //     using ( var scope = new EditorGUI.ChangeCheckScope() )
+            //     {
+            //         loadOrderList.DoLayoutList();
+            //         if ( scope.changed )
+            //         {
+            //             Debug.Log( "scope changed" );
+            //         }
+            //     }
+            //
+            //     if ( m_Window.SerializedSceneMap.ApplyModifiedProperties() )
+            //     {
+            //         m_Window.SaveAndRebuild();
+            //     }
+            // };
+
+            m_ContentContainer.Add( m_IMGUIContainer );
         }
 
         private void OnTransitionSelected( SceneTransition transition )
@@ -63,16 +101,12 @@ namespace TNS.SceneSystem.Editor
             RemoveSceneInspector( inspector );
         }
 
+        private void OnCollectionRemoved( SceneCollection collection ) { }
 
         private void OnTransitionRemoved( SceneTransition transition )
         {
             var inspector = FindInspectorForTransition( transition );
             RemoveTransitionInspector( inspector );
-        }
-
-        private void OnCollectionSelected( int index )
-        {
-            HideInspectors();
         }
 
         private void CreateSceneInspector( SceneReference scene, int cIndex, int sIndex )
@@ -133,7 +167,7 @@ namespace TNS.SceneSystem.Editor
             }
 
             GUIUtility.SetVisibility( inspector, true );
-        } 
+        }
 
         private void DisplayTransitionInspector( SceneTransition transition )
         {
@@ -163,6 +197,7 @@ namespace TNS.SceneSystem.Editor
         {
             HideSceneInspectors();
             HideTransitionInspectors();
+            m_IMGUIContainer.RemoveFromHierarchy();
         }
 
         private void HideSceneInspectors()

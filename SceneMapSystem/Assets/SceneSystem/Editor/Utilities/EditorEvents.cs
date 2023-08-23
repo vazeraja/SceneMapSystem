@@ -7,8 +7,9 @@ namespace TNS.SceneSystem.Editor
     {
         private static SceneMapEditorWindow m_Window => EditorWindow.focusedWindow as SceneMapEditorWindow;
 
+        public event Action AssetSaved;
         public event Action AssetInitialized;
-        
+
         public event Action<SceneMapAsset.DataType> ItemSelected;
         public event Action<int> CollectionSelected;
         public event Action<SceneCollection> CollectionRemoved;
@@ -127,6 +128,14 @@ namespace TNS.SceneSystem.Editor
         {
             TransitionCreated?.Invoke( transition );
             m_Window.SaveAndRebuild();
+        }
+
+        public void TriggerSaveEvent()
+        {
+            if ( m_Window == null ) return;
+            
+            AssetSaved?.Invoke();
+            m_Window.SaveAndRebuild(showCallerName: true);
         }
     }
 }

@@ -38,11 +38,13 @@ namespace TNS.SceneSystem.Editor
         public const string ReturnIconPath = IconsPath + "return.png";
         public const string RewindIconPath = IconsPath + "rewind.png";
 
+        public const string SceneFieldDrawerUxmlPath = UxmlFilesPath + "SceneField.uxml";
         public const string SceneMapEditorWindowUxmlPath = UxmlFilesPath + "SceneMapEditorWindow.uxml";
-        public const string NodeViewUxmlPath = UxmlFilesPath + "SceneNodeView.uxml";
-        public const string CircleTemplateUxmlPath = UxmlFilesPath + "CircleTemplate.uxml";
         public const string TransitionInspectorUxmlPath = UxmlFilesPath + "SceneTransitionInspectorView.uxml";
         public const string SceneSettingsInspectorUxmlPath = UxmlFilesPath + "SceneSettingsInspectorView.uxml";
+        public const string NodeViewUxmlPath = UxmlFilesPath + "SceneNodeView.uxml";
+        public const string CircleTemplateUxmlPath = UxmlFilesPath + "CircleTemplate.uxml";
+        
 
         // Scene Control View
         public const string RightPanel = nameof( RightPanel );

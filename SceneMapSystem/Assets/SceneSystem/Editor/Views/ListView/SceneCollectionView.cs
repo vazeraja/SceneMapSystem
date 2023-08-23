@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -28,11 +29,24 @@ namespace TNS.SceneSystem.Editor
             SetIndicatorColor( Color.white );
             SetIndicatorIcon( AssetDatabase.LoadAssetAtPath<Texture2D>( GUIUtility.HomeIconPath ) );
             SetIndicatorSize( new Vector2( 0.9f, 0.9f ) );
+
+            GUIUtility.Events.SceneReferenceRemoved += reference =>
+            {
+                var matches = m_Window.SelectedCollection._SceneTransitions.ToList()
+                    .FindAll( x => x.m_OriginID == reference.id || x.m_TargetID == reference.id );
+
+                foreach ( var transition in matches )
+                {
+                    m_Window.SelectedCollection.RemoveTransition( transition );
+                }
+            };
         }
 
         protected override void BindListViewItem( VisualElement element, int i )
         {
             base.BindListViewItem( element, i );
+
+            var itemWrapper = (ItemWrapper<SceneCollection>) element.userData;
 
             DisableFields( element );
             UpdateIndicator( element );
@@ -60,8 +74,8 @@ namespace TNS.SceneSystem.Editor
         {
             var itemWrapper = (ItemWrapper<SceneCollection>) element.userData;
             itemWrapper.Data.SetName( text );
-            
-            GUIUtility.Events.TriggerLabelChanged(SceneMapAsset.DataType.Collection, text);
+
+            GUIUtility.Events.TriggerLabelChanged( SceneMapAsset.DataType.Collection, text );
         }
 
 
@@ -124,7 +138,10 @@ namespace TNS.SceneSystem.Editor
             // m_Window.InspectorView.ClearGUI();
 
             // Select the last item in the list
-            ListView.SetSelection( itemsCount - 1 );
+            if ( itemsCount > 0 )
+            {
+                ListView.SetSelection( itemsCount - 1 );
+            }
         }
     }
 }

@@ -70,6 +70,7 @@ namespace TNS.SceneSystem
             var scene = new SceneReference();
             scene._Name = name;
             scene.GenerateId();
+            
             ArrayHelpers.Append( ref collection._Scenes, scene );
             scene._Collection = collection;
 
@@ -85,8 +86,8 @@ namespace TNS.SceneSystem
                 throw new ArgumentException( $"Profile '{sceneId}' does not belong to an collection; nowhere to remove from", nameof( scene ) );
 
             var index = collection.scenes.IndexOfReference( scene );
+            
             ArrayHelpers.EraseAt( ref collection._Scenes, index );
-
             scene._Collection = null;
         }
 
@@ -172,7 +173,7 @@ namespace TNS.SceneSystem
         {
             foreach ( var sceneReference in asset.SceneCollections.SelectMany( collection => collection.scenes ) )
             {
-                sceneReference.scene.Rebind();
+                sceneReference.scene.Rebind(displayLog: true);
             }
         }
 

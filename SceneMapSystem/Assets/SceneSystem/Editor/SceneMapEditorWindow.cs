@@ -96,7 +96,7 @@ namespace TNS.SceneSystem.Editor
 
                 window.minSize = new Vector2( 600, 300 );
                 window.titleContent = new GUIContent( $"{window._AssetManager.Name} (SceneMap)" );
-                
+
                 window.RebuildLists();
             }
 
@@ -120,6 +120,7 @@ namespace TNS.SceneSystem.Editor
         public int SelectedSceneIndex => SceneReferenceView.SelectedItemIndex;
 
         public List<SceneCollection> SceneCollectionItems => SceneMap.SceneCollections.ToList();
+
         private List<SceneReference> SceneReferenceItems
         {
             get
@@ -140,7 +141,7 @@ namespace TNS.SceneSystem.Editor
         internal InspectorPanelView InspectorView { get; private set; }
         private RibbonTabsView RibbonTabsView { get; set; }
         private SceneCollectionParameterView m_ParameterView => RibbonTabsView.CollectionGraphTab.m_ParameterView;
-        
+
 
         private void OnEnable()
         {
@@ -159,14 +160,14 @@ namespace TNS.SceneSystem.Editor
             ControlsView = new ControlsPanelView( this, root.Q<VisualElement>( GUIUtility.RightPanel ) );
             InspectorView = new InspectorPanelView( this, root.Q<VisualElement>( GUIUtility.InspectorContainer ) );
             RibbonTabsView = new RibbonTabsView( this, root.Q<VisualElement>( GUIUtility.RibbonContainer ) );
-            
+
             // Reinitialize after assembly reload.
             if ( TryInitializeAssetManager() )
                 return;
 
             SceneCollectionView.TrySelectIndex( 0 );
         }
-        
+
         private void OnDestroy()
         {
             _AssetManager?.Dispose();
@@ -176,7 +177,7 @@ namespace TNS.SceneSystem.Editor
         {
             if ( _AssetManager == null ) return false;
             if ( _AssetManager.Initialize() )
-            { 
+            {
                 RebuildLists();
                 GUIUtility.Events.TriggerAssetInitialized();
                 return false;
@@ -188,12 +189,14 @@ namespace TNS.SceneSystem.Editor
             return true;
         }
 
-        public void SaveAndRebuild([CallerMemberName] string caller = null)
+        public void SaveAndRebuild( [CallerMemberName] string caller = null, bool showCallerName = false )
         {
             SaveChangesToAsset();
             RebuildLists();
-            // Debug.Log( caller );  
-        } 
+
+            if ( showCallerName )
+                Debug.Log( caller );
+        }
 
         public void SaveChangesToAsset()
         {
@@ -205,6 +208,11 @@ namespace TNS.SceneSystem.Editor
 
             // Debug.Log( "SaveChangesToAsset" );
 
+            Refresh();
+        }
+
+        public void Refresh()
+        {
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }

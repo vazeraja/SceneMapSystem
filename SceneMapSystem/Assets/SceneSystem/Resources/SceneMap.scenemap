@@ -1,8 +1,8 @@
 {
     "_Name": "SceneMap",
     "_DefaultCollection": {
-        "name": "Demo Scenes",
-        "id": "4c4fa06f-fe28-4017-9876-13115479da37",
+        "name": "",
+        "id": "",
         "defaultScene": {
             "active": "True",
             "name": "",
@@ -27,63 +27,14 @@
                 "height": "0"
             }
         },
-        "scenes": [
-            {
-                "active": "True",
-                "name": "FlatKit - Wanderer Demo",
-                "id": "bfc51085-b439-4ec2-a535-5c5311d119c0",
-                "path": "Assets/FlatKit/Demos/[Demo] Wanderer/Wanderer - Scene.unity",
-                "sceneSettingsJson": {
-                    "_Type": "Global",
-                    "_Mode": "Single",
-                    "_LoadingScenePath": "",
-                    "_LoadingParameters": {
-                        "useLoadingScreen": "False",
-                        "threadPriority": "Low",
-                        "secureLoad": "False",
-                        "interpolate": "False",
-                        "interpolationSpeed": "0"
-                    }
-                },
-                "nodePositionJson": {
-                    "x": "-82",
-                    "y": "-80",
-                    "width": "0",
-                    "height": "0"
-                }
-            },
-            {
-                "active": "True",
-                "name": "Azure Nature Demo",
-                "id": "72e6f12c-252f-48ac-962e-a073af82cf97",
-                "path": "",
-                "sceneSettingsJson": {
-                    "_Type": "Global",
-                    "_Mode": "Single",
-                    "_LoadingScenePath": "",
-                    "_LoadingParameters": {
-                        "useLoadingScreen": "False",
-                        "threadPriority": "Low",
-                        "secureLoad": "False",
-                        "interpolate": "False",
-                        "interpolationSpeed": "0"
-                    }
-                },
-                "nodePositionJson": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "100",
-                    "height": "100"
-                }
-            }
-        ],
+        "scenes": [],
         "sceneTransitions": [],
         "parameters": []
     },
     "_Collections": [
         {
-            "name": "Demo Scenes",
-            "id": "4c4fa06f-fe28-4017-9876-13115479da37",
+            "name": "New SceneCollection 1",
+            "id": "6c388a9e-70d5-4e4d-811c-a8ef8222696f",
             "defaultScene": {
                 "active": "True",
                 "name": "",
@@ -111,156 +62,53 @@
             "scenes": [
                 {
                     "active": "True",
-                    "name": "FlatKit - Wanderer Demo",
-                    "id": "bfc51085-b439-4ec2-a535-5c5311d119c0",
-                    "path": "Assets/FlatKit/Demos/[Demo] Wanderer/Wanderer - Scene.unity",
-                    "sceneSettingsJson": {
-                        "_Type": "Default",
-                        "_Mode": "Single",
-                        "_LoadingScenePath": "",
-                        "_LoadingParameters": {
-                            "useLoadingScreen": "True",
-                            "threadPriority": "Low",
-                            "secureLoad": "True",
-                            "interpolate": "True",
-                            "interpolationSpeed": "123"
-                        }
-                    },
-                    "nodePositionJson": {
-                        "x": "-16.33095",
-                        "y": "-102.1139",
-                        "width": "0",
-                        "height": "0"
-                    }
-                },
-                {
-                    "active": "True",
-                    "name": "Azure Nature Demo",
-                    "id": "72e6f12c-252f-48ac-962e-a073af82cf97",
+                    "name": "AN Demo",
+                    "id": "7140a7d4-61b9-4424-bffc-8730a49ec94d",
                     "path": "Assets/AZURE Nature/Demo/AN_Demo.unity",
                     "sceneSettingsJson": {
-                        "_Type": "Default",
+                        "_Type": "Global",
                         "_Mode": "Single",
                         "_LoadingScenePath": "",
                         "_LoadingParameters": {
-                            "useLoadingScreen": "True",
+                            "useLoadingScreen": "False",
                             "threadPriority": "Low",
-                            "secureLoad": "True",
+                            "secureLoad": "False",
                             "interpolate": "False",
                             "interpolationSpeed": "0"
                         }
                     },
                     "nodePositionJson": {
-                        "x": "-106.5",
-                        "y": "97",
-                        "width": "0",
-                        "height": "0"
+                        "x": "0",
+                        "y": "0",
+                        "width": "100",
+                        "height": "100"
                     }
                 },
                 {
                     "active": "True",
-                    "name": "PolygonApocalypse Demo",
-                    "id": "c6cce8b8-9c40-4410-a6c2-fbae52602147",
+                    "name": "Apocalypse Demo",
+                    "id": "862c20b4-ee5b-42a4-944d-aebb3bdbbc30",
                     "path": "Assets/PolygonApocalypse/Scenes/Demo_City_Standard_RenderPipeline.unity",
                     "sceneSettingsJson": {
-                        "_Type": "Default",
+                        "_Type": "Global",
                         "_Mode": "Single",
-                        "_LoadingScenePath": "Assets/SceneSystem/Scenes & Templates/LoadingScreen.unity",
+                        "_LoadingScenePath": "",
                         "_LoadingParameters": {
                             "useLoadingScreen": "False",
                             "threadPriority": "Low",
-                            "secureLoad": "True",
-                            "interpolate": "True",
-                            "interpolationSpeed": "12"
+                            "secureLoad": "False",
+                            "interpolate": "False",
+                            "interpolationSpeed": "0"
                         }
                     },
                     "nodePositionJson": {
-                        "x": "95.49997",
-                        "y": "97",
-                        "width": "0",
-                        "height": "0"
+                        "x": "0",
+                        "y": "0",
+                        "width": "100",
+                        "height": "100"
                     }
                 }
             ],
-            "sceneTransitions": [
-                {
-                    "id": "FlatKit - Wanderer Demo --> Azure Nature Demo",
-                    "label": "9f45c736-0556-44e9-8138-6bd8f871b262",
-                    "originID": "bfc51085-b439-4ec2-a535-5c5311d119c0",
-                    "targetID": "72e6f12c-252f-48ac-962e-a073af82cf97",
-                    "settings": {
-                        "TimeMode": "",
-                        "ExitTime": "2",
-                        "FixedDuration": "False",
-                        "TransitionDuration": "3.73",
-                        "TransitionOffset": "3"
-                    },
-                    "hasExitTime": "False"
-                },
-                {
-                    "id": "FlatKit - Wanderer Demo --> PolygonApocalypse Demo",
-                    "label": "05731737-1fdf-4121-9f73-ccd34c6a512f",
-                    "originID": "bfc51085-b439-4ec2-a535-5c5311d119c0",
-                    "targetID": "c6cce8b8-9c40-4410-a6c2-fbae52602147",
-                    "settings": {
-                        "TimeMode": "",
-                        "ExitTime": "0",
-                        "FixedDuration": "False",
-                        "TransitionDuration": "0",
-                        "TransitionOffset": "3.9"
-                    },
-                    "hasExitTime": "True"
-                }
-            ],
-            "parameters": [
-                {
-                    "id": "9a1406fe-56a1-4c08-b296-acb5959ed357",
-                    "name": "onEnterDoor",
-                    "type": "Trigger",
-                    "defaultFloat": "0",
-                    "defaultInt": "0",
-                    "defaultBool": "False",
-                    "defaultTrigger": "True"
-                },
-                {
-                    "id": "81c5b3ab-f68e-4e01-9daf-7b2bcff5f0ca",
-                    "name": "onExitGame",
-                    "type": "Trigger",
-                    "defaultFloat": "0",
-                    "defaultInt": "0",
-                    "defaultBool": "False",
-                    "defaultTrigger": "False"
-                }
-            ]
-        },
-        {
-            "name": "Extra",
-            "id": "2cc1a639-c005-47ab-a072-81c28d81d7e9",
-            "defaultScene": {
-                "active": "True",
-                "name": "",
-                "id": "",
-                "path": "",
-                "sceneSettingsJson": {
-                    "_Type": "Global",
-                    "_Mode": "Single",
-                    "_LoadingScenePath": "",
-                    "_LoadingParameters": {
-                        "useLoadingScreen": "False",
-                        "threadPriority": "Low",
-                        "secureLoad": "False",
-                        "interpolate": "False",
-                        "interpolationSpeed": "0"
-                    }
-                },
-                "nodePositionJson": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "0",
-                    "height": "0"
-                }
-            },
-            "scenes": [],
             "sceneTransitions": [],
             "parameters": []
         }

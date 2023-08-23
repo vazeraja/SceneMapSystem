@@ -11,11 +11,14 @@ namespace TNS.SceneSystem
         [SerializeField] internal SceneMapAsset _Asset;
         [SerializeField] internal string _Id;
         [SerializeField] internal string _Name;
-        [SerializeField] internal SceneReference _DefaultScene;
+
         [SerializeField] internal SceneReference[] _Scenes;
         [SerializeField] internal SceneTransition[] _SceneTransitions;
         [SerializeField] internal SceneTransitionParameter[] _Parameters;
-        
+        [SerializeField] internal SceneReference _DefaultScene;
+
+        [SerializeField] internal SceneReference[] m_LoadOrder;
+
         public string name => _Name;
         public string id => _Id;
         public SceneMapAsset asset => _Asset;
@@ -23,7 +26,9 @@ namespace TNS.SceneSystem
         public ReadOnlyArray<SceneTransition> sceneTransitions => new ReadOnlyArray<SceneTransition>( _SceneTransitions );
         public ReadOnlyArray<SceneTransitionParameter> parameters => new ReadOnlyArray<SceneTransitionParameter>( _Parameters );
         public SceneReference defaultScene => _DefaultScene;
-        
+
+        public ReadOnlyArray<SceneReference> LoadOrder => new ReadOnlyArray<SceneReference>( m_LoadOrder );
+
         public SceneCollection() { }
 
         public SceneCollection( string name )
@@ -33,16 +38,18 @@ namespace TNS.SceneSystem
 
         public int FindDefaultSceneIndex()
         {
-            for ( var index = 0; index < scenes.Count; index++ ) {
+            for ( var index = 0; index < scenes.Count; index++ )
+            {
                 var profile = scenes[index];
-                if ( profile.id == _DefaultScene.id ) {
+                if ( profile.id == _DefaultScene.id )
+                {
                     return index;
                 }
             }
 
             return default;
         }
-        
+
         private int FindParameterIndex( string id )
         {
             if ( _Parameters == null )
@@ -54,8 +61,8 @@ namespace TNS.SceneSystem
 
             return -1;
         }
-        
-        public SceneTransitionParameter FindParameter(string nameOrId, bool throwIfNotFound = false)
+
+        public SceneTransitionParameter FindParameter( string nameOrId, bool throwIfNotFound = false )
         {
             if ( nameOrId == null ) throw new ArgumentNullException( nameof( nameOrId ) );
 
@@ -65,8 +72,8 @@ namespace TNS.SceneSystem
             if ( throwIfNotFound ) throw new ArgumentException( $"No parameter '{nameOrId}' in '{this}'", nameof( nameOrId ) );
 
             return null;
-        } 
-        
+        }
+
         internal int FindTransitionIndex( string id )
         {
             if ( _SceneTransitions == null )
@@ -78,8 +85,8 @@ namespace TNS.SceneSystem
 
             return -1;
         }
-        
-        public SceneTransition FindTransition(string nameOrId, bool throwIfNotFound = false)
+
+        public SceneTransition FindTransition( string nameOrId, bool throwIfNotFound = false )
         {
             if ( nameOrId == null ) throw new ArgumentNullException( nameof( nameOrId ) );
 
@@ -89,7 +96,7 @@ namespace TNS.SceneSystem
             if ( throwIfNotFound ) throw new ArgumentException( $"No transition '{nameOrId}' in '{this}'", nameof( nameOrId ) );
 
             return null;
-        } 
+        }
 
         public int FindSceneIndex( string id )
         {
@@ -136,7 +143,7 @@ namespace TNS.SceneSystem
 
             _Name = newName;
         }
-        
+
         public void SetDefault( SceneReference scene )
         {
             _DefaultScene = scene;
@@ -182,7 +189,8 @@ namespace TNS.SceneSystem
 
                 // Process profiles in collection.
                 var sceneCountInMap = collectionJson.scenes?.Length ?? 0;
-                for ( var n = 0; n < sceneCountInMap; ++n ) {
+                for ( var n = 0; n < sceneCountInMap; ++n )
+                {
                     var jsonMapScene = collectionJson.scenes![n];
 
                     if ( string.IsNullOrEmpty( jsonMapScene.name ) )
@@ -194,15 +202,17 @@ namespace TNS.SceneSystem
                 }
 
                 var sceneTransitionCountInMap = collectionJson.sceneTransitions?.Length ?? 0;
-                for ( var n = 0; n < sceneTransitionCountInMap; ++n ) {
+                for ( var n = 0; n < sceneTransitionCountInMap; ++n )
+                {
                     var jsonSceneTransition = collectionJson.sceneTransitions![n];
 
                     var transition = jsonSceneTransition.ToSceneTransition();
                     sceneTransitionList.Add( transition );
                 }
-                
+
                 var parameterCountInMap = collectionJson.parameters?.Length ?? 0;
-                for ( var n = 0; n < sceneTransitionCountInMap; ++n ) {
+                for ( var n = 0; n < sceneTransitionCountInMap; ++n )
+                {
                     var jsonCollectionParameter = collectionJson.parameters![n];
 
                     var parameter = jsonCollectionParameter.ToSceneCollectionParameter();
@@ -214,8 +224,10 @@ namespace TNS.SceneSystem
                 collection._SceneTransitions = sceneTransitionList.ToArray();
                 collection._Parameters = parametersList.ToArray();
 
-                foreach ( var scene in sceneList ) {
-                    if ( scene == collection.defaultScene ) {
+                foreach ( var scene in sceneList )
+                {
+                    if ( scene == collection.defaultScene )
+                    {
                         collection._DefaultScene = scene;
                     }
 
@@ -241,14 +253,16 @@ namespace TNS.SceneSystem
                 WriteSceneReferenceJson[] jsonScenes = null;
                 WriteSceneTransitionJson[] jsonTransitions = null;
                 WriteSceneCollectionParameterJson[] jsonParameters = null;
-                
+
                 WriteSceneReferenceJson defaultSceneReference = new WriteSceneReferenceJson();
-                if ( collection._DefaultScene != null ) {
+                if ( collection._DefaultScene != null )
+                {
                     defaultSceneReference = WriteSceneReferenceJson.FromScene( collection._DefaultScene );
                 }
 
                 var scenes = collection._Scenes;
-                if ( scenes != null ) {
+                if ( scenes != null )
+                {
                     var actionCount = scenes.Length;
                     jsonScenes = new WriteSceneReferenceJson[actionCount];
 
@@ -257,16 +271,18 @@ namespace TNS.SceneSystem
                 }
 
                 var sceneTransitions = collection._SceneTransitions;
-                if ( sceneTransitions != null ) {
+                if ( sceneTransitions != null )
+                {
                     var transitionCount = sceneTransitions.Length;
                     jsonTransitions = new WriteSceneTransitionJson[transitionCount];
 
                     for ( var i = 0; i < transitionCount; ++i )
                         jsonTransitions[i] = WriteSceneTransitionJson.FromSceneTransition( sceneTransitions[i] );
                 }
-                
+
                 var parameters = collection._Parameters;
-                if ( parameters != null ) {
+                if ( parameters != null )
+                {
                     var parameterCount = parameters.Length;
                     jsonParameters = new WriteSceneCollectionParameterJson[parameterCount];
 
@@ -294,7 +310,7 @@ namespace TNS.SceneSystem
 
             public static WriteFileJson FromCollections( IEnumerable<SceneCollection> collections )
             {
-                var sceneCollections = collections as SceneCollection[] ?? collections.ToArray();
+                var sceneCollections = (SceneCollection[]) collections ?? ( Array.Empty<SceneCollection>() ).ToArray();
 
                 var mapCount = sceneCollections.Length;
                 if ( mapCount == 0 )
@@ -305,7 +321,7 @@ namespace TNS.SceneSystem
                 foreach ( var map in sceneCollections )
                     mapsJson[index++] = WriteCollectionJson.FromCollection( map );
 
-                return new WriteFileJson { collections = mapsJson };
+                return new WriteFileJson {collections = mapsJson};
             }
         }
 
@@ -324,7 +340,8 @@ namespace TNS.SceneSystem
 
                 // Process profiles listed at toplevel.
                 var sceneCount = profiles?.Length ?? 0;
-                for ( var i = 0; i < sceneCount; ++i ) {
+                for ( var i = 0; i < sceneCount; ++i )
+                {
                     var jsonProfile = profiles![i];
 
                     if ( string.IsNullOrEmpty( jsonProfile.name ) )
@@ -336,7 +353,8 @@ namespace TNS.SceneSystem
                     string mapName = null;
                     var actionName = jsonProfile.name;
                     var indexOfFirstSlash = actionName.IndexOf( '/' );
-                    if ( indexOfFirstSlash != -1 ) {
+                    if ( indexOfFirstSlash != -1 )
+                    {
                         mapName = actionName.Substring( 0, indexOfFirstSlash );
                         actionName = actionName.Substring( indexOfFirstSlash + 1 );
 
@@ -348,15 +366,18 @@ namespace TNS.SceneSystem
                     // Try to find existing collection.
                     SceneCollection collection = null;
                     var collectionIndex = 0;
-                    for ( ; collectionIndex < collectionList.Count; ++collectionIndex ) {
-                        if ( string.Compare( collectionList[collectionIndex].name, mapName, StringComparison.InvariantCultureIgnoreCase ) == 0 ) {
+                    for ( ; collectionIndex < collectionList.Count; ++collectionIndex )
+                    {
+                        if ( string.Compare( collectionList[collectionIndex].name, mapName, StringComparison.InvariantCultureIgnoreCase ) == 0 )
+                        {
                             collection = collectionList[collectionIndex];
                             break;
                         }
                     }
 
                     // Create new collection if it's the first action in the collection.
-                    if ( collection == null ) {
+                    if ( collection == null )
+                    {
                         // NOTE: No collection IDs supported on this path.
                         collection = new SceneCollection( mapName );
                         collectionIndex = collectionList.Count;
@@ -373,7 +394,8 @@ namespace TNS.SceneSystem
 
                 // Process collections.
                 var collectionCount = collections?.Length ?? 0;
-                for ( var i = 0; i < collectionCount; ++i ) {
+                for ( var i = 0; i < collectionCount; ++i )
+                {
                     var jsonMap = collections![i];
 
                     var mapName = jsonMap.name;
@@ -383,15 +405,18 @@ namespace TNS.SceneSystem
                     // Try to find existing collection.
                     SceneCollection collection = null;
                     var collectionIndex = 0;
-                    for ( ; collectionIndex < collectionList.Count; ++collectionIndex ) {
-                        if ( string.Compare( collectionList[collectionIndex].name, mapName, StringComparison.InvariantCultureIgnoreCase ) == 0 ) {
+                    for ( ; collectionIndex < collectionList.Count; ++collectionIndex )
+                    {
+                        if ( string.Compare( collectionList[collectionIndex].name, mapName, StringComparison.InvariantCultureIgnoreCase ) == 0 )
+                        {
                             collection = collectionList[collectionIndex];
                             break;
                         }
                     }
 
                     // Create new collection if we haven't seen it before.
-                    if ( collection == null ) {
+                    if ( collection == null )
+                    {
                         collection = new SceneCollection( mapName )
                         {
                             _Id = string.IsNullOrEmpty( jsonMap.id ) ? null : jsonMap.id,
@@ -406,7 +431,8 @@ namespace TNS.SceneSystem
 
                     // Process profiles in collection.
                     var profileCountInMap = jsonMap.scenes?.Length ?? 0;
-                    for ( var n = 0; n < profileCountInMap; ++n ) {
+                    for ( var n = 0; n < profileCountInMap; ++n )
+                    {
                         var jsonMapScene = jsonMap.scenes![n];
 
                         if ( string.IsNullOrEmpty( jsonMapScene.name ) )
@@ -418,16 +444,18 @@ namespace TNS.SceneSystem
                     }
 
                     var transitionCountInMap = jsonMap.sceneTransitions?.Length ?? 0;
-                    for ( var n = 0; n < transitionCountInMap; ++n ) {
+                    for ( var n = 0; n < transitionCountInMap; ++n )
+                    {
                         var jsonMapSceneTransition = jsonMap.sceneTransitions![n];
 
                         // Create transition.
                         var sceneTransition = jsonMapSceneTransition.ToSceneTransition();
                         sceneTransitionList[collectionIndex].Add( sceneTransition );
                     }
-                    
+
                     var parameterCountInMap = jsonMap.parameters?.Length ?? 0;
-                    for ( var n = 0; n < parameterCountInMap; ++n ) {
+                    for ( var n = 0; n < parameterCountInMap; ++n )
+                    {
                         var jsonMapParameter = jsonMap.parameters![n];
 
                         // Create parameter.
@@ -437,7 +465,8 @@ namespace TNS.SceneSystem
                 }
 
                 // Finalize arrays.
-                for ( var i = 0; i < collectionList.Count; ++i ) {
+                for ( var i = 0; i < collectionList.Count; ++i )
+                {
                     var collection = collectionList[i];
 
                     var scenes = sceneList[i].ToArray();
@@ -445,12 +474,14 @@ namespace TNS.SceneSystem
 
                     var sceneTransitions = sceneTransitionList[i].ToArray();
                     collection._SceneTransitions = sceneTransitions;
-                    
+
                     var parameters = parametersList[i].ToArray();
                     collection._Parameters = parameters;
 
-                    foreach ( var scene in scenes ) {
-                        if ( scene == collection.defaultScene ) {
+                    foreach ( var scene in scenes )
+                    {
+                        if ( scene == collection.defaultScene )
+                        {
                             collection._DefaultScene = scene;
                         }
 
@@ -486,10 +517,12 @@ namespace TNS.SceneSystem
 
             // Clone actions.
             // ReSharper disable once InvertIf
-            if ( _Scenes != null ) {
+            if ( _Scenes != null )
+            {
                 var sceneCount = _Scenes.Length;
                 var sceneReferences = new SceneReference[sceneCount];
-                for ( var i = 0; i < sceneCount; ++i ) {
+                for ( var i = 0; i < sceneCount; ++i )
+                {
                     var original = _Scenes[i];
                     sceneReferences[i] = new SceneReference()
                     {

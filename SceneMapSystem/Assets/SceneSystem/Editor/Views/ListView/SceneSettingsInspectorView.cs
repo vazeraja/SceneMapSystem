@@ -1,6 +1,8 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace TNS.SceneSystem.Editor
@@ -50,7 +52,7 @@ namespace TNS.SceneSystem.Editor
             m_HelpBoxText = m_Root.Q<Label>( "text" );
             m_SceneSettingsFoldout = m_Root.Q<RibbonFoldout>( "SceneSettings__Foldout" );
             m_LoadingSettingsFoldout = m_Root.Q<RibbonFoldout>( "LoadingSettings__Foldout" );
-            
+
             SetHelpText( "Edit the settings displayed below to control how this scene should be processed" );
             m_SceneSettingsFoldout.SetLabel( "Scene Settings" );
             m_LoadingSettingsFoldout.SetLabel( "Loading Settings" );
@@ -68,23 +70,28 @@ namespace TNS.SceneSystem.Editor
             m_LoadingSettingsFoldout.m_IMGUIContainer.Add( m_InterpolateField = new PropertyField() );
             m_LoadingSettingsFoldout.m_IMGUIContainer.Add( m_InterpolationSpeedField = new PropertyField() );
 
-            m_TypePropField.RegisterValueChangeCallback( evt => Save() );
-            m_ModePropField.RegisterValueChangeCallback( evt => Save() );
+            m_TypePropField.RegisterValueChangeCallback( evt => Save( false ) );
+            m_ModePropField.RegisterValueChangeCallback( evt => Save( false ) );
             m_LoadingScenePropField.RegisterValueChangeCallback( evt =>
             {
+                var pathProp = evt.changedProperty.FindPropertyRelative( nameof( Scene._Path ) );
+                var nameProp = evt.changedProperty.FindPropertyRelative( nameof( Scene._Name ) );
+                var indexProp = evt.changedProperty.FindPropertyRelative( nameof( Scene._BuildIndex ) );
+
                 var scenePath = evt.changedProperty.FindPropertyRelative( nameof( Scene._Path ) ).stringValue;
+                
                 GUIUtility.SetEnabled( !string.IsNullOrEmpty( scenePath ),
                     m_UseLoadingScreenField, m_ThreadPriorityField, m_SecureLoadField,
                     m_InterpolateField, m_InterpolationSpeedField );
 
-                Save();
+                Save( false );
             } );
 
-            m_UseLoadingScreenField.RegisterValueChangeCallback( evt => Save() );
-            m_ThreadPriorityField.RegisterValueChangeCallback( evt => Save() );
-            m_SecureLoadField.RegisterValueChangeCallback( evt => Save() );
-            m_InterpolateField.RegisterValueChangeCallback( evt => Save() );
-            m_InterpolationSpeedField.RegisterValueChangeCallback( evt => Save() );
+            m_UseLoadingScreenField.RegisterValueChangeCallback( evt => Save( false ) );
+            m_ThreadPriorityField.RegisterValueChangeCallback( evt => Save( false ) );
+            m_SecureLoadField.RegisterValueChangeCallback( evt => Save( false ) );
+            m_InterpolateField.RegisterValueChangeCallback( evt => Save( false ) );
+            m_InterpolationSpeedField.RegisterValueChangeCallback( evt => Save( false ) );
 
             hierarchy.Add( m_Root );
         }
@@ -120,15 +127,16 @@ namespace TNS.SceneSystem.Editor
             m_InterpolateField.BindProperty( m_InterpolateProp );
             m_InterpolationSpeedField.BindProperty( m_InterpolationSpeedProp );
         }
-        
+
         public void SetHelpText( string text )
         {
             m_HelpBoxText.text = text;
         }
 
-        private void Save()
+        private void Save( bool showCallerName )
         {
-            m_Window.SaveAndRebuild();
+            m_Window.SaveAndRebuild( showCallerName: showCallerName );
         }
     }
 }
+#endif

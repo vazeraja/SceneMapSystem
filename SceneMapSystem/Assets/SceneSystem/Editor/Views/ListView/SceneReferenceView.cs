@@ -19,12 +19,12 @@ namespace TNS.SceneSystem.Editor
             m_Window = window;
             m_AddButton = window.rootVisualElement.Q<Button>( "add-scene" );
 
-            selectionChanged += OnSelectionChanged; 
+            selectionChanged += OnSelectionChanged;
             itemRightClicked += ShowMenu;
             itemLeftClicked += OnLeftClick;
             itemLabelChanged += OnItemLabelChanged;
             m_AddButton.clicked += AddScene;
-            
+
             SetItemColor( GUIUtility.ListItemColorScene );
         }
 
@@ -38,15 +38,15 @@ namespace TNS.SceneSystem.Editor
 
         private void OnSelectionChanged( IEnumerable<object> objs )
         {
-            GUIUtility.Events.TriggerSceneSelected(SelectedItem);
+            GUIUtility.Events.TriggerSceneSelected( SelectedItem );
         }
-        
+
         private void OnLeftClick( VisualElement element )
         {
             var itemWrapper = (ItemWrapper<SceneReference>) element.userData;
             if ( ListView.selectedIndex == itemWrapper.Index )
             {
-                GUIUtility.Events.TriggerSceneSelected(SelectedItem);
+                GUIUtility.Events.TriggerSceneSelected( SelectedItem );
             }
             else
             {
@@ -84,8 +84,8 @@ namespace TNS.SceneSystem.Editor
             var itemWrapper = (ItemWrapper<SceneReference>) element.userData;
 
             itemWrapper.Data.SetName( text );
-            
-            GUIUtility.Events.TriggerLabelChanged(SceneMapAsset.DataType.Scene, text);
+
+            GUIUtility.Events.TriggerLabelChanged( SceneMapAsset.DataType.Scene, text );
         }
 
         private void ShowMenu( VisualElement element )
@@ -113,7 +113,7 @@ namespace TNS.SceneSystem.Editor
 
             var scene = m_Window.SelectedCollection.AddSceneReference();
 
-            GUIUtility.Events.TriggerSceneReferenceCreated(scene);
+            GUIUtility.Events.TriggerSceneReferenceCreated( scene );
 
             // Select the newly created item
             ListView.SetSelection( ListView.viewController.itemsSource.Count - 1 );
@@ -123,14 +123,19 @@ namespace TNS.SceneSystem.Editor
         {
             m_Window.SelectedCollection.RemoveSceneReference( scene.id );
 
-            GUIUtility.Events.TriggerSceneReferenceRemoved(scene);
-            
+            GUIUtility.Events.TriggerSceneReferenceRemoved( scene );
+
             // // Clear the GUI since the removed item may be being displayed
             // m_Window.ControlsView.ClearFoldoutGUI();
             // m_Window.InspectorView.ClearGUI();
-            
+
+            var itemsCount = ListView.viewController.itemsSource.Count;
+
             // Select last item
-            ListView.SetSelection( ListView.viewController.itemsSource.Count - 1 );
+            if ( itemsCount > 0 )
+            {
+                ListView.SetSelection( itemsCount - 1 );
+            }
         }
     }
 }

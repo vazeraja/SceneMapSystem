@@ -4,7 +4,6 @@ using UnityEditor;
 using System;
 using System.Linq;
 using System.Text;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
 namespace TNS.SceneSystem
@@ -22,7 +21,8 @@ namespace TNS.SceneSystem
 
         public Scene( string path )
         {
-            if ( string.IsNullOrEmpty( path ) ) {
+            if ( string.IsNullOrEmpty( path ) )
+            {
                 _Name = default;
                 _Path = default;
                 _BuildIndex = -1;
@@ -47,19 +47,22 @@ namespace TNS.SceneSystem
             return Clone();
         }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
         public void Rebind( string path = null, bool displayLog = false )
         {
-            if ( !string.IsNullOrEmpty( path ) ) {
+            if ( !string.IsNullOrEmpty( path ) )
+            {
                 _Path = path;
             }
 
-            if ( string.IsNullOrEmpty( _Path ) && _BuildIndex < 0 ) {
+            if ( string.IsNullOrEmpty( _Path ) && _BuildIndex < 0 )
+            {
                 Debug.Log( "Please reassign the scene field. Cannot rebind fields as there is nothing to rebind" );
                 return;
             }
 
-            if ( string.IsNullOrEmpty( _Path ) ) {
+            if ( string.IsNullOrEmpty( _Path ) )
+            {
                 _Path = SceneManager.GetScenePathByBuildIndex( _BuildIndex );
             }
 
@@ -79,40 +82,6 @@ namespace TNS.SceneSystem
 
             if ( displayLog ) Debug.Log( log );
         }
-    #endif
-    }
-#if UNITY_EDITOR
-
-    [CustomPropertyDrawer( typeof( Scene ) )]
-    public class SceneFieldDrawer : PropertyDrawer
-    {
-        public override void OnGUI( Rect position, SerializedProperty property, GUIContent label )
-        {
-            EditorGUI.BeginProperty( position, label, property );
-
-            var pathProp = property.FindPropertyRelative( "_Path" );
-            var nameProp = property.FindPropertyRelative( "_Name" );
-            var indexProp = property.FindPropertyRelative( "_BuildIndex" );
-
-            var oldScene = AssetDatabase.LoadAssetAtPath<SceneAsset>( pathProp.stringValue );
-
-            using ( var scope = new EditorGUI.ChangeCheckScope() ) {
-                var newScene = (SceneAsset)EditorGUI.ObjectField( position, label, oldScene, typeof( SceneAsset ), false );
-                if ( scope.changed ) {
-                    nameProp.stringValue = newScene == null ? null : newScene.name;
-
-                    var newPath = newScene == null ? null : AssetDatabase.GetAssetPath( newScene );
-                    pathProp.stringValue = newPath;
-
-                    var intValue = newPath == null ? -1 : SceneUtility.GetBuildIndexByScenePath( newPath );
-                    indexProp.intValue = intValue;
-
-                    // Debug.Log( $"SceneFieldDrawer::{newPath}" );
-                }
-            }
-
-            EditorGUI.EndProperty();
-        }
-    }
 #endif
+    }
 }
