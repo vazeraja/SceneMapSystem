@@ -1,8 +1,8 @@
 {
-    "_Name": "SceneMap",
+    "_Name": "Map",
     "_DefaultCollection": {
-        "name": "",
-        "id": "",
+        "name": "Demos",
+        "id": "89f46b12-d8e5-46f2-b04c-8c7b57d5acd2",
         "defaultScene": {
             "active": "True",
             "name": "",
@@ -27,14 +27,63 @@
                 "height": "0"
             }
         },
-        "scenes": [],
+        "scenes": [
+            {
+                "active": "True",
+                "name": "New SceneReference 1",
+                "id": "e26f38fa-a40d-4969-869f-c66fa3214a72",
+                "path": "",
+                "sceneSettingsJson": {
+                    "_Type": "Global",
+                    "_Mode": "Single",
+                    "_LoadingScenePath": "",
+                    "_LoadingParameters": {
+                        "useLoadingScreen": "False",
+                        "threadPriority": "Low",
+                        "secureLoad": "False",
+                        "interpolate": "False",
+                        "interpolationSpeed": "0"
+                    }
+                },
+                "nodePositionJson": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "100",
+                    "height": "100"
+                }
+            },
+            {
+                "active": "True",
+                "name": "New SceneReference 2",
+                "id": "fb1938e1-eae0-457c-a42b-f5025a93bf5f",
+                "path": "",
+                "sceneSettingsJson": {
+                    "_Type": "Global",
+                    "_Mode": "Single",
+                    "_LoadingScenePath": "",
+                    "_LoadingParameters": {
+                        "useLoadingScreen": "False",
+                        "threadPriority": "Low",
+                        "secureLoad": "False",
+                        "interpolate": "False",
+                        "interpolationSpeed": "0"
+                    }
+                },
+                "nodePositionJson": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "100",
+                    "height": "100"
+                }
+            }
+        ],
         "sceneTransitions": [],
         "parameters": []
     },
     "_Collections": [
         {
-            "name": "New SceneCollection 1",
-            "id": "6c388a9e-70d5-4e4d-811c-a8ef8222696f",
+            "name": "Demos",
+            "id": "89f46b12-d8e5-46f2-b04c-8c7b57d5acd2",
             "defaultScene": {
                 "active": "True",
                 "name": "",
@@ -62,11 +111,11 @@
             "scenes": [
                 {
                     "active": "True",
-                    "name": "AN Demo",
-                    "id": "7140a7d4-61b9-4424-bffc-8730a49ec94d",
-                    "path": "Assets/AZURE Nature/Demo/AN_Demo.unity",
+                    "name": "New SceneReference",
+                    "id": "b71f5b64-e562-4d4f-a968-2365ac9dd3d3",
+                    "path": "",
                     "sceneSettingsJson": {
-                        "_Type": "Global",
+                        "_Type": "Default",
                         "_Mode": "Single",
                         "_LoadingScenePath": "",
                         "_LoadingParameters": {
@@ -86,9 +135,9 @@
                 },
                 {
                     "active": "True",
-                    "name": "Apocalypse Demo",
-                    "id": "862c20b4-ee5b-42a4-944d-aebb3bdbbc30",
-                    "path": "Assets/PolygonApocalypse/Scenes/Demo_City_Standard_RenderPipeline.unity",
+                    "name": "New SceneReference 3",
+                    "id": "a277bb61-645e-42c4-aed7-61c7a2c936ac",
+                    "path": "",
                     "sceneSettingsJson": {
                         "_Type": "Global",
                         "_Mode": "Single",

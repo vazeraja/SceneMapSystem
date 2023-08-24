@@ -54,18 +54,19 @@ namespace TNS.SceneSystem.Editor
 
         private void OnSelectionChanged( IEnumerable<object> selectedObjs )
         {
+            Debug.Log( ((SceneCollection) selectedObjs.First()).name ); 
             GUIUtility.Events.TriggerCollectionSelected( SelectedItemIndex );
         }
 
         private void OnItemLeftClicked( VisualElement element )
-        {
+        {     
             var itemWrapper = (ItemWrapper<SceneCollection>) element.userData;
             if ( ListView.selectedIndex == itemWrapper.Index )
             {
-                GUIUtility.Events.TriggerCollectionSelected( SelectedItemIndex );
+                GUIUtility.Events.TriggerCollectionSelected( itemWrapper.Index );
             }
             else
-            {
+            {  
                 ListView.SetSelection( itemWrapper.Index );
             }
         }

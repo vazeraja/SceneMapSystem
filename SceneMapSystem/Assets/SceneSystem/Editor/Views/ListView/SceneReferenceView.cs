@@ -26,6 +26,7 @@ namespace TNS.SceneSystem.Editor
             m_AddButton.clicked += AddScene;
 
             SetItemColor( GUIUtility.ListItemColorScene );
+            GUIUtility.Events.SceneReferenceCreated += reference => { };
         }
 
         protected override void BindListViewItem( VisualElement element, int i )
@@ -38,7 +39,7 @@ namespace TNS.SceneSystem.Editor
 
         private void OnSelectionChanged( IEnumerable<object> objs )
         {
-            GUIUtility.Events.TriggerSceneSelected( SelectedItem );
+            GUIUtility.Events.TriggerSceneSelected( SelectedItemIndex );
         }
 
         private void OnLeftClick( VisualElement element )
@@ -46,7 +47,7 @@ namespace TNS.SceneSystem.Editor
             var itemWrapper = (ItemWrapper<SceneReference>) element.userData;
             if ( ListView.selectedIndex == itemWrapper.Index )
             {
-                GUIUtility.Events.TriggerSceneSelected( SelectedItem );
+                GUIUtility.Events.TriggerSceneSelected( itemWrapper.Index );
             }
             else
             {
@@ -112,30 +113,34 @@ namespace TNS.SceneSystem.Editor
             }
 
             var scene = m_Window.SelectedCollection.AddSceneReference();
-
             GUIUtility.Events.TriggerSceneReferenceCreated( scene );
 
-            // Select the newly created item
-            ListView.SetSelection( ListView.viewController.itemsSource.Count - 1 );
+            var index = m_Window.SelectedCollection.FindSceneIndex( scene.id );
+            
+            EditorApplication.delayCall += () =>
+            {
+                ListView.SetSelection( index );
+            };
         }
 
         private void RemoveScene( SceneReference scene )
         {
+            m_Window.ControlsView.ClearFoldoutGUI();
+            
             m_Window.SelectedCollection.RemoveSceneReference( scene.id );
 
             GUIUtility.Events.TriggerSceneReferenceRemoved( scene );
 
-            // // Clear the GUI since the removed item may be being displayed
-            // m_Window.ControlsView.ClearFoldoutGUI();
-            // m_Window.InspectorView.ClearGUI();
-
-            var itemsCount = ListView.viewController.itemsSource.Count;
-
-            // Select last item
-            if ( itemsCount > 0 )
+            var index = m_Window.SelectedCollection.FindSceneIndex( scene.id );
+            if ( index >= 1 )
             {
-                ListView.SetSelection( itemsCount - 1 );
+                EditorApplication.delayCall += () =>
+                {
+                    ListView.SetSelection( index - 1 );
+                };
             }
+
+            // var itemsCount = ListView.viewController.itemsSource.Count;
         }
     }
 }

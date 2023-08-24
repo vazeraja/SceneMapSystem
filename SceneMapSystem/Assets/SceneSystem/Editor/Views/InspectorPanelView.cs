@@ -31,6 +31,8 @@ namespace TNS.SceneSystem.Editor
             m_SceneSettingsInspectors = new List<SceneSettingsInspectorView>();
 
             m_IMGUIContainer = new IMGUIContainer();
+            m_ContentContainer.hierarchy.Add( m_IMGUIContainer );
+
 
             GUIUtility.Events.AssetInitialized += OnAssetInitialized;
             GUIUtility.Events.SceneSelected += OnSceneSelected;
@@ -40,12 +42,31 @@ namespace TNS.SceneSystem.Editor
             GUIUtility.Events.TransitionSelected += OnTransitionSelected;
             GUIUtility.Events.TransitionRemoved += OnTransitionRemoved;
         }
+        
+        ~InspectorPanelView()
+        {
+            GUIUtility.Events.AssetInitialized -= OnAssetInitialized;
+            GUIUtility.Events.SceneSelected -= OnSceneSelected;
+            GUIUtility.Events.SceneReferenceRemoved -= OnSceneRemoved;
+            GUIUtility.Events.CollectionSelected -= OnCollectionSelected;
+            GUIUtility.Events.CollectionRemoved -= OnCollectionRemoved;
+            GUIUtility.Events.TransitionSelected -= OnTransitionSelected;
+            GUIUtility.Events.TransitionRemoved -= OnTransitionRemoved;
+        }
 
-        private void OnAssetInitialized() { }
+        private void OnAssetInitialized()
+        {
+            m_ContentContainer.Clear();
+            CreateInspectors();
+        }
 
-        private void OnSceneSelected( SceneReference scene )
+        private void OnSceneSelected( int index )
         {
             HideInspectors();
+
+            var scene = m_Window.SelectedCollection._Scenes[index];
+            Debug.Log( scene.name );   
+            
             DisplaySceneInspector( scene );
         }
 
@@ -54,7 +75,7 @@ namespace TNS.SceneSystem.Editor
             HideInspectors();
 
             var sceneCollectionListProp = m_Window.SerializedSceneMap.FindProperty( nameof( SceneMapAsset._SceneCollections ) );
-            var sceneCollectionProp = sceneCollectionListProp.GetArrayElementAtIndex( m_Window.SelectedCollectionIndex );
+            var sceneCollectionProp = sceneCollectionListProp.GetArrayElementAtIndex( index );
             var sceneReferenceListProp = sceneCollectionProp.FindPropertyRelative( nameof( SceneCollection._Scenes ) );
             var loadOrder = sceneCollectionProp.FindPropertyRelative( nameof( SceneCollection.m_LoadOrder ) );
 
@@ -86,7 +107,7 @@ namespace TNS.SceneSystem.Editor
             //     }
             // };
 
-            m_ContentContainer.Add( m_IMGUIContainer );
+            m_ContentContainer.hierarchy.Add( m_IMGUIContainer );
         }
 
         private void OnTransitionSelected( SceneTransition transition )
@@ -109,12 +130,34 @@ namespace TNS.SceneSystem.Editor
             RemoveTransitionInspector( inspector );
         }
 
+        public void CreateInspectors()
+        {
+            Debug.Log( "create inspectors " ); 
+            for ( var cIndex = 0; cIndex < m_Window.SceneMap.SceneCollections.Count; cIndex++ )
+            {
+                var collection = m_Window.SceneMap.SceneCollections[cIndex];
+                for ( var sIndex = 0; sIndex < collection.scenes.Count; sIndex++ )
+                {
+                    var scene = collection.scenes[sIndex];
+                    CreateSceneInspector( scene, cIndex, sIndex );
+                }
+
+                for ( var tIndex = 0; tIndex < collection.sceneTransitions.Count; tIndex++ )
+                {
+                    var transition = collection.sceneTransitions[tIndex];
+                    CreateTransitionInspector( transition, cIndex, tIndex );
+                }
+            }
+            
+            HideInspectors();
+        }
+ 
         private void CreateSceneInspector( SceneReference scene, int cIndex, int sIndex )
         {
             var inspector = new SceneSettingsInspectorView();
             inspector.name = $"{scene.name}__inspector-view";
             inspector.Initialize( m_Window, scene );
-
+ 
             var sceneCollectionListProp = m_Window.SerializedSceneMap.FindProperty( nameof( SceneMapAsset._SceneCollections ) );
             var sceneCollectionProp = sceneCollectionListProp.GetArrayElementAtIndex( cIndex );
             var sceneReferenceListProp = sceneCollectionProp.FindPropertyRelative( nameof( SceneCollection._Scenes ) );

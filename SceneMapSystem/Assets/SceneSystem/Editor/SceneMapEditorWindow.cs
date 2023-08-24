@@ -72,6 +72,8 @@ namespace TNS.SceneSystem.Editor
             }
 
             var window = OpenEditor( asset );
+            
+            window.InspectorView.CreateInspectors();
 
             window.SceneCollectionView.TrySelectIndex( 0 );
 
@@ -175,7 +177,11 @@ namespace TNS.SceneSystem.Editor
 
         private bool TryInitializeAssetManager()
         {
-            if ( _AssetManager == null ) return false;
+            if ( _AssetManager == null )
+            {
+                return false;
+            }
+
             if ( _AssetManager.Initialize() )
             {
                 RebuildLists();
@@ -220,8 +226,8 @@ namespace TNS.SceneSystem.Editor
         public void RebuildLists()
         {
             SceneCollectionView?.Rebuild( SceneCollectionItems );
-            SceneReferenceView?.Rebuild( SceneReferenceItems );
-            m_ParameterView.Rebuild( SelectedCollection?.parameters.ToList() );
+            SceneReferenceView?.Rebuild( SceneReferenceItems ); 
+            // m_ParameterView?.Rebuild( SelectedCollection?.parameters.ToList() );
         }
 
         public void SwapListElements<T>( int index1, int index2 )

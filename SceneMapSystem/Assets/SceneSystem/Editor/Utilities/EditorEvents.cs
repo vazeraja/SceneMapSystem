@@ -14,7 +14,7 @@ namespace TNS.SceneSystem.Editor
         public event Action<int> CollectionSelected;
         public event Action<SceneCollection> CollectionRemoved;
         public event Action<SceneCollection> CollectionCreated;
-        public event Action<SceneReference> SceneSelected;
+        public event Action<int> SceneSelected;
         public event Action<SceneReference> SceneReferenceRemoved;
         public event Action<SceneReference> SceneReferenceCreated;
         public event Action<SceneCollection, SceneTransitionParameter> ParameterRemoved;
@@ -65,9 +65,9 @@ namespace TNS.SceneSystem.Editor
             SceneMapUtility.RebuildWindows();
         }
 
-        public void TriggerSceneSelected( SceneReference scene )
+        public void TriggerSceneSelected( int index )
         {
-            SceneSelected?.Invoke( scene );
+            SceneSelected?.Invoke( index );
             SceneMapUtility.RebuildWindows();
         }
 
