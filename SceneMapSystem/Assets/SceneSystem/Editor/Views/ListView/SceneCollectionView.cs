@@ -54,7 +54,7 @@ namespace TNS.SceneSystem.Editor
 
         private void OnSelectionChanged( IEnumerable<object> selectedObjs )
         {
-            Debug.Log( ((SceneCollection) selectedObjs.First()).name ); 
+            // Debug.Log( ((SceneCollection) selectedObjs.First()).name );  
             GUIUtility.Events.TriggerCollectionSelected( SelectedItemIndex );
         }
 

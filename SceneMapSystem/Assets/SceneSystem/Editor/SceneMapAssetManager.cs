@@ -148,7 +148,7 @@ namespace TNS.SceneSystem.Editor
             if ( _ImportedAssetJson != existingJson ) {
                 CheckOut( assetPath );
                 File.WriteAllText( assetPath, _ImportedAssetJson );
-                AssetDatabase.ImportAsset( assetPath );
+                AssetDatabase.ImportAsset( assetPath );  
             }
         }
 

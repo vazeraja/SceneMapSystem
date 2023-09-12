@@ -70,8 +70,9 @@ namespace TNS.SceneSystem
             var scene = new SceneReference();
             scene._Name = name;
             scene.GenerateId();
-            
+
             ArrayHelpers.Append( ref collection._Scenes, scene );
+            UpdateLoadOrderArray( collection );
             scene._Collection = collection;
 
             return scene;
@@ -86,12 +87,24 @@ namespace TNS.SceneSystem
                 throw new ArgumentException( $"Profile '{sceneId}' does not belong to an collection; nowhere to remove from", nameof( scene ) );
 
             var index = collection.scenes.IndexOfReference( scene );
-            
+
             ArrayHelpers.EraseAt( ref collection._Scenes, index );
+            UpdateLoadOrderArray( collection );
             scene._Collection = null;
         }
 
-        public static void AddTransition( this SceneCollection collection, SceneReference origin, SceneReference target, out SceneTransition transition )
+        private static void UpdateLoadOrderArray( SceneCollection collection )
+        {
+            collection._LoadOrder = new string[collection.scenes.Count];
+            for ( var i = 0; i < collection.scenes.Count; i++ )
+            {
+                var scene = collection.scenes[i];
+                collection._LoadOrder[i] = scene.id;
+            }
+        }
+
+        public static void AddTransition( this SceneCollection collection, SceneReference origin, SceneReference target,
+            out SceneTransition transition )
         {
             //Cancel if any transition with the same origin and target already exist
             if ( collection == null )
@@ -100,13 +113,14 @@ namespace TNS.SceneSystem
                 Debug.Log( "collection null" );
                 return;
             }
-            if ( origin == null || target == null)
+
+            if ( origin == null || target == null )
             {
                 transition = null;
                 Debug.Log( "scenes null" );
                 return;
             }
-            
+
             if ( collection.sceneTransitions.Any( t => t.m_OriginID == origin.id && t.m_TargetID == target.id ) )
             {
                 transition = null;
@@ -173,7 +187,7 @@ namespace TNS.SceneSystem
         {
             foreach ( var sceneReference in asset.SceneCollections.SelectMany( collection => collection.scenes ) )
             {
-                sceneReference.scene.Rebind(displayLog: true);
+                sceneReference.scene.Rebind( displayLog: true );
             }
         }
 

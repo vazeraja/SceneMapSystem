@@ -104,7 +104,7 @@ namespace TNS.SceneSystem.Editor
             menu.ShowAsContext();
         }
 
-        private void AddScene()
+        private void AddScene() 
         {
             if ( m_Window.SelectedCollection == null )
             {
@@ -138,10 +138,10 @@ namespace TNS.SceneSystem.Editor
                 {
                     ListView.SetSelection( index - 1 );
                 };
-            }
-
+            }    
+ 
             // var itemsCount = ListView.viewController.itemsSource.Count;
-        }
+        } 
     }
 }
 #endif

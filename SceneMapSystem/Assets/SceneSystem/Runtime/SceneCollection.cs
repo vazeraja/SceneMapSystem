@@ -5,6 +5,13 @@ using UnityEngine;
 
 namespace TNS.SceneSystem
 {
+    public enum BulkLoadMode
+    {
+        TopToBottom,
+        BottomToTop,
+        Custom
+    }
+    
     [Serializable]
     public sealed class SceneCollection : ICloneable, ISerializationCallbackReceiver, IDisposable
     {
@@ -17,7 +24,8 @@ namespace TNS.SceneSystem
         [SerializeField] internal SceneTransitionParameter[] _Parameters;
         [SerializeField] internal SceneReference _DefaultScene;
 
-        [SerializeField] internal SceneReference[] m_LoadOrder;
+        [SerializeField] internal BulkLoadMode _LoadMode;
+        [SerializeField] internal string[] _LoadOrder;
 
         public string name => _Name;
         public string id => _Id;
@@ -26,8 +34,8 @@ namespace TNS.SceneSystem
         public ReadOnlyArray<SceneTransition> sceneTransitions => new ReadOnlyArray<SceneTransition>( _SceneTransitions );
         public ReadOnlyArray<SceneTransitionParameter> parameters => new ReadOnlyArray<SceneTransitionParameter>( _Parameters );
         public SceneReference defaultScene => _DefaultScene;
+        public ReadOnlyArray<string> LoadOrderIDs => new ReadOnlyArray<string>( _LoadOrder );
 
-        public ReadOnlyArray<SceneReference> LoadOrder => new ReadOnlyArray<SceneReference>( m_LoadOrder );
 
         public SceneCollection() { }
 
@@ -163,16 +171,18 @@ namespace TNS.SceneSystem
         {
             public string name;
             public string id;
-            public ReadSceneReferenceJson defaultScene;
             public ReadSceneReferenceJson[] scenes;
             public ReadSceneTransitionJson[] sceneTransitions;
             public ReadSceneCollectionParameterJson[] parameters;
+            public ReadSceneReferenceJson defaultScene;
+            public string[] loadOrderIDs;
 
             public static SceneCollection ToCollection( ReadCollectionJson collectionJson )
             {
                 var sceneList = new List<SceneReference>();
                 var sceneTransitionList = new List<SceneTransition>();
                 var parametersList = new List<SceneTransitionParameter>();
+                var loadOrderIDList = new List<string>();
 
                 var mapName = collectionJson.name;
 
@@ -211,18 +221,27 @@ namespace TNS.SceneSystem
                 }
 
                 var parameterCountInMap = collectionJson.parameters?.Length ?? 0;
-                for ( var n = 0; n < sceneTransitionCountInMap; ++n )
+                for ( var n = 0; n < parameterCountInMap; ++n )
                 {
                     var jsonCollectionParameter = collectionJson.parameters![n];
 
                     var parameter = jsonCollectionParameter.ToSceneCollectionParameter();
                     parametersList.Add( parameter );
                 }
+                
+                var loadIdCountInMap = collectionJson.loadOrderIDs?.Length ?? 0;
+                for ( var n = 0; n < loadIdCountInMap; ++n )
+                {
+                    var loadOrderId = collectionJson.loadOrderIDs![n];
+
+                    loadOrderIDList.Add( loadOrderId );
+                }
 
                 // Finalize arrays.
                 collection._Scenes = sceneList.ToArray();
                 collection._SceneTransitions = sceneTransitionList.ToArray();
                 collection._Parameters = parametersList.ToArray();
+                collection._LoadOrder = loadOrderIDList.ToArray();
 
                 foreach ( var scene in sceneList )
                 {
@@ -243,11 +262,12 @@ namespace TNS.SceneSystem
         {
             public string name;
             public string id;
-            public WriteSceneReferenceJson defaultScene;
             public WriteSceneReferenceJson[] scenes;
             public WriteSceneTransitionJson[] sceneTransitions;
             public WriteSceneCollectionParameterJson[] parameters;
-
+            public WriteSceneReferenceJson defaultScene;
+            public string[] loadOrderIDs;
+            
             public static WriteCollectionJson FromCollection( SceneCollection collection )
             {
                 WriteSceneReferenceJson[] jsonScenes = null;
@@ -298,7 +318,8 @@ namespace TNS.SceneSystem
                     defaultScene = defaultSceneReference,
                     scenes = jsonScenes,
                     sceneTransitions = jsonTransitions,
-                    parameters = jsonParameters
+                    parameters = jsonParameters,
+                    loadOrderIDs = collection._LoadOrder
                 };
             }
         }
@@ -337,8 +358,9 @@ namespace TNS.SceneSystem
                 var sceneList = new List<List<SceneReference>>();
                 var sceneTransitionList = new List<List<SceneTransition>>();
                 var parametersList = new List<List<SceneTransitionParameter>>();
+                var loadOrderIdList = new List<List<string>>();
 
-                // Process profiles listed at toplevel.
+                // Process scenes listed at toplevel.
                 var sceneCount = profiles?.Length ?? 0;
                 for ( var i = 0; i < sceneCount; ++i )
                 {
@@ -385,6 +407,7 @@ namespace TNS.SceneSystem
                         sceneList.Add( new List<SceneReference>() );
                         sceneTransitionList.Add( new List<SceneTransition>() );
                         parametersList.Add( new List<SceneTransitionParameter>() );
+                        loadOrderIdList.Add(new List<string>());
                     }
 
                     // Create action.
@@ -427,6 +450,7 @@ namespace TNS.SceneSystem
                         sceneList.Add( new List<SceneReference>() );
                         sceneTransitionList.Add( new List<SceneTransition>() );
                         parametersList.Add( new List<SceneTransitionParameter>() );
+                        loadOrderIdList.Add(new List<string>());
                     }
 
                     // Process profiles in collection.
@@ -462,6 +486,14 @@ namespace TNS.SceneSystem
                         var sceneParameter = jsonMapParameter.ToSceneCollectionParameter();
                         parametersList[collectionIndex].Add( sceneParameter );
                     }
+                    
+                    var loadOrderIdCountInMap = jsonMap.loadOrderIDs?.Length ?? 0;
+                    for ( var n = 0; n < loadOrderIdCountInMap; ++n )
+                    {
+                        var jsonMapLoadOrderId = jsonMap.loadOrderIDs![n];
+
+                        loadOrderIdList[collectionIndex].Add( jsonMapLoadOrderId );
+                    }
                 }
 
                 // Finalize arrays.
@@ -477,6 +509,9 @@ namespace TNS.SceneSystem
 
                     var parameters = parametersList[i].ToArray();
                     collection._Parameters = parameters;
+                    
+                    var loadOrderIds = loadOrderIdList[i].ToArray();
+                    collection._LoadOrder = loadOrderIds;
 
                     foreach ( var scene in scenes )
                     {

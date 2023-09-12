@@ -104,12 +104,12 @@ namespace TNS.SceneSystem.Editor
 
         public void Bind( SerializedProperty prop )
         {
-            var property = prop.FindPropertyRelative( nameof( SceneReference._SceneSettings ) );
+            var sceneSettingsProp = prop.FindPropertyRelative( nameof( SceneReference._SceneSettings ) );
 
-            m_TypeProp = property.FindPropertyRelative( nameof( SceneSettings._Type ) );
-            m_ModeProp = property.FindPropertyRelative( nameof( SceneSettings._Mode ) );
-            m_LoadingSceneProp = property.FindPropertyRelative( nameof( SceneSettings._LoadingScene ) );
-            m_LoadingParametersProp = property.FindPropertyRelative( nameof( SceneSettings._LoadingParameters ) );
+            m_TypeProp = sceneSettingsProp.FindPropertyRelative( nameof( SceneSettings._Type ) );
+            m_ModeProp = sceneSettingsProp.FindPropertyRelative( nameof( SceneSettings._Mode ) );
+            m_LoadingSceneProp = sceneSettingsProp.FindPropertyRelative( nameof( SceneSettings._LoadingScene ) );
+            m_LoadingParametersProp = sceneSettingsProp.FindPropertyRelative( nameof( SceneSettings._LoadingParameters ) );
 
             m_UseLoadingScreenProp = m_LoadingParametersProp.FindPropertyRelative( nameof( LoadingParameters._UseLoadingScreen ) );
             m_ThreadPriorityProp = m_LoadingParametersProp.FindPropertyRelative( nameof( LoadingParameters._ThreadPriority ) );

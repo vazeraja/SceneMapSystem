@@ -55,6 +55,7 @@ namespace TNS.SceneSystem.Editor
 
             // Force name of asset to be that on the file on disk instead of what may be serialized
             // as the 'name' property in JSON.
+            // asset.hideFlags = HideFlags.HideInInspector;
             asset.name = Path.GetFileNameWithoutExtension( assetPath );
 
             // Load icons.
