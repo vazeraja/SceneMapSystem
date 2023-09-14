@@ -1,16 +1,16 @@
 {
-    "_Name": "Map",
+    "_Name": "Map2",
     "_DefaultCollection": {
         "name": "Demos",
-        "id": "89f46b12-d8e5-46f2-b04c-8c7b57d5acd2",
+        "id": "d187c4d1-019c-44b1-89e4-63eab615198e",
         "scenes": [
             {
                 "active": "True",
-                "name": "New SceneReference",
-                "id": "b71f5b64-e562-4d4f-a968-2365ac9dd3d3",
-                "path": "",
+                "name": "Demo1",
+                "id": "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
+                "path": "Assets/FlatKit/Demos/[Demo] Wanderer/Wanderer - Scene.unity",
                 "sceneSettingsJson": {
-                    "_Type": "Default",
+                    "_Type": "Global",
                     "_Mode": "Single",
                     "_LoadingScenePath": "",
                     "_LoadingParameters": {
@@ -30,33 +30,9 @@
             },
             {
                 "active": "True",
-                "name": "New SceneReference 3",
-                "id": "a277bb61-645e-42c4-aed7-61c7a2c936ac",
-                "path": "",
-                "sceneSettingsJson": {
-                    "_Type": "Global",
-                    "_Mode": "Additive",
-                    "_LoadingScenePath": "",
-                    "_LoadingParameters": {
-                        "useLoadingScreen": "False",
-                        "threadPriority": "Low",
-                        "secureLoad": "False",
-                        "interpolate": "False",
-                        "interpolationSpeed": "0"
-                    }
-                },
-                "nodePositionJson": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "100",
-                    "height": "100"
-                }
-            },
-            {
-                "active": "True",
-                "name": "New SceneReference 3",
-                "id": "4c66b332-666e-47e9-a2fd-b028f7a255b5",
-                "path": "",
+                "name": "Demo2",
+                "id": "c2982751-8338-43c1-9299-af9ee9a2ddd6",
+                "path": "Assets/AZURE Nature/Demo/AN_Demo.unity",
                 "sceneSettingsJson": {
                     "_Type": "Global",
                     "_Mode": "Single",
@@ -103,20 +79,24 @@
                 "height": "0"
             }
         },
-        "loadOrderIDs": []
+        "loadOrderMode": "BottomToTop",
+        "loadOrderIDs": [
+            "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
+            "c2982751-8338-43c1-9299-af9ee9a2ddd6"
+        ]
     },
     "_Collections": [
         {
             "name": "Demos",
-            "id": "89f46b12-d8e5-46f2-b04c-8c7b57d5acd2",
+            "id": "d187c4d1-019c-44b1-89e4-63eab615198e",
             "scenes": [
                 {
                     "active": "True",
-                    "name": "New SceneReference",
-                    "id": "b71f5b64-e562-4d4f-a968-2365ac9dd3d3",
-                    "path": "",
+                    "name": "Demo1",
+                    "id": "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
+                    "path": "Assets/FlatKit/Demos/[Demo] Wanderer/Wanderer - Scene.unity",
                     "sceneSettingsJson": {
-                        "_Type": "Default",
+                        "_Type": "Global",
                         "_Mode": "Single",
                         "_LoadingScenePath": "",
                         "_LoadingParameters": {
@@ -128,20 +108,20 @@
                         }
                     },
                     "nodePositionJson": {
-                        "x": "-157",
-                        "y": "-63",
-                        "width": "0",
-                        "height": "0"
+                        "x": "0",
+                        "y": "0",
+                        "width": "100",
+                        "height": "100"
                     }
                 },
                 {
                     "active": "True",
-                    "name": "New SceneReference 2",
-                    "id": "a277bb61-645e-42c4-aed7-61c7a2c936ac",
-                    "path": "",
+                    "name": "Demo2",
+                    "id": "c2982751-8338-43c1-9299-af9ee9a2ddd6",
+                    "path": "Assets/AZURE Nature/Demo/AN_Demo.unity",
                     "sceneSettingsJson": {
                         "_Type": "Global",
-                        "_Mode": "Additive",
+                        "_Mode": "Single",
                         "_LoadingScenePath": "",
                         "_LoadingParameters": {
                             "useLoadingScreen": "False",
@@ -152,29 +132,14 @@
                         }
                     },
                     "nodePositionJson": {
-                        "x": "11.96001",
-                        "y": "114.64",
-                        "width": "0",
-                        "height": "0"
+                        "x": "0",
+                        "y": "0",
+                        "width": "100",
+                        "height": "100"
                     }
                 }
             ],
-            "sceneTransitions": [
-                {
-                    "id": "f686e9a1-8d73-47bd-80a4-c3269c0c8453",
-                    "label": "New SceneReference --> New SceneReference 2",
-                    "originID": "b71f5b64-e562-4d4f-a968-2365ac9dd3d3",
-                    "targetID": "a277bb61-645e-42c4-aed7-61c7a2c936ac",
-                    "settings": {
-                        "TimeMode": "",
-                        "ExitTime": "0",
-                        "FixedDuration": "False",
-                        "TransitionDuration": "0",
-                        "TransitionOffset": "0"
-                    },
-                    "hasExitTime": "False"
-                }
-            ],
+            "sceneTransitions": [],
             "parameters": [],
             "defaultScene": {
                 "active": "True",
@@ -200,9 +165,10 @@
                     "height": "0"
                 }
             },
+            "loadOrderMode": "BottomToTop",
             "loadOrderIDs": [
-                "b71f5b64-e562-4d4f-a968-2365ac9dd3d3",
-                "a277bb61-645e-42c4-aed7-61c7a2c936ac"
+                "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
+                "c2982751-8338-43c1-9299-af9ee9a2ddd6"
             ]
         }
     ]

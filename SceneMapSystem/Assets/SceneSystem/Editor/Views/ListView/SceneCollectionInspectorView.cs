@@ -19,10 +19,12 @@ namespace TNS.SceneSystem.Editor
         private VisualElement m_Content;
         private VisualElement m_HelpBox;
         private Label m_HelpBoxText;
+        private PropertyField m_LoadModeField;
         private IMGUIContainer m_IMGUIContainer;
 
-        private ReorderableList m_LoadOrderReorderableList;
+        private SerializedProperty m_LoadModeProp;
         private SerializedProperty m_LoadOrderIDListProp;
+        private ReorderableList m_LoadOrderReorderableList;
 
         public SceneCollectionInspectorView()
         {
@@ -32,10 +34,13 @@ namespace TNS.SceneSystem.Editor
             m_Content = m_Root.Q<VisualElement>( "content" );
             m_HelpBox = m_Root.Q<VisualElement>( "help-box" );
             m_HelpBoxText = m_Root.Q<Label>( "text" );
+            m_LoadModeField = m_Root.Q<PropertyField>( "load-mode__field" );
             m_IMGUIContainer = m_Root.Q<IMGUIContainer>();
 
             SetHelpText( "Edit the settings displayed below to control settings related to this scene collection" );
-
+            
+            m_LoadModeField.RegisterValueChangeCallback( evt => Save() );
+            
             hierarchy.Add( m_Root );
         }
 
@@ -47,18 +52,27 @@ namespace TNS.SceneSystem.Editor
 
         public void Bind( SerializedProperty collectionProp )
         {
+            m_LoadModeProp = collectionProp.FindPropertyRelative( nameof( SceneCollection._LoadMode ) );
             m_LoadOrderIDListProp = collectionProp.FindPropertyRelative( nameof( SceneCollection._LoadOrder ) );
 
+            m_LoadModeField.BindProperty( m_LoadModeProp );
             m_LoadOrderReorderableList = new ReorderableList( m_Window.SerializedSceneMap, m_LoadOrderIDListProp, true, true, false, false );
             m_LoadOrderReorderableList.drawElementCallback = ( rect, index, active, focused ) =>
             {
                 var ele = m_LoadOrderIDListProp.GetArrayElementAtIndex( index );
                 var scene = m_Window.SceneMap.FindScene( ele.stringValue );
 
-                EditorGUI.DropdownButton( rect, new GUIContent( scene.name ), FocusType.Passive );
+                var drawRect = new Rect( rect.x, rect.y + 2.5f, rect.width, rect.height );
+                EditorGUI.DropdownButton( drawRect, new GUIContent( scene.name ), FocusType.Passive );
             };
+            m_LoadOrderReorderableList.drawHeaderCallback = rect1 => EditorGUI.LabelField( rect1, "Load Order" ); 
 
             UpdateIMGUI();
+        }
+        
+        private void Save()
+        {
+            m_Window.SaveAndRebuild();
         }
 
         public void SetHelpText( string text )

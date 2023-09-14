@@ -2,6 +2,9 @@
     <ui:Template name="HelpBox" src="project://database/Assets/SceneSystem/Editor/UIElements/UXML/HelpBox.uxml?fileID=9197481963319205126&amp;guid=771e74c56428a2843ba215fc39eec7a5&amp;type=3#HelpBox" />
     <ui:VisualElement name="content" style="flex-grow: 1; flex-direction: column;">
         <ui:Instance template="HelpBox" name="HelpBox" />
-        <ui:IMGUIContainer name="IMGUIContainer" style="flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;" />
+        <ui:VisualElement name="contentContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+            <uie:PropertyField name="load-mode__field" style="margin-bottom: 2px;" />
+            <ui:IMGUIContainer name="IMGUIContainer" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

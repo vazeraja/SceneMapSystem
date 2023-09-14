@@ -39,9 +39,10 @@ namespace TNS.SceneSystem
                     SceneReference firstActionFound = null;
                     foreach ( var collection in _SceneCollections ) {
                         var action = collection.FindScene( actionNameOrId );
-                        if ( action != null ) {
-                            if ( action.active || action._Id == actionNameOrId ) // Match by ID is always exact.
-                                return action;
+                        if ( action != null )
+                        {
+                            // if ( action.active || action._Id == actionNameOrId ) // Match by ID is always exact.
+                            //     return action;
                             firstActionFound ??= action;
                         }
                     }
@@ -51,20 +52,20 @@ namespace TNS.SceneSystem
                 }
                 else {
                     // Have a path. First search for the map, then for the action.
-                    var mapName = new Substring( actionNameOrId, 0, indexOfSlash );
-                    var actionName = new Substring( actionNameOrId, indexOfSlash + 1 );
+                    var collectionName = new Substring( actionNameOrId, 0, indexOfSlash );
+                    var sceneName = new Substring( actionNameOrId, indexOfSlash + 1 );
 
-                    if ( mapName.isEmpty || actionName.isEmpty )
+                    if ( collectionName.isEmpty || sceneName.isEmpty )
                         throw new ArgumentException( "Malformed action path: " + actionNameOrId, nameof( actionNameOrId ) );
 
                     foreach ( var map in _SceneCollections ) {
-                        if ( Substring.Compare( map.name, mapName, StringComparison.InvariantCultureIgnoreCase ) != 0 )
+                        if ( Substring.Compare( map.name, collectionName, StringComparison.InvariantCultureIgnoreCase ) != 0 )
                             continue;
 
-                        var actions = map._Scenes;
-                        foreach ( var action in actions ) {
-                            if ( Substring.Compare( action.name, actionName, StringComparison.InvariantCultureIgnoreCase ) == 0 )
-                                return action;
+                        var scenes = map._Scenes;
+                        foreach ( var scene in scenes ) {
+                            if ( Substring.Compare( scene.name, sceneName, StringComparison.InvariantCultureIgnoreCase ) == 0 )
+                                return scene;
                         }
 
                         break;
