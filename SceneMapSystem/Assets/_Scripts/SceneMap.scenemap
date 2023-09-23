@@ -1,5 +1,5 @@
 {
-    "_Name": "Map2",
+    "_Name": "SceneMap",
     "_DefaultCollection": {
         "name": "Demos",
         "id": "d187c4d1-019c-44b1-89e4-63eab615198e",
@@ -22,10 +22,10 @@
                     }
                 },
                 "nodePositionJson": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "100",
-                    "height": "100"
+                    "x": "-71",
+                    "y": "-30",
+                    "width": "0",
+                    "height": "0"
                 }
             },
             {
@@ -46,10 +46,10 @@
                     }
                 },
                 "nodePositionJson": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "100",
-                    "height": "100"
+                    "x": "58",
+                    "y": "56",
+                    "width": "0",
+                    "height": "0"
                 }
             }
         ],
@@ -94,31 +94,55 @@
                     "active": "True",
                     "name": "Demo1",
                     "id": "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
-                    "path": "Assets/FlatKit/Demos/[Demo] Wanderer/Wanderer - Scene.unity",
+                    "path": "Assets/AZURE Nature/Demo/AN_Demo.unity",
                     "sceneSettingsJson": {
                         "_Type": "Global",
                         "_Mode": "Single",
-                        "_LoadingScenePath": "",
+                        "_LoadingScenePath": "Assets/SceneSystem/Scenes & Templates/LoadingScreen.unity",
                         "_LoadingParameters": {
-                            "useLoadingScreen": "False",
-                            "threadPriority": "Low",
-                            "secureLoad": "False",
-                            "interpolate": "False",
-                            "interpolationSpeed": "0"
+                            "useLoadingScreen": "True",
+                            "threadPriority": "High",
+                            "secureLoad": "True",
+                            "interpolate": "True",
+                            "interpolationSpeed": "5"
                         }
                     },
                     "nodePositionJson": {
-                        "x": "0",
-                        "y": "0",
-                        "width": "100",
-                        "height": "100"
+                        "x": "-71",
+                        "y": "-30",
+                        "width": "0",
+                        "height": "0"
                     }
                 },
                 {
                     "active": "True",
                     "name": "Demo2",
                     "id": "c2982751-8338-43c1-9299-af9ee9a2ddd6",
-                    "path": "Assets/AZURE Nature/Demo/AN_Demo.unity",
+                    "path": "Assets/PolygonApocalypse/Scenes/Demo_City_Standard_RenderPipeline.unity",
+                    "sceneSettingsJson": {
+                        "_Type": "Global",
+                        "_Mode": "Single",
+                        "_LoadingScenePath": "Assets/SceneSystem/Scenes & Templates/LoadingScreen.unity",
+                        "_LoadingParameters": {
+                            "useLoadingScreen": "True",
+                            "threadPriority": "High",
+                            "secureLoad": "True",
+                            "interpolate": "True",
+                            "interpolationSpeed": "5"
+                        }
+                    },
+                    "nodePositionJson": {
+                        "x": "110",
+                        "y": "60.0336",
+                        "width": "0",
+                        "height": "0"
+                    }
+                },
+                {
+                    "active": "True",
+                    "name": "Demo3",
+                    "id": "ca872847-b3c0-484e-9c06-293949588855",
+                    "path": "Assets/Tarodev 2D Controller/Demo/Demo.unity",
                     "sceneSettingsJson": {
                         "_Type": "Global",
                         "_Mode": "Single",
@@ -132,14 +156,43 @@
                         }
                     },
                     "nodePositionJson": {
-                        "x": "0",
-                        "y": "0",
-                        "width": "100",
-                        "height": "100"
+                        "x": "225.5",
+                        "y": "-102.795",
+                        "width": "0",
+                        "height": "0"
                     }
                 }
             ],
-            "sceneTransitions": [],
+            "sceneTransitions": [
+                {
+                    "id": "Demo1 --> Demo2",
+                    "label": "fc74544b-e1da-49c0-83a0-b1c9fde4d7e0",
+                    "originID": "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
+                    "targetID": "c2982751-8338-43c1-9299-af9ee9a2ddd6",
+                    "settings": {
+                        "TimeMode": "",
+                        "ExitTime": "0",
+                        "FixedDuration": "False",
+                        "TransitionDuration": "0",
+                        "TransitionOffset": "0"
+                    },
+                    "hasExitTime": "False"
+                },
+                {
+                    "id": "07a6b50e-78f8-4bfc-b737-a5360fab256e",
+                    "label": "Demo2 --> Demo3",
+                    "originID": "c2982751-8338-43c1-9299-af9ee9a2ddd6",
+                    "targetID": "ca872847-b3c0-484e-9c06-293949588855",
+                    "settings": {
+                        "TimeMode": "",
+                        "ExitTime": "0",
+                        "FixedDuration": "False",
+                        "TransitionDuration": "0",
+                        "TransitionOffset": "0"
+                    },
+                    "hasExitTime": "False"
+                }
+            ],
             "parameters": [],
             "defaultScene": {
                 "active": "True",
@@ -168,7 +221,8 @@
             "loadOrderMode": "BottomToTop",
             "loadOrderIDs": [
                 "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
-                "c2982751-8338-43c1-9299-af9ee9a2ddd6"
+                "c2982751-8338-43c1-9299-af9ee9a2ddd6",
+                "ca872847-b3c0-484e-9c06-293949588855"
             ]
         }
     ]

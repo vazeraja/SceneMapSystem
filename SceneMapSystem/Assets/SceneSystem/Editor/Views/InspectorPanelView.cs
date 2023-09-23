@@ -81,7 +81,7 @@ namespace TNS.SceneSystem.Editor
 
         public void CreateInspectors()
         {
-            Debug.Log( "create inspectors " );
+            // Debug.Log( "create inspectors " );
             for ( var cIndex = 0; cIndex < m_Window.SceneMap.SceneCollections.Count; cIndex++ )
             {
                 var collection = m_Window.SceneMap.SceneCollections[cIndex];

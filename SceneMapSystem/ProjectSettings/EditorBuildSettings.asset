@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/PolygonApocalypse/Scenes/Demo_City_Standard_RenderPipeline.unity
     guid: cf7c677bbb7aac345a7c35e4f1b92a36
+  - enabled: 1
+    path: Assets/SceneSystem/Scenes & Templates/LoadingScreen.unity
+    guid: bff58af3a18947b4eb750ee24128ef98
+  - enabled: 1
+    path: Assets/SceneSystem/Scenes & Templates/Test.unity
+    guid: 2be16831eb527694985af816a8506057
+  - enabled: 1
+    path: Assets/Tarodev 2D Controller/Demo/Demo.unity
+    guid: a3de7b5e417691c46a6cc23cb5077190
   m_configObjects: {}

@@ -1,0 +1,34 @@
+{
+    "name": "InputMap",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "1db92ed7-6bc3-4739-8d5f-7e1554b3f103",
+            "actions": [
+                {
+                    "name": "Spacebar",
+                    "type": "Button",
+                    "id": "c32093ba-c247-416f-8ab3-bdbc8107e4f3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "43065314-43f2-4e52-adaa-9dabbca51131",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Spacebar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

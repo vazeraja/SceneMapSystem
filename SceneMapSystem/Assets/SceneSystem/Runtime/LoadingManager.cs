@@ -44,7 +44,7 @@ namespace TNS.SceneSystem
             yield return InitiateLoad();
             yield return LoadLoadingScreen( m_SceneReference.sceneSettings._LoadingScene.Name );
 
-            m_AntiSpill.PrepareAntiFill( m_SceneReference.scene.Name, "Test" );
+            // m_AntiSpill.PrepareAntiFill( m_SceneReference.scene.Name, "Test" );
 
             yield return UnloadOriginScenes();
             yield return LoadDestinationScene( m_SceneReference.scene.Name );
@@ -68,11 +68,11 @@ namespace TNS.SceneSystem
                     yield break;
                 }
 
-                // if ( !SceneManager.IsSceneInBuild( m_SceneReference._LoadingScene.Name ) ) {
-                //     Debug.LogError( "Impossible to load the '" + m_SceneReference._LoadingScene.Name + "' scene, " +
-                //                     "there is no such scene in the project's build settings." );
-                //     yield break;
-                // }
+                if ( !SceneManager.IsSceneInBuild( m_SceneReference.sceneSettings._LoadingScene.Name ) ) {
+                    Debug.LogError( "Impossible to load the '" + m_SceneReference.sceneSettings._LoadingScene.Name + "' scene, " +
+                                    "there is no such scene in the project's build settings." );
+                    yield break;
+                }
             }
 
             SceneManager.TriggerSceneLoadStarted();
