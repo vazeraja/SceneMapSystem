@@ -1,0 +1,1 @@
+Rules\basic_tilemap_rules.tmx
