@@ -32,6 +32,7 @@ public class Controller3D : MonoBehaviour
     [SerializeField] private float groundCheckVerticalOffset;
     [SerializeField] private float groundCheckRadius = 0.1f;
     [SerializeField] private float gravity = 9f;
+    [SerializeField] private float groundDistanceCheckOffset;
     [SerializeField] private float groundDistanceCheck = 10f;
     [SerializeField] private float groundOffset;
     [SerializeField] private float collisionDamping;
@@ -41,11 +42,11 @@ public class Controller3D : MonoBehaviour
     private bool _wasGroundedLastFrame;
 
     private RaycastHit _groundHit;
-    private float _currentGroundAngle;
-    private Vector3 _groundPosition;
-    private float _groundYPos;
-    private float _groundScale;
     private bool _isDetectingGround;
+    private Vector3 _groundPosition;
+    private float _groundScale;
+    private float _groundAngle;
+    private float _slopeYPos;
 
     [Title("Camera Settings")]
     [SerializeField] private new Camera camera;
@@ -66,12 +67,12 @@ public class Controller3D : MonoBehaviour
         if (!enableDebug) return;
 
         _groundCheckPosition = groundCheckTransform.position + Vector3.up * groundCheckVerticalOffset;
-        
+
         Gizmos.color = _wasGroundedLastFrame ? Color.green : Color.red;
         Gizmos.DrawWireSphere(_groundCheckPosition, groundCheckRadius);
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(_groundCheckPosition, Vector3.down * groundDistanceCheck);
+        Gizmos.DrawRay(_groundCheckPosition + Vector3.up * groundDistanceCheckOffset, Vector3.down * groundDistanceCheck);
     }
 
     private void Awake()
@@ -98,14 +99,13 @@ public class Controller3D : MonoBehaviour
         if (Application.isPlaying == false)
             return;
 
+        GatherCollisionInfo();
         HandleCameraMovement();
     }
 
 
     private void FixedUpdateManual()
     {
-        GatherCollisionInfo();
-
         _velocity += Vector3.down * gravity * Time.fixedDeltaTime;
         _position += _velocity * Time.deltaTime;
 
@@ -120,7 +120,8 @@ public class Controller3D : MonoBehaviour
         // Ground the player if they are below the ground
         float scaledOffset = groundOffset * _groundScale;
 
-        float floorPos = Math.Abs(_groundYPos) - scaledOffset;
+        float yPos = _groundAngle != 0 ? _slopeYPos : _groundPosition.y;
+        float floorPos = Math.Abs(yPos) - scaledOffset;
 
         if (Math.Abs(_position.y) > floorPos && _isDetectingGround)
         {
@@ -174,7 +175,7 @@ public class Controller3D : MonoBehaviour
         _groundCheckColliders = new Collider[c_MaxCollisions];
 
         // Check where the ground is below the player 
-        Ray ray = new Ray(_groundCheckPosition, Vector3.down);
+        Ray ray = new Ray(_groundCheckPosition + Vector3.up * groundDistanceCheckOffset, Vector3.down);
         if (Physics.Raycast(ray, out _groundHit, groundDistanceCheck, groundLayer))
         {
             _isDetectingGround = true;
@@ -182,18 +183,13 @@ public class Controller3D : MonoBehaviour
             _groundPosition = _groundHit.transform.position;
             _groundScale = _groundHit.transform.localScale.y;
 
-            _currentGroundAngle = Vector3.Angle(_groundHit.normal, Vector3.up);
-            
+            _groundAngle = Vector3.Angle(_groundHit.normal, Vector3.up);
+
             // Find what y height the player should land on
             // If it is slope surface then calculate it
-            // Otherwise set it to the y of the flat surface
-            if (_currentGroundAngle != 0)
+            if (_groundAngle != 0)
             {
                 GatherSlopeInfo(_groundHit);
-            }
-            else
-            {
-                _groundYPos = _groundPosition.y;
             }
         }
         else
@@ -203,32 +199,32 @@ public class Controller3D : MonoBehaviour
 
         // Check whether player is currently grounded
         _wasGroundedLastFrame = Physics.OverlapSphereNonAlloc(_groundCheckPosition, groundCheckRadius, _groundCheckColliders, groundLayer) > 0;
-
-        Debug.Log(_groundYPos);
     }
 
     private void GatherSlopeInfo(RaycastHit groundHit)
     {
-        float angle = _currentGroundAngle * Mathf.Deg2Rad;
-        
+        float angle = _groundAngle * Mathf.Deg2Rad;
+
         // Attempt 1:
         // float bz = _position.z - groundHit.transform.position.z;
         // float bx = _position.x - groundHit.transform.position.x;
         // var groundPositionY = _groundPosition.y - bz * Mathf.Tan(angle);
-        
+
         // Attempt 2:
         Vector3 direction = transform.forward; // Direction along which we want to measure the distance
         Vector3 relativePosition = groundHit.transform.position - transform.position; // Position of object2 relative to object1
-        
+
         Vector3 projection = Vector3.Project(relativePosition, direction); // Projecting relative position onto the direction
-        
+
+        Debug.Log("Projection: " + projection);
+
         float distance = projection.magnitude; // This gives the distance along the direction
-        
+
         // If you want to consider direction (i.e., whether object2 is in front or behind object1)
         float signedDistance = (Vector3.Dot(projection, direction) > 0) ? distance : -distance;
         var groundPositionY = _groundPosition.y - signedDistance * Mathf.Tan(angle);
 
-        _groundYPos = groundPositionY;
+        _slopeYPos = groundPositionY;
     }
 
     private Vector3 GetSlopeMoveDirection()
