@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/InputMiddleware/Editor/UXML/AppEditorWindow.uss?fileID=7433441132597879392&amp;guid=15e0f9c8ba0f1204f9a07d403754addd&amp;type=3#AppEditorWindow" />
+    <uie:Toolbar>
+        <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="Systems" name="toolbar-menu" />
+    </uie:Toolbar>
+    <ui:VisualElement name="content" style="flex-grow: 1;">
+        <ui:VisualElement name="left-pane" class="section" style="flex-grow: 1;">
+            <ui:ScrollView name="left-scroll-view" style="flex-grow: 1;">
+                <ui:MultiColumnListView name="MultiColumnListView" virtualization-method="DynamicHeight" show-alternating-row-backgrounds="ContentOnly" style="margin-left: 8px; margin-right: 8px; margin-top: 8px; margin-bottom: 8px;">
+                    <ui:Columns>
+                        <ui:Column name="Name" title="Name" width="140" />
+                        <ui:Column name="Active" title="Active" width="100" />
+                        <ui:Column name="Priority" title="Priority" width="80" />
+                    </ui:Columns>
+                </ui:MultiColumnListView>
+            </ui:ScrollView>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

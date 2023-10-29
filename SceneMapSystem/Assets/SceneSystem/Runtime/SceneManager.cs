@@ -75,7 +75,7 @@ namespace TNS.SceneSystem
                 return LoadSceneAsync( sceneReference.scene.Name, sceneReference.sceneSettings._Mode );
 
             LoadingManager.BeginLoad( sceneReference );
-
+            
             return null;
         }
 

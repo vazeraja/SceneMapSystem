@@ -8,7 +8,7 @@
                 "active": "True",
                 "name": "Demo1",
                 "id": "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
-                "path": "Assets/FlatKit/Demos/[Demo] Wanderer/Wanderer - Scene.unity",
+                "path": "",
                 "sceneSettingsJson": {
                     "_Type": "Global",
                     "_Mode": "Single",
@@ -32,7 +32,7 @@
                 "active": "True",
                 "name": "Demo2",
                 "id": "c2982751-8338-43c1-9299-af9ee9a2ddd6",
-                "path": "Assets/AZURE Nature/Demo/AN_Demo.unity",
+                "path": "",
                 "sceneSettingsJson": {
                     "_Type": "Global",
                     "_Mode": "Single",
@@ -94,11 +94,11 @@
                     "active": "True",
                     "name": "Demo1",
                     "id": "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
-                    "path": "Packages/com.unity.render-pipelines.universal/Editor/SceneTemplates/Basic.unity",
+                    "path": "Assets/PolygonPirates/Scenes/Demo_Creatures.unity",
                     "sceneSettingsJson": {
                         "_Type": "Global",
                         "_Mode": "Single",
-                        "_LoadingScenePath": "Assets/SceneSystem/Scenes & Templates/LoadingScreen.unity",
+                        "_LoadingScenePath": "",
                         "_LoadingParameters": {
                             "useLoadingScreen": "True",
                             "threadPriority": "High",
@@ -118,11 +118,11 @@
                     "active": "True",
                     "name": "Demo2",
                     "id": "c2982751-8338-43c1-9299-af9ee9a2ddd6",
-                    "path": "Assets/PolygonApocalypse/Scenes/Demo_City_Standard_RenderPipeline.unity",
+                    "path": "Assets/PolygonPirates/Scenes/Demo_Main.unity",
                     "sceneSettingsJson": {
                         "_Type": "Global",
                         "_Mode": "Single",
-                        "_LoadingScenePath": "Assets/SceneSystem/Scenes & Templates/LoadingScreen.unity",
+                        "_LoadingScenePath": "",
                         "_LoadingParameters": {
                             "useLoadingScreen": "True",
                             "threadPriority": "High",
@@ -142,7 +142,7 @@
                     "active": "True",
                     "name": "Demo3",
                     "id": "ca872847-b3c0-484e-9c06-293949588855",
-                    "path": "Assets/Tarodev 2D Controller/Demo/Demo.unity",
+                    "path": "Assets/PolygonPirates/Scenes/Demo_Main.unity",
                     "sceneSettingsJson": {
                         "_Type": "Global",
                         "_Mode": "Single",
@@ -165,8 +165,8 @@
             ],
             "sceneTransitions": [
                 {
-                    "id": "fc74544b-e1da-49c0-83a0-b1c9fde4d7e0",
-                    "label": "Demo1 --> Demo2",
+                    "id": "Demo1 --> Demo2",
+                    "label": "fc74544b-e1da-49c0-83a0-b1c9fde4d7e0",
                     "originID": "c8d1511c-ed92-43c5-8759-5f6fb58e9e67",
                     "targetID": "c2982751-8338-43c1-9299-af9ee9a2ddd6",
                     "settings": {
@@ -179,8 +179,8 @@
                     "hasExitTime": "False"
                 },
                 {
-                    "id": "Demo2 --> Demo3",
-                    "label": "07a6b50e-78f8-4bfc-b737-a5360fab256e",
+                    "id": "07a6b50e-78f8-4bfc-b737-a5360fab256e",
+                    "label": "Demo2 --> Demo3",
                     "originID": "c2982751-8338-43c1-9299-af9ee9a2ddd6",
                     "targetID": "ca872847-b3c0-484e-9c06-293949588855",
                     "settings": {

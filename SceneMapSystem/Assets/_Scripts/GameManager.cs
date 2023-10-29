@@ -20,6 +20,9 @@ namespace MyNamespace
         private SceneReference demo1;
         private SceneReference demo2;
         
+        
+        
+        
         private void Awake()
         {
             demo1 = m_SceneMap.FindScene( "Demo1" );
