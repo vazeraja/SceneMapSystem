@@ -224,7 +224,7 @@ public class Controller3D : MonoBehaviour
 
         Vector3 projection = Vector3.Project(-relativePosition, direction); // Projecting relative position onto the direction
 
-        Debug.DrawRay(groundHit.transform.position, projection.normalized * 5, Color.yellow);
+        Debug.DrawRay(groundHit.transform.position, projection, Color.yellow);
 
         float distance = projection.magnitude; // This gives the distance along the direction
 
