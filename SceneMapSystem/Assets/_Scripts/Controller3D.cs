@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Shapes;
 using Sirenix.OdinInspector;
 using TNS.InputMiddleware;
@@ -22,6 +23,9 @@ public class Controller3D : MonoBehaviour
         }
     }
 
+    [Title("Debug")]
+    [SerializeField] private bool enableDebug;
+
     [Title("Collision Settings")]
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private LayerMask groundLayer;
@@ -31,13 +35,15 @@ public class Controller3D : MonoBehaviour
     [SerializeField] private float groundDistanceCheck = 10f;
     [SerializeField] private float groundOffset;
     [SerializeField] private float collisionDamping;
-    private const int c_MaxCollisions = 1;
+    private const int c_MaxCollisions = 10;
     private Collider[] _groundCheckColliders;
     private Vector3 _groundCheckPosition;
     private bool _wasGroundedLastFrame;
-    private RaycastHit[] _groundDistanceColliders;
+
+    private RaycastHit _groundHit;
+    private float _currentGroundAngle;
     private Vector3 _groundPosition;
-    private float _slopeYPos;
+    private float _groundYPos;
     private float _groundScale;
     private bool _isDetectingGround;
 
@@ -57,9 +63,10 @@ public class Controller3D : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (Application.isPlaying == false)
-            GatherCollisionInfo();
+        if (!enableDebug) return;
 
+        _groundCheckPosition = groundCheckTransform.position + Vector3.up * groundCheckVerticalOffset;
+        
         Gizmos.color = _wasGroundedLastFrame ? Color.green : Color.red;
         Gizmos.DrawWireSphere(_groundCheckPosition, groundCheckRadius);
 
@@ -103,7 +110,6 @@ public class Controller3D : MonoBehaviour
         _position += _velocity * Time.deltaTime;
 
         HandleGroundCollision();
-
         HandlePlayerMovement();
 
         transform.position = _position; // move
@@ -114,17 +120,7 @@ public class Controller3D : MonoBehaviour
         // Ground the player if they are below the ground
         float scaledOffset = groundOffset * _groundScale;
 
-        float yPos;
-        if (OnSlope())
-        {
-            yPos = _slopeYPos;
-        }
-        else
-        {
-            yPos = _groundPosition.y;
-        }
-
-        float floorPos = Math.Abs(yPos) - scaledOffset;
+        float floorPos = Math.Abs(_groundYPos) - scaledOffset;
 
         if (Math.Abs(_position.y) > floorPos && _isDetectingGround)
         {
@@ -143,11 +139,6 @@ public class Controller3D : MonoBehaviour
         _moveDirection = InputState.movementDirection.y * forward + InputState.movementDirection.x * right;
         var moveAmount = _moveDirection * (Time.fixedDeltaTime * moveSpeed);
 
-        if (OnSlope())
-        {
-            GatherSlopeInfo(_groundDistanceColliders[0]);
-        }
-
         _velocity += moveAmount;
 
         // Decelerate 
@@ -155,36 +146,6 @@ public class Controller3D : MonoBehaviour
         _velocity.z *= smooth;
     }
 
-    private void GatherSlopeInfo(RaycastHit groundHit)
-    {
-        float angle = Vector3.Angle(groundHit.normal, Vector3.up) * Mathf.Deg2Rad;
-
-        Vector2 player = new Vector2(_position.x, _position.z);
-        Vector2 ground = new Vector2(groundHit.transform.position.x, groundHit.transform.position.z);
-        float b = Vector2.Distance(player, ground);
-
-        // float bz = _position.z - groundHit.transform.position.z;
-        // float bx = _position.x - groundHit.transform.position.x;
-
-        // float maxB = Mathf.Max(bz, bx);
-
-        // Vector2 vectorA = new Vector2(groundHit.transform.forward.x, groundHit.transform.forward.z);
-        // Vector2 vectorB = Vector2.up;
-        // float platformAngle = Vector2.Angle(vectorA, vectorB) * Mathf.Deg2Rad;
-        
-        var bxz = b / Mathf.Cos(angle);
-        var groundPositionY = _groundPosition.y - bxz * Mathf.Tan(angle);
-
-
-        // float dot = Vector2.Dot(vectorA, vectorB);
-        // float magnitudes = vectorA.magnitude * vectorB.magnitude;
-        //
-        // float cosTheta = dot / magnitudes;
-        // float angleRad = Mathf.Acos(cosTheta);
-
-
-        _slopeYPos = groundPositionY;
-    }
 
     private void HandleCameraMovement()
     {
@@ -211,16 +172,29 @@ public class Controller3D : MonoBehaviour
     {
         _groundCheckPosition = groundCheckTransform.position + Vector3.up * groundCheckVerticalOffset;
         _groundCheckColliders = new Collider[c_MaxCollisions];
-        _groundDistanceColliders = new RaycastHit[c_MaxCollisions];
 
-        // Check distance to ground
+        // Check where the ground is below the player 
         Ray ray = new Ray(_groundCheckPosition, Vector3.down);
-        if (Physics.RaycastNonAlloc(ray, _groundDistanceColliders, groundDistanceCheck, groundLayer) > 0)
+        if (Physics.Raycast(ray, out _groundHit, groundDistanceCheck, groundLayer))
         {
-            _groundPosition = _groundDistanceColliders[0].transform.position;
-
-            _groundScale = _groundDistanceColliders[0].transform.localScale.y;
             _isDetectingGround = true;
+
+            _groundPosition = _groundHit.transform.position;
+            _groundScale = _groundHit.transform.localScale.y;
+
+            _currentGroundAngle = Vector3.Angle(_groundHit.normal, Vector3.up);
+            
+            // Find what y height the player should land on
+            // If it is slope surface then calculate it
+            // Otherwise set it to the y of the flat surface
+            if (_currentGroundAngle != 0)
+            {
+                GatherSlopeInfo(_groundHit);
+            }
+            else
+            {
+                _groundYPos = _groundPosition.y;
+            }
         }
         else
         {
@@ -229,23 +203,36 @@ public class Controller3D : MonoBehaviour
 
         // Check whether player is currently grounded
         _wasGroundedLastFrame = Physics.OverlapSphereNonAlloc(_groundCheckPosition, groundCheckRadius, _groundCheckColliders, groundLayer) > 0;
+
+        Debug.Log(_groundYPos);
     }
 
-
-    private bool OnSlope()
+    private void GatherSlopeInfo(RaycastHit groundHit)
     {
-        float angle = Vector3.Angle(_groundDistanceColliders[0].normal, Vector3.up);
+        float angle = _currentGroundAngle * Mathf.Deg2Rad;
+        
+        // Attempt 1:
+        // float bz = _position.z - groundHit.transform.position.z;
+        // float bx = _position.x - groundHit.transform.position.x;
+        // var groundPositionY = _groundPosition.y - bz * Mathf.Tan(angle);
+        
+        // Attempt 2:
+        Vector3 direction = transform.forward; // Direction along which we want to measure the distance
+        Vector3 relativePosition = groundHit.transform.position - transform.position; // Position of object2 relative to object1
+        
+        Vector3 projection = Vector3.Project(relativePosition, direction); // Projecting relative position onto the direction
+        
+        float distance = projection.magnitude; // This gives the distance along the direction
+        
+        // If you want to consider direction (i.e., whether object2 is in front or behind object1)
+        float signedDistance = (Vector3.Dot(projection, direction) > 0) ? distance : -distance;
+        var groundPositionY = _groundPosition.y - signedDistance * Mathf.Tan(angle);
 
-        if (_isDetectingGround)
-        {
-            return angle != 0;
-        }
-
-        return false;
+        _groundYPos = groundPositionY;
     }
 
     private Vector3 GetSlopeMoveDirection()
     {
-        return Vector3.ProjectOnPlane(_moveDirection, _groundDistanceColliders[0].normal).normalized;
+        return Vector3.ProjectOnPlane(_moveDirection, _groundHit.normal).normalized;
     }
 }
