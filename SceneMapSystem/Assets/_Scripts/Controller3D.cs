@@ -125,7 +125,7 @@ public class Controller3D : MonoBehaviour
         float scaledOffset = groundOffset * _groundScale;
 
         float yPos = _groundAngle != 0 ? _slopeYPos : _groundPosition.y;
-        float floorPos = Math.Abs(yPos) - scaledOffset;
+        float floorPos = Math.Abs(_groundHit.point.y) - scaledOffset;
 
         if (Math.Abs(_position.y) > floorPos && _isDetectingGround)
         {
@@ -191,10 +191,10 @@ public class Controller3D : MonoBehaviour
 
             // Find what y height the player should land on
             // If it is slope surface then calculate it
-            if (_groundAngle != 0)
-            {
-                GatherSlopeInfo(_groundHit);
-            }
+            // if (_groundAngle != 0)
+            // {
+            //     GatherSlopeInfo(_groundHit);
+            // }
         }
         else
         {
