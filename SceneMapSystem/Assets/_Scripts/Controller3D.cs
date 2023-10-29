@@ -73,6 +73,10 @@ public class Controller3D : MonoBehaviour
 
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(_groundCheckPosition + Vector3.up * groundDistanceCheckOffset, Vector3.down * groundDistanceCheck);
+
+        Gizmos.color = Color.green;
+        Ray ray = new Ray(transform.position, transform.forward);
+        Gizmos.DrawRay(ray);
     }
 
     private void Awake()
@@ -213,10 +217,14 @@ public class Controller3D : MonoBehaviour
         // Attempt 2:
         Vector3 direction = transform.forward; // Direction along which we want to measure the distance
         Vector3 relativePosition = groundHit.transform.position - transform.position; // Position of object2 relative to object1
+        
+        Debug.DrawRay(groundHit.transform.position, groundHit.transform.forward, Color.cyan);
 
-        Vector3 projection = Vector3.Project(relativePosition, direction); // Projecting relative position onto the direction
+        Debug.DrawRay(groundHit.transform.position, -relativePosition.normalized * 5, Color.magenta);
 
-        Debug.Log("Projection: " + projection);
+        Vector3 projection = Vector3.Project(-relativePosition, direction); // Projecting relative position onto the direction
+
+        Debug.DrawRay(groundHit.transform.position, projection.normalized * 5, Color.yellow);
 
         float distance = projection.magnitude; // This gives the distance along the direction
 
