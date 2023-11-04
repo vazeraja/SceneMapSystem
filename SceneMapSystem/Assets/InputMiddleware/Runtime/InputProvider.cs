@@ -29,7 +29,11 @@ namespace TNS.InputMiddleware
 
         public void Awake()
         {
-            Debug.Log( "InputProvider: Awake()" );
+            Clear();
+        }
+
+        public void Clear()
+        {
             OnMovementChanged = null;
             OnMovementPressed = null;
             OnMovementReleased = null;
